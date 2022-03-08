@@ -11,6 +11,11 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
         this.pass = pass;
     }
+    
+    public Usuario(String nombreUsuario, String pass) {
+        this.nombreUsuario = nombreUsuario;
+        this.pass = pass;
+    }
 
     public String getNombre() {
         return nombre;

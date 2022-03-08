@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 
 public class Cliente {
-    // Formatted field para id y delimiter '-' (?)
     private String id;
     private int edad, ticket, posicion, tiempo;
     private boolean preferencial;
@@ -40,7 +39,7 @@ public class Cliente {
             String[] identidad = id.split("-");
             this.edad = LocalDateTime.now().getYear() - Integer.parseInt(identidad[1]);
         } catch (Exception e) {
-            // JOptionPane.showMessageDialog(null, "k");
+            
         }
     }
 
