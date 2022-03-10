@@ -8,6 +8,8 @@ public class Area {
     private String nombre;
     private ArrayList <Transaccion> transacciones = new ArrayList();
     private ArrayList <Empleado> empleados = new ArrayList();
+    private ArrayList <Cliente> cola = new ArrayList();
+    private ArrayList <Cita> citas = new ArrayList();
     
     public Area(String nombre, ArrayList <Transaccion> transacciones, ArrayList <Empleado> empleados) {
         this.nombre = nombre;
@@ -44,11 +46,25 @@ public class Area {
         this.empleados = empleados;
     }
 
+    public ArrayList<Cliente> getCola() {
+        return cola;
+    }
+
+    public void setCola(ArrayList<Cliente> cola) {
+        this.cola = cola;
+    }
+
+    public ArrayList<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(ArrayList<Cita> citas) {
+        this.citas = citas;
+    }
+
     @Override
     public String toString() {
         return nombre;
     }
-    
-    
     
 }

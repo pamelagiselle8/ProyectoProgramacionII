@@ -22,7 +22,7 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         //bd.getUsuarios().add(new Administrador("pame", "1234-1234-12345", "a", "a"));
-        btnRegistrarse.setVisible(false);
+        //btnRegistrarse.setVisible(false);
         usuarios.add(new Administrador("admin", "1234-1234-12345", "a", "a"));
         usuarios.add(new Gerente("gerente", "1234-1234-12345", "gerente", "a"));
         usuarios.add(new Empleado("Juan", "1234-1234-12345", "juan", "a"));
@@ -31,6 +31,8 @@ public class Login extends javax.swing.JFrame {
         ArrayList <Empleado> empleados = new ArrayList();
         locales.get(0).getAreas().add(new Area("Area 1", empleados));
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Transferencia", 10));
+        locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Deposito", 20));
+        locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Retiro", 30));
         
         this.setTitle("Iniciar sesión");
         //frameGerente.setTitle("Gerente");
@@ -1284,25 +1286,16 @@ public class Login extends javax.swing.JFrame {
         else {
             if (rbtnAdmin.isSelected()) {
                 usuarios.add(new Administrador(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
-                //archivoUsuarios
-                //bd.getUsuarios().add(new Administrador(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
             }
             else if (rbtnGerente.isSelected()) {
                 usuarios.add(new Gerente(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
-                //bd.getUsuarios().add(new Gerente(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
             }
             else if (rbtnEmpleado.isSelected()) {
                 usuarios.add(new Empleado(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
-                //bd.getUsuarios().add(new Empleado(txtNombreRegistro.getText(), ftxtIdRegistro.getText(), txtNomUsuarioRegistro.getText(), txtContrasenaRegistro.getText()));
             }
             limpiarRegistro();
             JOptionPane.showMessageDialog(Registro, "Usuario registrado exitosamente.", "Registro", 1);
             this.setVisible(true);
-            /*try {
-                bd.escribirArchivoUsuarios();
-            } catch (IOException ex) {
-                
-            }*/
         }
     }//GEN-LAST:event_btnGuardarRegistroActionPerformed
 
@@ -1317,8 +1310,6 @@ public class Login extends javax.swing.JFrame {
         }
         else {
             boolean entro = false;
-            //bd.cargarArchivoUsuarios();
-            //for (Usuario usuario : bd.getUsuarios()) {
             for (Usuario usuario : usuarios) {
                 if (usuario.getNombreUsuario().equals(txtNombreUsuario.getText())
                         && usuario.getPass().equals(new String(txtPassword.getPassword()))) {
@@ -1327,15 +1318,6 @@ public class Login extends javax.swing.JFrame {
                 }
             }
             if (entro) {
-                //formato.format(fecha);
-                //archivoBitacora.cargarArchivo(bitacora);
-                /*try {
-                    bd.getBitacora().add("Nuevo inicio de sesión " + formato.format(fecha)
-                        + " (Usuario: " + txtNombreUsuario.getText() + ")");
-                    bd.escribirArchivoBitacora();
-                }
-                catch (IOException e) {
-                }*/
                 bitacora.add("Nuevo inicio de sesión " + formato.format(fecha)
                         + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")");
                 limpiarInicioSesion();
@@ -1447,10 +1429,8 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(frameAdministrador, "Debe llenar todos los campos.", "", 2);
         }
         else {
-            // (Local)cboLocalTran.getSelectedItem()
             if (cboLocalTran.getSelectedIndex() >= 0) {
                 Local local = (Local)cboLocalTran.getSelectedItem();
-                // int area = local.getAreas().indexOf((Area)cboAreaTran.getSelectedItem());
                 if (cboAreaTran.getSelectedIndex() >= 0) {
                     Area area = (Area)cboAreaTran.getSelectedItem();
                     area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
@@ -1826,24 +1806,38 @@ public class Login extends javax.swing.JFrame {
     }
     
     public void llenarArbolColas() {
-        // Modelos
-        DefaultTreeModel treeModelo = (DefaultTreeModel) treeColas.getModel();
-        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) treeModelo.getRoot();
-        // Nodos
-        DefaultMutableTreeNode nodoLocal = new DefaultMutableTreeNode ();
-        DefaultMutableTreeNode nodoArea = new DefaultMutableTreeNode();
-        DefaultMutableTreeNode nodoEmp = new DefaultMutableTreeNode ();
-        DefaultMutableTreeNode nodoCola = new DefaultMutableTreeNode ();
-        //DefaultMutableTreeNode nodoClientes = new DefaultMutableTreeNode ();
-        for (Local local : locales) {
-            nodoLocal = new DefaultMutableTreeNode(local);
-            for (Area area : local.getAreas()) {
-                nodoArea = new DefaultMutableTreeNode(area);
-                nodoLocal.add(nodoArea);
+        if (!locales.isEmpty()) {
+            // Modelos
+            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Empresa");
+            DefaultTreeModel treeModelo = new DefaultTreeModel(raiz);
+            // Nodos
+            DefaultMutableTreeNode nodoLocal = new DefaultMutableTreeNode ();
+            DefaultMutableTreeNode nodoArea = new DefaultMutableTreeNode();
+            DefaultMutableTreeNode nodoEmp = new DefaultMutableTreeNode ();
+            DefaultMutableTreeNode nodoCola = new DefaultMutableTreeNode ();
+            DefaultMutableTreeNode nodoCliente = new DefaultMutableTreeNode ();
+            
+            for (Local local : locales) {
+                nodoLocal = new DefaultMutableTreeNode(local);
+                if (!local.getAreas().isEmpty()) {
+                    for (Area area : local.getAreas()) {
+                        nodoArea = new DefaultMutableTreeNode(area);
+                        if (!area.getCola().isEmpty()) {
+                            nodoCola = new DefaultMutableTreeNode("Cola");
+                            for (Cliente cliente : area.getCola()) {
+                                nodoCliente = new DefaultMutableTreeNode(cliente.id);
+                                nodoCola.add(nodoCliente);
+                            }
+                            nodoArea.add(nodoCola);
+                        }
+                        nodoLocal.add(nodoArea);
+                    }
+                }
+                raiz.add(nodoLocal);
             }
-            raiz.add(nodoLocal);
+            treeModelo.reload();
+            treeColas.setModel(treeModelo);
         }
-        treeModelo.reload();
     }
     
     // Metodos de limpiar tabs aqui

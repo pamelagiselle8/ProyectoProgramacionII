@@ -1,25 +1,42 @@
 
 package p2proyecto_pamelaramirez;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
 
 public class Cliente {
-    private String id;
-    private int edad, ticket, posicion, tiempo;
-    private boolean preferencial;
-    private ArrayList <Transaccion> transacciones = new ArrayList();
+    protected String id, ticket;
+    protected int edad, posicion, espera;
+    protected boolean preferencial;
+    protected Date fechaCreada;
+    protected ArrayList <Transaccion> transacciones = new ArrayList();
+    protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Cliente(String id, int ticket, int posicion, int tiempo, boolean preferencial) {
+    public Cliente(String id, boolean preferencial,
+                    Date fechaCreada, ArrayList<Transaccion> transacciones) {
         this.id = id;
-        setEdad(id);
-        this.ticket = ticket;
-        this.posicion = posicion;
-        this.tiempo = tiempo;
         this.preferencial = preferencial;
+        setEdad(id);
+        this.fechaCreada = fechaCreada;
+        this.transacciones = transacciones;
+        setTicket();
+    }
+
+    public Cliente(String id, int posicion, int espera, boolean preferencial,
+            Date fechaCreada, ArrayList<Transaccion> transacciones) {
+        this.id = id;
+        this.preferencial = preferencial;
+        setEdad(id);
+        this.posicion = posicion;
+        this.espera = espera;
+        this.fechaCreada = fechaCreada;
+        this.transacciones = transacciones;
+        setTicket();
     }
 
     public String getId() {
@@ -35,22 +52,15 @@ public class Cliente {
     }
 
     public void setEdad(String id) {
-        // StringTokenizer token = new StringTokenizer(id, "-");
-        // int anio = Integer.parseInt(identidad[1]);
         try {
             String[] identidad = id.split("-");
             this.edad = LocalDateTime.now().getYear() - Integer.parseInt(identidad[1]);
+            if (edad > 60) {
+                preferencial = true;
+            }
         } catch (Exception e) {
             
         }
-    }
-
-    public int getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(int ticket) {
-        this.ticket = ticket;
     }
 
     public int getPosicion() {
@@ -61,12 +71,12 @@ public class Cliente {
         this.posicion = posicion;
     }
 
-    public int getTiempo() {
-        return tiempo;
+    public int getEspera() {
+        return espera;
     }
 
-    public void setTiempo(int tiempo) {
-        this.tiempo = tiempo;
+    public void setEspera(int espera) {
+        this.espera = espera;
     }
 
     public boolean isPreferencial() {
@@ -76,5 +86,55 @@ public class Cliente {
     public void setPreferencial(boolean preferencial) {
         this.preferencial = preferencial;
     }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket() {
+        this.ticket = "Identidad: " + id;
+        if (preferencial) {
+            this.ticket += "\n*Cliente preferencial";
+        }
+        this.ticket += "\nFecha registro: " + sdf.format(fechaCreada) + "\nTiempo de espera estimado: " + espera + " minutos"
+                + "\nPosición en la fila: " + posicion + "\nTransacciones a realizar: ";
+        int cont = 1;
+        for (Transaccion tran : transacciones) {
+            this.ticket += "\n" + cont + ". " + tran;
+            cont++;
+        }
+    }
+    
+    public void setTicket(Local local, Area area) {
+        this.ticket = "Identidad: " + id;
+        if (preferencial) {
+            this.ticket += "\n * Cliente preferencial";
+        }
+        this.ticket += "\nLocal: " + local + "\nArea: " + area + "\nFecha registro: " + sdf.format(fechaCreada)
+                + "\nTiempo de espera estimado: " + espera + " minutos"
+                + "\nPosición en la fila: " + posicion + "\nTransacciones a realizar: ";
+        int cont = 1;
+        for (Transaccion tran : transacciones) {
+            this.ticket += "\n" + cont + ". " + tran;
+            cont++;
+        }
+    }
+
+    public Date getFechaCreada() {
+        return fechaCreada;
+    }
+
+    public void setFechaCreada(Date fechaCreada) {
+        this.fechaCreada = fechaCreada;
+    }
+
+    public ArrayList<Transaccion> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(ArrayList<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
+    
     
 }
