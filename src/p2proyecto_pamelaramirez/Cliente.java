@@ -2,6 +2,7 @@
 package p2proyecto_pamelaramirez;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
@@ -10,6 +11,7 @@ public class Cliente {
     private String id;
     private int edad, ticket, posicion, tiempo;
     private boolean preferencial;
+    private ArrayList <Transaccion> transacciones = new ArrayList();
 
     public Cliente(String id, int ticket, int posicion, int tiempo, boolean preferencial) {
         this.id = id;
