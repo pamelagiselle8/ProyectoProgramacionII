@@ -19,12 +19,12 @@ public class Login extends javax.swing.JFrame {
     ArrayList <Local> locales = new ArrayList();
     ArrayList <Cita> citas = new ArrayList();
     ArrayList <String> bitacora = new ArrayList();
+    Local local;
+    Area area;
     
     public Login() {
-        //bd.getUsuarios().add(new Administrador("pame", "1234-1234-12345", "a", "a"));
-        //btnRegistrarse.setVisible(false);
-        usuarios.add(new Administrador("admin", "1234-1234-12345", "a", "a"));
-        usuarios.add(new Gerente("gerente", "1234-1234-12345", "gerente", "a"));
+        usuarios.add(new Administrador("Admin", "1234-1234-12345", "a", "a"));
+        usuarios.add(new Gerente("Gerente", "1234-1234-12345", "gerente", "a"));
         usuarios.add(new Empleado("Juan", "1234-1234-12345", "juan", "a"));
         usuarios.add(new Empleado("Pedro", "1234-1234-12345", "pedro", "a"));
         locales.add(new Local("Local 1", 90, 90));
@@ -33,16 +33,11 @@ public class Login extends javax.swing.JFrame {
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Transferencia", 10));
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Deposito", 20));
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Retiro", 30));
-        
         this.setTitle("Iniciar sesión");
         //frameGerente.setTitle("Gerente");
         //frameEmpleado.setTitle("Empleado");
         initComponents();
         this.setLocationRelativeTo(null);
-        
-        //this.setVisible(false);
-        //Ingresar.setVisible(true);
-        //Ingresar.setLocationRelativeTo(null);
     }
     
     public void limpiarRegistro(){
@@ -187,6 +182,9 @@ public class Login extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         treeColas = new javax.swing.JTree();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtBitacora = new javax.swing.JTextArea();
+        jLabel41 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -201,7 +199,6 @@ public class Login extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         txtNombreUsuario = new javax.swing.JTextField();
         btnIniciarSesion = new javax.swing.JButton();
-        btnRegistrarse = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         Registro.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -347,6 +344,11 @@ public class Login extends javax.swing.JFrame {
         cboUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
 
         btnEditUser.setText("Modificar usuario");
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
 
         cboElimUser.setText("Eliminar usuario");
 
@@ -403,7 +405,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(cboUser, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboListarUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(267, Short.MAX_VALUE))
+                .addContainerGap(281, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,7 +520,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(btnEditLocal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                             .addComponent(cboLocal, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(239, 267, Short.MAX_VALUE))
+                .addGap(239, 281, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -637,7 +639,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(422, Short.MAX_VALUE))
+                        .addContainerGap(436, Short.MAX_VALUE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -850,7 +852,7 @@ public class Login extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
+            .addGap(0, 981, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -898,6 +900,11 @@ public class Login extends javax.swing.JFrame {
         txtIdCita.setSize(new java.awt.Dimension(135, 23));
 
         btnCargarCita.setText("Cargar datos de la cita");
+        btnCargarCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarCitaActionPerformed(evt);
+            }
+        });
 
         btnReenviarTicket.setText("Reenviar ticket a otra área");
 
@@ -979,7 +986,7 @@ public class Login extends javax.swing.JFrame {
                                     .addComponent(btnElimEmpLocal2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(jLabel45, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1038,7 +1045,7 @@ public class Login extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
+            .addGap(0, 981, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1068,8 +1075,8 @@ public class Login extends javax.swing.JFrame {
                 .addGap(100, 100, 100)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(597, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(511, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1085,7 +1092,7 @@ public class Login extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
+            .addGap(0, 981, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1098,15 +1105,32 @@ public class Login extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Colas", jPanel7);
 
+        txtBitacora.setColumns(20);
+        txtBitacora.setRows(5);
+        jScrollPane1.setViewportView(txtBitacora);
+
+        jLabel41.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel41.setText("Bitácora de acceso");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel41)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109))
         );
 
         jTabbedPane1.addTab("Bitacora de acceso", jPanel6);
@@ -1115,7 +1139,7 @@ public class Login extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 967, Short.MAX_VALUE)
+            .addGap(0, 981, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1203,13 +1227,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrarse.setText("Registrarse");
-        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarseActionPerformed(evt);
-            }
-        });
-
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1221,13 +1238,6 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(188, 188, 188))
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1243,6 +1253,12 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(105, 105, 105))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(189, 189, 189))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1259,24 +1275,15 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
-                .addGap(80, 80, 80)
-                .addComponent(btnRegistrarse)
-                .addGap(18, 18, 18)
+                .addGap(68, 68, 68)
                 .addComponent(btnIniciarSesion)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        Registro.setLocationRelativeTo(this);
-        Registro.setVisible(true);
-        Registro.setTitle("Registro");
-        this.setVisible(false);
-    }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnGuardarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarRegistroActionPerformed
         if (txtNombreRegistro.getText().isEmpty() || ftxtIdRegistro.getText().isEmpty()
@@ -1319,7 +1326,7 @@ public class Login extends javax.swing.JFrame {
             }
             if (entro) {
                 bitacora.add("Nuevo inicio de sesión " + formato.format(fecha)
-                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")");
+                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
                 limpiarInicioSesion();
                 JOptionPane.showMessageDialog(Registro, "Bienvenido(a) de nuevo.", "Sesion iniciada", 1);
                 if (usuarioIngresado instanceof Administrador) {
@@ -1351,7 +1358,7 @@ public class Login extends javax.swing.JFrame {
     private void btnCambiarCuentaAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCuentaAdminActionPerformed
         frameAdministrador.setVisible(false);
         bitacora.add("Cierre de sesión " + formato.format(fecha)
-                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")");
+                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
         usuarioIngresado = null;
     }//GEN-LAST:event_btnCambiarCuentaAdminActionPerformed
 
@@ -1359,7 +1366,7 @@ public class Login extends javax.swing.JFrame {
         frameAdministrador.setVisible(false);
         this.setVisible(true);
         bitacora.add("Cierre de sesión " + formato.format(fecha)
-                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")");
+                        + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
         usuarioIngresado = null;
     }//GEN-LAST:event_btnCerrarSesionAdminActionPerformed
 
@@ -1516,6 +1523,37 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnElimEmpLocalActionPerformed
 
+    private void btnCargarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCitaActionPerformed
+        Cliente clienteSeleccionado = buscarCliente();
+        if (clienteSeleccionado instanceof Cita) {
+            dcCita.setDate(((Cita)clienteSeleccionado).getFechaAgendada());
+        }
+        DefaultListModel listTranModel = new DefaultListModel();
+        for (Transaccion tran : clienteSeleccionado.getTransacciones()) {
+            listTranModel.addElement(tran);
+        }
+        listEmpAsigLocal2.setModel(listTranModel);
+        cboLocalCita.setSelectedItem(local);
+        cboAreaCita.setSelectedItem(area);
+    }//GEN-LAST:event_btnCargarCitaActionPerformed
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        Usuario user = (Usuario)cboUser.getSelectedItem();
+        if (user instanceof Administrador) {
+            cboTipoUser.setSelectedIndex(1);
+        }
+        else if (user instanceof Gerente) {
+            cboTipoUser.setSelectedIndex(2);
+        }
+        else if (user instanceof Empleado) {
+            cboTipoUser.setSelectedIndex(3);
+        }
+        txtNomUser.setText(user.getNombre());
+        txtIdUser.setText(user.getId());
+        txtNomDeUsuario.setText(user.getNombreUsuario());
+        txtPassUser.setText(user.getPass());
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1576,7 +1614,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnListarLocal1;
     private javax.swing.JButton btnListarTran;
     private javax.swing.JButton btnReenviarTicket;
-    private javax.swing.JButton btnRegistrarse;
     private javax.swing.JButton btnRegresar;
     private javax.swing.ButtonGroup btngTipoUsuario;
     private javax.swing.JComboBox<String> cboArea;
@@ -1630,6 +1667,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
@@ -1658,6 +1696,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
@@ -1677,6 +1716,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JSpinner spLongitud;
     private javax.swing.JSpinner spTiemTran;
     private javax.swing.JTree treeColas;
+    private javax.swing.JTextArea txtBitacora;
     private javax.swing.JTextField txtContrasenaRegistro;
     private javax.swing.JFormattedTextField txtIdCita;
     private javax.swing.JFormattedTextField txtIdUser;
@@ -1768,6 +1808,10 @@ public class Login extends javax.swing.JFrame {
             }
             case 6: {
                 // Tab bitacora
+                txtBitacora.setText(null);
+                for (String string : bitacora) {
+                    txtBitacora.setText(string);
+                }
                 break;
             }
             case 7: {
@@ -1838,6 +1882,29 @@ public class Login extends javax.swing.JFrame {
             treeModelo.reload();
             treeColas.setModel(treeModelo);
         }
+    }
+    
+    public Cliente buscarCliente() {
+        Cliente clienteSeleccionado = null;
+        if (!locales.isEmpty()) {
+            for (Local local : locales) {
+                if (!local.getAreas().isEmpty()) {
+                    for (Area area : local.getAreas()) {
+                        if (!area.getCola().isEmpty()) {
+                            for (Cliente cliente : area.getCola()) {
+                                if (cliente.id.equalsIgnoreCase(txtIdCita.getText())) {
+                                    this.local = local;
+                                    this.area = area;
+                                    clienteSeleccionado = cliente;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return clienteSeleccionado;
     }
     
     // Metodos de limpiar tabs aqui

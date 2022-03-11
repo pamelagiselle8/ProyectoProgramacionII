@@ -12,12 +12,9 @@ public class FrameCitas extends javax.swing.JFrame {
     Date fecha = new Date();
     Local local;
     Area area;
-    // ArrayList <Ticket> tickets = new ArrayList();
     
     public FrameCitas() {
         initComponents();
-        //this.setLocationRelativeTo(null);
-        //txtTicket.setVisible(false);
         pnlMostrarTicket.setVisible(false);
         pnlEncuesta.setVisible(false);
         this.setTitle("Sistema de gestión de colas inteligentes");
@@ -31,8 +28,6 @@ public class FrameCitas extends javax.swing.JFrame {
         pnlCita.setVisible(false);
     }
     
-    
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,9 +115,17 @@ public class FrameCitas extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(220, 180, 180));
 
         jPanel1.setOpaque(false);
 
+        jPanel2.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+
+        pnlTicket.setBackground(new java.awt.Color(153, 153, 255));
+
+        cboAreaCita.setBackground(new java.awt.Color(102, 102, 255));
+        cboAreaCita.setForeground(new java.awt.Color(255, 255, 255));
         cboAreaCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         cboAreaCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,17 +133,27 @@ public class FrameCitas extends javax.swing.JFrame {
             }
         });
 
+        btnGuardarCita.setBackground(new java.awt.Color(102, 102, 255));
+        btnGuardarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnGuardarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarCita.setText("Guardar");
+        btnGuardarCita.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnGuardarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarCitaActionPerformed(evt);
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Local");
 
+        jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Area");
 
+        cboLocalCita.setBackground(new java.awt.Color(102, 102, 255));
+        cboLocalCita.setForeground(new java.awt.Color(255, 255, 255));
         cboLocalCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         cboLocalCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,34 +161,59 @@ public class FrameCitas extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+
+        listTranCita.setBackground(new java.awt.Color(204, 204, 255));
+        listTranCita.setForeground(new java.awt.Color(51, 51, 51));
         listTranCita.setModel(new DefaultListModel());
         jScrollPane1.setViewportView(listTranCita);
 
+        jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
+
+        listTranAsigCita.setBackground(new java.awt.Color(204, 204, 255));
+        listTranAsigCita.setForeground(new java.awt.Color(51, 51, 51));
         listTranAsigCita.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(listTranAsigCita);
 
+        jLabel18.setFont(new java.awt.Font("Helvetica Neue", 2, 13)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Transacciones disponibles");
 
+        jLabel23.setFont(new java.awt.Font("Helvetica Neue", 2, 13)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("Transacciones a realizar");
 
+        btnAgregarTran.setBackground(new java.awt.Color(102, 102, 255));
+        btnAgregarTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAgregarTran.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarTran.setText("Agregar");
+        btnAgregarTran.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnAgregarTran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarTranActionPerformed(evt);
             }
         });
 
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setText("->");
 
+        btnElimTran.setBackground(new java.awt.Color(102, 102, 255));
+        btnElimTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimTran.setForeground(new java.awt.Color(255, 255, 255));
         btnElimTran.setText("Eliminar");
+        btnElimTran.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnElimTran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnElimTranActionPerformed(evt);
             }
         });
 
+        jLabel35.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
         jLabel35.setText("Identidad");
 
+        txtIdCita.setBackground(new java.awt.Color(204, 204, 255));
+        txtIdCita.setForeground(new java.awt.Color(51, 51, 51));
         try {
             txtIdCita.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-#####")));
         } catch (java.text.ParseException ex) {
@@ -183,6 +221,8 @@ public class FrameCitas extends javax.swing.JFrame {
         }
         txtIdCita.setSize(new java.awt.Dimension(135, 23));
 
+        rbtnPreferencial.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnPreferencial.setForeground(new java.awt.Color(255, 255, 255));
         rbtnPreferencial.setText("Cliente preferencial");
 
         javax.swing.GroupLayout pnlTicketLayout = new javax.swing.GroupLayout(pnlTicket);
@@ -212,9 +252,8 @@ public class FrameCitas extends javax.swing.JFrame {
                         .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                         .addComponent(cboLocalCita, javax.swing.GroupLayout.Alignment.LEADING, 0, 220, Short.MAX_VALUE)
                         .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtIdCita)
-                            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))))
+                        .addComponent(txtIdCita, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel35, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
         pnlTicketLayout.setVerticalGroup(
@@ -234,7 +273,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addComponent(txtIdCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(rbtnPreferencial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jLabel23))
@@ -246,14 +285,18 @@ public class FrameCitas extends javax.swing.JFrame {
                         .addGap(60, 60, 60)
                         .addComponent(jLabel25)))
                 .addGap(18, 18, 18)
-                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarTran)
-                    .addComponent(btnElimTran))
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnElimTran, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(btnAgregarTran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardarCita)
-                .addGap(29, 29, 29))
+                .addComponent(btnGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
+        pnlCita.setBackground(new java.awt.Color(153, 153, 255));
+
+        txtHoraCita.setBackground(new java.awt.Color(204, 204, 255));
+        txtHoraCita.setForeground(new java.awt.Color(51, 51, 51));
         try {
             txtHoraCita.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
         } catch (java.text.ParseException ex) {
@@ -261,10 +304,16 @@ public class FrameCitas extends javax.swing.JFrame {
         }
         txtHoraCita.setSize(new java.awt.Dimension(135, 23));
 
+        cboAmPm.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        cboAmPm.setForeground(new java.awt.Color(255, 255, 255));
         cboAmPm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "am", "pm" }));
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Fecha");
 
+        dcFechaCita.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Hora");
 
         javax.swing.GroupLayout pnlCitaLayout = new javax.swing.GroupLayout(pnlCita);
@@ -303,21 +352,34 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGap(71, 71, 71))
         );
 
+        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Programar una cita futura");
 
-        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Citas y tickets");
 
+        btnAgendarCita.setBackground(new java.awt.Color(102, 102, 255));
+        btnAgendarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita.setText("Agendar cita");
+        btnAgendarCita.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         btnAgendarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgendarCitaActionPerformed(evt);
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Generar ticket virtual para caja");
 
+        btnGenerarTicket.setBackground(new java.awt.Color(102, 102, 255));
+        btnGenerarTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnGenerarTicket.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerarTicket.setText("Generar ticket virtual");
+        btnGenerarTicket.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("")));
         btnGenerarTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarTicketActionPerformed(evt);
@@ -329,20 +391,20 @@ public class FrameCitas extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(182, 182, 182)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnGenerarTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(15, 15, 15))))))
-                .addGap(187, 187, 187)
+                        .addGap(181, 181, 181)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGenerarTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(196, 196, 196)
                 .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,24 +413,22 @@ public class FrameCitas extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
+                        .addGap(138, 138, 138)
                         .addComponent(jLabel5)
-                        .addGap(46, 46, 46)
-                        .addComponent(btnGenerarTicket)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnAgendarCita)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addComponent(btnGenerarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(56, 56, 56)
+                        .addComponent(btnAgendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4))
+                    .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Solicitar cita", jPanel2);
@@ -539,7 +599,7 @@ public class FrameCitas extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -567,9 +627,7 @@ public class FrameCitas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -584,7 +642,6 @@ public class FrameCitas extends javax.swing.JFrame {
     private void btnGenerarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarTicketActionPerformed
         // Mostrar panel para crear un ticket virtual para caja
         cboLocalCita.setModel(login.llenarCboLocales());
-        //llenarCboLocales();
         pnlTicket.setVisible(true);
         pnlCita.setVisible(false);
         pnlMostrarTicket.setVisible(false);
@@ -592,51 +649,56 @@ public class FrameCitas extends javax.swing.JFrame {
 
     private void btnGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCitaActionPerformed
         // Mostrar ticket al guardar y guardar cita
-        if (txtIdCita.getText().isEmpty() || txtHoraCita.getText().isEmpty()) {
+        if (txtIdCita.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         }
         else {
-            Local local = (Local) cboLocalCita.getSelectedItem();
-            Area area = (Area) cboAreaCita.getSelectedItem();
-            String id = txtIdCita.getText();
-            ArrayList transacciones = new ArrayList();
-            boolean preferencial = false;
-            if (rbtnPreferencial.isSelected()) {
-                preferencial = true;
-            }
-            if (listTranAsigCita.getModel().getSize() >= 0) {
-                for (int i = 0; i < listTranAsigCita.getModel().getSize(); i++) {
-                    transacciones.add(listTranAsigCita.getModel().getElementAt(i));
+            if (cboLocalCita.getSelectedIndex() >= 0 && cboAreaCita.getSelectedIndex() >= 0) {
+                Local local = (Local) cboLocalCita.getSelectedItem();
+                Area area = (Area) cboAreaCita.getSelectedItem();
+                String id = txtIdCita.getText();
+                ArrayList transacciones = new ArrayList();
+                boolean preferencial = false;
+                if (rbtnPreferencial.isSelected()) {
+                    preferencial = true;
                 }
-                if (pnlCita.isVisible()) {
-                    // Cita programada
-                    Date fechaCita = dcFechaCita.getDate();
-                    String hora = txtHoraCita.getText() + cboAmPm.getSelectedItem().toString();
-                    // posici[on, preferencial y espera se settean
-                    // cuando llegue a la cita y se agregue a la fila
-                    Cita cita = new Cita(fechaCita, hora, id, false, fecha, transacciones);
-                    area.getCitas().add(cita);
-                    JOptionPane.showMessageDialog(this, "Cita guardada exitosamente.", "", 1);
-                }
-                else {
-                    // Generar ticket
-                    int espera = 0;
-                    if (area.getCola().size() > 0) {
-                        for (int i = 0; i < area.getCola().size(); i++) {
-                            for (Transaccion tran : area.getCola().get(i).getTransacciones()) {
-                                espera += tran.getTiempo();
+                if (listTranAsigCita.getModel().getSize() >= 0) {
+                    for (int i = 0; i < listTranAsigCita.getModel().getSize(); i++) {
+                        transacciones.add(listTranAsigCita.getModel().getElementAt(i));
+                    }
+                    if (pnlCita.isVisible()) {
+                        // Cita programada
+                        Date fechaCita = dcFechaCita.getDate();
+                        String hora = txtHoraCita.getText() + cboAmPm.getSelectedItem().toString();
+                        // posici[on, preferencial y espera se settean
+                        // cuando llegue a la cita y se agregue a la fila
+                        Cita cita = new Cita(fechaCita, hora, id, false, fecha, transacciones);
+                        area.getCitas().add(cita);
+                        JOptionPane.showMessageDialog(this, "Cita guardada exitosamente.", "", 1);
+                    }
+                    else {
+                        // Generar ticket
+                        int espera = 0;
+                        if (area.getCola().size() > 0) {
+                            for (int i = 0; i < area.getCola().size(); i++) {
+                                for (Transaccion tran : area.getCola().get(i).getTransacciones()) {
+                                    espera += tran.getTiempo();
+                                }
                             }
                         }
+                        Cliente cliente = new Cliente(id, area.getCola().size() + 1, espera, preferencial, fecha, transacciones);
+                        cliente.setTicket(local, area);
+                        area.getCola().add(cliente);
+                        limpiarTab1();
+                        JOptionPane.showMessageDialog(this, "Cliente agregado a la cola exitosamente.", "", 1);
                     }
-                    Cliente cliente = new Cliente(id, area.getCola().size() + 1, espera, preferencial, fecha, transacciones);
-                    cliente.setTicket(local, area);
-                    area.getCola().add(cliente);
-                    limpiarTab1();
-                    JOptionPane.showMessageDialog(this, "Cliente agregado a la cola exitosamente.", "", 1);
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar las transacciones a realizar.", "", 2);
                 }
             }
             else {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar las transacciones a realizar.", "", 2);
+                JOptionPane.showMessageDialog(this, "Debe seleccionar el local y el área.", "", 2);
             }
         }
         
@@ -706,7 +768,6 @@ public class FrameCitas extends javax.swing.JFrame {
             DefaultListModel listTranModel = (DefaultListModel) listTranCita.getModel();
             DefaultListModel listTranAsigModel = (DefaultListModel) listTranAsigCita.getModel();
             Transaccion tranSeleccionada = (Transaccion) listTranAsigModel.getElementAt(listTranAsigCita.getSelectedIndex());
-            listTranModel.addElement(tranSeleccionada);
             listTranAsigModel.removeElement(tranSeleccionada);
             listTranCita.setModel(listTranModel);
             listTranAsigCita.setModel(listTranAsigModel);

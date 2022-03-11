@@ -92,7 +92,7 @@ public class Cliente {
     }
 
     public void setTicket() {
-        this.ticket = "Identidad: " + id;
+        this.ticket = "Identidad: " + id + "\nEdad: " + edad;
         if (preferencial) {
             this.ticket += "\n*Cliente preferencial";
         }
