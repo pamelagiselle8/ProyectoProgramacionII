@@ -11,7 +11,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 
 public class Login extends javax.swing.JFrame {
-    //Archivos bd = new Archivos("./UsuariosRegistrados.txt", "./BitacoraDeAcceso.txt");
+    Archivos archivos = new Archivos("./RegistroLocales.cbm", "./RegistroUsuarios.cbm");
     Date fecha = new Date();
     SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss a dd/MM/yyyy");
     Usuario usuarioIngresado;
@@ -34,8 +34,6 @@ public class Login extends javax.swing.JFrame {
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Deposito", 20));
         locales.get(0).getAreas().get(0).getTransacciones().add(new Transaccion("Retiro", 30));
         this.setTitle("Iniciar sesión");
-        //frameGerente.setTitle("Gerente");
-        //frameEmpleado.setTitle("Empleado");
         initComponents();
         this.setLocationRelativeTo(null);
     }
