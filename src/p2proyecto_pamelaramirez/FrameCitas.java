@@ -119,6 +119,8 @@ public class FrameCitas extends javax.swing.JFrame {
 
         jPanel1.setOpaque(false);
 
+        jTabbedPane1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -138,6 +140,7 @@ public class FrameCitas extends javax.swing.JFrame {
         btnGuardarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarCita.setText("Guardar");
         btnGuardarCita.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnGuardarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarCitaActionPerformed(evt);
@@ -188,6 +191,7 @@ public class FrameCitas extends javax.swing.JFrame {
         btnAgregarTran.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarTran.setText("Agregar");
         btnAgregarTran.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnAgregarTran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAgregarTran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarTranActionPerformed(evt);
@@ -202,6 +206,7 @@ public class FrameCitas extends javax.swing.JFrame {
         btnElimTran.setForeground(new java.awt.Color(255, 255, 255));
         btnElimTran.setText("Eliminar");
         btnElimTran.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnElimTran.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnElimTran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnElimTranActionPerformed(evt);
@@ -304,6 +309,7 @@ public class FrameCitas extends javax.swing.JFrame {
         }
         txtHoraCita.setSize(new java.awt.Dimension(135, 23));
 
+        cboAmPm.setBackground(new java.awt.Color(102, 102, 255));
         cboAmPm.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         cboAmPm.setForeground(new java.awt.Color(255, 255, 255));
         cboAmPm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "am", "pm" }));
@@ -311,7 +317,8 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Fecha");
 
-        dcFechaCita.setForeground(new java.awt.Color(255, 255, 255));
+        dcFechaCita.setBackground(new java.awt.Color(204, 204, 255));
+        dcFechaCita.setForeground(new java.awt.Color(102, 102, 255));
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Hora");
@@ -358,13 +365,16 @@ public class FrameCitas extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/home.png"))); // NOI18N
         jLabel5.setText("Citas y tickets");
 
         btnAgendarCita.setBackground(new java.awt.Color(102, 102, 255));
         btnAgendarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgendarCita.setText("Agendar cita");
+        btnAgendarCita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/calendar.png"))); // NOI18N
+        btnAgendarCita.setText(" Agendar cita");
         btnAgendarCita.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnAgendarCita.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAgendarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgendarCitaActionPerformed(evt);
@@ -378,8 +388,10 @@ public class FrameCitas extends javax.swing.JFrame {
         btnGenerarTicket.setBackground(new java.awt.Color(102, 102, 255));
         btnGenerarTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnGenerarTicket.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/smartphone.png"))); // NOI18N
         btnGenerarTicket.setText("Generar ticket virtual");
         btnGenerarTicket.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("")));
+        btnGenerarTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGenerarTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarTicketActionPerformed(evt);
@@ -396,14 +408,14 @@ public class FrameCitas extends javax.swing.JFrame {
                         .addGap(181, 181, 181)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(199, 199, 199)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(173, 173, 173)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnGenerarTicket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnAgendarCita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(188, 188, 188)
+                        .addComponent(jLabel5)))
                 .addGap(196, 196, 196)
                 .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -428,79 +440,128 @@ public class FrameCitas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4))
                     .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Solicitar cita", jPanel2);
+        jTabbedPane1.addTab("Registro", jPanel2);
 
+        pnl2.setBackground(new java.awt.Color(204, 163, 183));
+        pnl2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnl2.setLayout(null);
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        jLabel3.setText("Información");
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/info (1).png"))); // NOI18N
+        jLabel3.setText(" Información");
         pnl2.add(jLabel3);
-        jLabel3.setBounds(210, 150, 103, 23);
+        jLabel3.setBounds(213, 150, 140, 24);
 
-        btnTicket.setText("Consultar ticket");
+        btnTicket.setBackground(new java.awt.Color(140, 89, 113));
+        btnTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnTicket.setForeground(new java.awt.Color(255, 255, 255));
+        btnTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/edit.png"))); // NOI18N
+        btnTicket.setText(" Consultar ticket");
+        btnTicket.setBorder(null);
+        btnTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTicketActionPerformed(evt);
             }
         });
         pnl2.add(btnTicket);
-        btnTicket.setBounds(210, 210, 145, 23);
+        btnTicket.setBounds(190, 230, 190, 40);
 
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Ver información de su ticket");
         pnl2.add(jLabel2);
-        jLabel2.setBounds(200, 250, 163, 17);
+        jLabel2.setBounds(180, 290, 210, 17);
 
-        btnAsistencia.setText("Registrar asistencia");
+        btnAsistencia.setBackground(new java.awt.Color(140, 89, 113));
+        btnAsistencia.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnAsistencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/clock.png"))); // NOI18N
+        btnAsistencia.setText(" Registrar asistencia");
+        btnAsistencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAsistenciaActionPerformed(evt);
             }
         });
         pnl2.add(btnAsistencia);
-        btnAsistencia.setBounds(210, 300, 145, 23);
+        btnAsistencia.setBounds(180, 340, 210, 40);
 
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Asistencia a cita programada");
         pnl2.add(jLabel1);
-        jLabel1.setBounds(200, 340, 170, 17);
+        jLabel1.setBounds(180, 400, 210, 17);
 
-        btnEncuesta.setText("Llenar encuesta de satisfacción");
+        btnEncuesta.setBackground(new java.awt.Color(140, 89, 113));
+        btnEncuesta.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnEncuesta.setForeground(new java.awt.Color(255, 255, 255));
+        btnEncuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/star.png"))); // NOI18N
+        btnEncuesta.setText(" Llenar encuesta de satisfacción");
+        btnEncuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEncuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEncuestaActionPerformed(evt);
             }
         });
         pnl2.add(btnEncuesta);
-        btnEncuesta.setBounds(178, 394, 215, 40);
+        btnEncuesta.setBounds(140, 460, 300, 40);
+
+        pnlMostrarTicket.setBackground(new java.awt.Color(204, 163, 183));
 
         txtTicket.setEditable(false);
+        txtTicket.setBackground(new java.awt.Color(236, 222, 229));
         txtTicket.setColumns(20);
         txtTicket.setRows(5);
+        txtTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane4.setViewportView(txtTicket);
 
         jLabel17.setFont(new java.awt.Font("Helvetica Neue", 2, 13)); // NOI18N
         jLabel17.setText("Ticket registrado");
 
+        pnlEncuesta.setBackground(new java.awt.Color(204, 163, 183));
+
+        lbPregunta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        lbPregunta.setForeground(new java.awt.Color(255, 255, 255));
         lbPregunta.setText("¿Cómo considera que fue el tiempo de espera?");
 
         btngEncuesta.add(rbtnExc);
+        rbtnExc.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnExc.setForeground(new java.awt.Color(255, 255, 255));
         rbtnExc.setText("Excelente");
 
         btngEncuesta.add(rbtnBue);
+        rbtnBue.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnBue.setForeground(new java.awt.Color(255, 255, 255));
         rbtnBue.setText("Bueno");
 
         btngEncuesta.add(rbtnMod);
+        rbtnMod.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnMod.setForeground(new java.awt.Color(255, 255, 255));
         rbtnMod.setText("Moderado");
 
         btngEncuesta.add(rbtnMal);
+        rbtnMal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnMal.setForeground(new java.awt.Color(255, 255, 255));
         rbtnMal.setText("Malo");
 
         btngEncuesta.add(rbtnPes);
+        rbtnPes.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnPes.setForeground(new java.awt.Color(255, 255, 255));
         rbtnPes.setText("Pésimo");
 
-        btnGuardarEncuesta.setText("Guardar respuesta");
+        btnGuardarEncuesta.setBackground(new java.awt.Color(140, 89, 113));
+        btnGuardarEncuesta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnGuardarEncuesta.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardarEncuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/save (1).png"))); // NOI18N
+        btnGuardarEncuesta.setText(" Guardar respuesta");
         btnGuardarEncuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarEncuestaActionPerformed(evt);
@@ -518,12 +579,12 @@ public class FrameCitas extends javax.swing.JFrame {
             .addGroup(pnlEncuestaLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(pnlEncuestaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarEncuesta)
                     .addComponent(rbtnPes)
                     .addComponent(rbtnMal)
                     .addComponent(rbtnMod)
                     .addComponent(rbtnBue)
-                    .addComponent(rbtnExc))
+                    .addComponent(rbtnExc)
+                    .addComponent(btnGuardarEncuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlEncuestaLayout.setVerticalGroup(
@@ -542,8 +603,8 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(rbtnPes)
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardarEncuesta)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addComponent(btnGuardarEncuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlMostrarTicketLayout = new javax.swing.GroupLayout(pnlMostrarTicket);
@@ -576,10 +637,13 @@ public class FrameCitas extends javax.swing.JFrame {
         pnl2.add(pnlMostrarTicket);
         pnlMostrarTicket.setBounds(560, 180, 360, 290);
 
+        jLabel36.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
         jLabel36.setText("Identidad");
         pnl2.add(jLabel36);
         jLabel36.setBounds(590, 110, 170, 17);
 
+        txtIdInfo.setBackground(new java.awt.Color(236, 222, 229));
         try {
             txtIdInfo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-#####")));
         } catch (java.text.ParseException ex) {
@@ -603,10 +667,16 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
+        jMenuBar1.setBorder(null);
+        jMenuBar1.setForeground(new java.awt.Color(102, 102, 255));
+        jMenuBar1.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jMenuBar1.setSize(new java.awt.Dimension(200, 100));
 
+        btnIniciarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/more-vertical.png"))); // NOI18N
         btnIniciarSesion.setText("Administración");
 
+        btnmenuInicioSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/users (1).png"))); // NOI18N
         btnmenuInicioSesion.setText("Iniciar sesión");
         btnmenuInicioSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -717,8 +787,12 @@ public class FrameCitas extends javax.swing.JFrame {
         // Mostrar panel ticket
         pnlEncuesta.setVisible(false);
         pnlMostrarTicket.setVisible(true);
-        Cliente cliente = buscarCliente();
-        txtTicket.setText(cliente.getTicket());
+        try {
+            Cliente cliente = buscarCliente();
+            txtTicket.setText(cliente.getTicket());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el número de identidad del cliente.", "", 2);
+        }
     }//GEN-LAST:event_btnTicketActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
@@ -755,8 +829,12 @@ public class FrameCitas extends javax.swing.JFrame {
 
     private void cboAreaCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAreaCitaActionPerformed
         if (cboAreaCita.getSelectedIndex() >= 0) {
-            Area area = (Area)cboAreaCita.getSelectedItem();
-            listTranCita.setModel(login.llenarListTran(area));
+            try {
+                Area area = (Area)cboAreaCita.getSelectedItem();
+                listTranCita.setModel(login.llenarListTran(area));
+            } catch (Exception e) {
+            }
+            
         }
         else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un área.", "", 2);
