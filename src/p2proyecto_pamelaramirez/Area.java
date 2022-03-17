@@ -8,8 +8,8 @@ public class Area {
     private String nombre;
     private ArrayList <Transaccion> transacciones = new ArrayList();
     private ArrayList <Empleado> empleados = new ArrayList();
-    private ArrayList <Cliente> cola = new ArrayList();
     private ArrayList <Cita> citas = new ArrayList();
+    private ArrayList <Cliente> cola = new ArrayList();
     
     public Area(String nombre, ArrayList <Transaccion> transacciones, ArrayList <Empleado> empleados) {
         this.nombre = nombre;

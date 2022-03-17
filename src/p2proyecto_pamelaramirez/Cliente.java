@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 
 public class Cliente {
-    protected String id, ticket;
+    protected String nombre, id, ticket;
     protected int edad, posicion, espera;
     protected boolean preferencial;
     protected Date fechaCreada;
