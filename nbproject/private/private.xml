@@ -5,11 +5,8 @@
         <group>
             <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/FrameCitas.java</file>
             <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Login.java</file>
-            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Ventanilla.java</file>
-            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Archivos.java</file>
-            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Cita.java</file>
-            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Area.java</file>
-            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Cliente.java</file>
+            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/UIAdmin.java</file>
+            <file>file:/Users/pame/NetBeansProjects/P2Proyecto_PamelaRamirez/src/p2proyecto_pamelaramirez/Admin.java</file>
         </group>
     </open-files>
 </project-private>

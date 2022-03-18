@@ -71,7 +71,7 @@ public class UIAdmin extends JTabbedPane {
         protected void paintTabBorder(Graphics grphcs, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
             Graphics2D g2 = (Graphics2D) grphcs.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(new Color(234,163,195));
+            g2.setColor(new Color(50,152,255));
             if (currentRectangle == null || !animator.isRunning()) {
                 if (isSelected) {
                     currentRectangle = new Rectangle(x, y, w, h);
