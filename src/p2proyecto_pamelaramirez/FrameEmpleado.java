@@ -78,6 +78,11 @@ public class FrameEmpleado extends javax.swing.JFrame {
         btnVentanilla.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnVentanilla.setForeground(new java.awt.Color(255, 255, 255));
         btnVentanilla.setText("Abrir ventanilla");
+        btnVentanilla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentanillaActionPerformed(evt);
+            }
+        });
 
         btnSiguiente.setBackground(new java.awt.Color(34, 131, 229));
         btnSiguiente.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -366,6 +371,15 @@ public class FrameEmpleado extends javax.swing.JFrame {
     private void btnCargarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCargarClienteActionPerformed
+
+    private void btnVentanillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentanillaActionPerformed
+        if (btnVentanilla.getText().equals("Abrir ventanilla")) {
+            btnVentanilla.setText("Cerrar ventanilla");
+        }
+        else {
+            btnVentanilla.setText("Abrir ventanilla");
+        }
+    }//GEN-LAST:event_btnVentanillaActionPerformed
 
     /**
      * @param args the command line arguments

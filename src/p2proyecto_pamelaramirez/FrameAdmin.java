@@ -145,7 +145,13 @@ public class FrameAdmin extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnPDF = new javax.swing.JButton();
+        btnMapa = new javax.swing.JButton();
+        cboLocalesMapa = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        btnNoti = new javax.swing.JButton();
+        txtNumero = new javax.swing.JTextField();
+        txtMensaje = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnCambiarCuentaAdmin = new javax.swing.JMenuItem();
@@ -155,6 +161,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedPaneStateChanged(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(125, 177, 229));
         jPanel1.setForeground(new java.awt.Color(125, 177, 229));
@@ -1084,48 +1095,66 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(125, 177, 229));
         jPanel5.setForeground(new java.awt.Color(125, 177, 229));
+        jPanel5.setLayout(null);
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/Estadisticas.png"))); // NOI18N
+        jPanel5.add(jLabel18);
+        jLabel18.setBounds(67, 118, 260, 211);
 
         jLabel23.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/bar-chart-2.png"))); // NOI18N
         jLabel23.setText(" Análisis de datos");
+        jPanel5.add(jLabel23);
+        jLabel23.setBounds(100, 50, 265, 56);
 
-        jButton1.setBackground(new java.awt.Color(34, 131, 229));
-        jButton1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Imprimir reporte estadístico");
+        btnPDF.setBackground(new java.awt.Color(34, 131, 229));
+        btnPDF.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnPDF.setForeground(new java.awt.Color(255, 255, 255));
+        btnPDF.setText("Imprimir reporte estadístico");
+        jPanel5.add(btnPDF);
+        btnPDF.setBounds(100, 347, 210, 35);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(617, 617, 617))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(248, 248, 248))
-        );
+        btnMapa.setBackground(new java.awt.Color(34, 131, 229));
+        btnMapa.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnMapa.setForeground(new java.awt.Color(255, 255, 255));
+        btnMapa.setText("Ver ubicacion del local");
+        btnMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMapaActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnMapa);
+        btnMapa.setBounds(100, 470, 210, 35);
+
+        cboLocalesMapa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel5.add(cboLocalesMapa);
+        cboLocalesMapa.setBounds(100, 423, 210, 23);
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Locales");
+        jPanel5.add(jLabel1);
+        jLabel1.setBounds(100, 400, 210, 17);
+
+        btnNoti.setBackground(new java.awt.Color(34, 131, 229));
+        btnNoti.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnNoti.setForeground(new java.awt.Color(255, 255, 255));
+        btnNoti.setText("Enviar notificacion");
+        btnNoti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotiActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnNoti);
+        btnNoti.setBounds(420, 470, 210, 35);
+
+        txtNumero.setText("numero");
+        jPanel5.add(txtNumero);
+        txtNumero.setBounds(420, 340, 210, 23);
+
+        txtMensaje.setText("mensaje");
+        jPanel5.add(txtMensaje);
+        txtMensaje.setBounds(420, 390, 210, 23);
 
         jPanel21.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
 
@@ -1190,7 +1219,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             cboTipoUser.setSelectedIndex(3);
         }
         txtNomUser.setText(user.getNombre());
-        txtIdUser.setText(user.getId());
+        txtIdUser.setText(user.getIdentidad());
         txtNomDeUsuario.setText(user.getNombreUsuario());
         txtPassUser.setText(user.getPass());
     }//GEN-LAST:event_btnEditUserActionPerformed
@@ -1358,6 +1387,28 @@ public class FrameAdmin extends javax.swing.JFrame {
         cboAreaCita.setModel(llenarCboAreas((Local) cboLocalCita.getSelectedItem()));
     }//GEN-LAST:event_cboLocalCitaActionPerformed
 
+    private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
+        if (cboLocalesMapa.getSelectedIndex() >= 0) {
+            //new Mapa().coordenadas(ALLBITS, HEIGHT);
+            //actualizarTodo();
+            JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.");
+            Local local = (Local) cboLocalesMapa.getSelectedItem();
+            new Mapa().coordenadas(local.getLatitud(), local.getLongitud(), local.getNombre());
+            
+            //Mapa ubicacion = new Mapa();
+            //ubicacion.coordenadas(local.getLatitud(), local.getLongitud());
+        }
+    }//GEN-LAST:event_btnMapaActionPerformed
+
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
+        actualizarTodo();
+    }//GEN-LAST:event_tabbedPaneStateChanged
+
+    private void btnNotiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotiActionPerformed
+        new Notificaciones().enviarNotificacion(txtMensaje.getText(), txtNumero.getText());
+        JOptionPane.showMessageDialog(this, "Notificacion enviada exitosamente");
+    }//GEN-LAST:event_btnNotiActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1414,6 +1465,9 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnListarLocal;
     private javax.swing.JButton btnListarLocal1;
     private javax.swing.JButton btnListarTran;
+    private javax.swing.JButton btnMapa;
+    private javax.swing.JButton btnNoti;
+    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnReenviarTicket;
     private javax.swing.JComboBox<String> cboArea;
     private javax.swing.JComboBox<String> cboAreaCita;
@@ -1426,11 +1480,12 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboLocalArea;
     private javax.swing.JComboBox<String> cboLocalCita;
     private javax.swing.JComboBox<String> cboLocalTran;
+    private javax.swing.JComboBox<String> cboLocalesMapa;
     private javax.swing.JComboBox<String> cboTipoUser;
     private javax.swing.JComboBox<String> cboTran;
     private javax.swing.JComboBox<String> cboUser;
     private com.toedter.calendar.JDateChooser dcCita;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1507,10 +1562,12 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JTextArea txtBitacora;
     private javax.swing.JFormattedTextField txtIdCita;
     private javax.swing.JFormattedTextField txtIdUser;
+    private javax.swing.JTextField txtMensaje;
     private javax.swing.JTextField txtNomArea;
     private javax.swing.JTextField txtNomDeUsuario;
     private javax.swing.JTextField txtNomLocal;
     private javax.swing.JTextField txtNomUser;
+    private javax.swing.JTextField txtNumero;
     private javax.swing.JTextField txtPassUser;
     private javax.swing.JTextField txtTipoTran;
     // End of variables declaration//GEN-END:variables
@@ -1599,6 +1656,8 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 7: {
                 // Tab analisis de datos
+                //cboLocalesMapa.setModel(cboAreaModel);
+                cboLocalesMapa.setModel(llenarCboLocales());
                 break;
             }
         }
@@ -1652,7 +1711,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                         if (!area.getCola().isEmpty()) {
                             nodoCola = new DefaultMutableTreeNode("Cola");
                             for (Cliente cliente : area.getCola()) {
-                                nodoCliente = new DefaultMutableTreeNode(cliente.id);
+                                nodoCliente = new DefaultMutableTreeNode(cliente.identidad);
                                 nodoCola.add(nodoCliente);
                             }
                             nodoArea.add(nodoCola);
@@ -1675,7 +1734,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                     for (Area area : local.getAreas()) {
                         if (!area.getCola().isEmpty()) {
                             for (Cliente cliente : area.getCola()) {
-                                if (cliente.id.equalsIgnoreCase(txtIdCita.getText())) {
+                                if (cliente.identidad.equalsIgnoreCase(txtIdCita.getText())) {
                                     this.local = local;
                                     this.area = area;
                                     clienteSeleccionado = cliente;

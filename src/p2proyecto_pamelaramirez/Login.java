@@ -1597,9 +1597,10 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Registro, "Bienvenido(a) de nuevo.", "Sesion iniciada", 1);
                 if (usuarioIngresado instanceof Administrador) {
                     // Mostrar frame administrador
-                    frameAdministrador.setLocationRelativeTo(null);
-                    frameAdministrador.setVisible(true);
-                    frameAdministrador.setTitle("Administrador");
+                    //frameAdministrador.setLocationRelativeTo(null);
+                    //frameAdministrador.setVisible(true);
+                    //frameAdministrador.setTitle("Administrador");
+                    new FrameAdmin().setVisible(true);
                 }
                 else if (usuarioIngresado instanceof Gerente) {
                     // Mostrar frame gerente
@@ -1815,7 +1816,7 @@ public class Login extends javax.swing.JFrame {
             cboTipoUser.setSelectedIndex(3);
         }
         txtNomUser.setText(user.getNombre());
-        txtIdUser.setText(user.getId());
+        txtIdUser.setText(user.getIdentidad());
         txtNomDeUsuario.setText(user.getNombreUsuario());
         txtPassUser.setText(user.getPass());
     }//GEN-LAST:event_btnEditUserActionPerformed
@@ -2142,7 +2143,7 @@ public class Login extends javax.swing.JFrame {
                         if (!area.getCola().isEmpty()) {
                             nodoCola = new DefaultMutableTreeNode("Cola");
                             for (Cliente cliente : area.getCola()) {
-                                nodoCliente = new DefaultMutableTreeNode(cliente.id);
+                                nodoCliente = new DefaultMutableTreeNode(cliente.identidad);
                                 nodoCola.add(nodoCliente);
                             }
                             nodoArea.add(nodoCola);
@@ -2165,7 +2166,7 @@ public class Login extends javax.swing.JFrame {
                     for (Area area : local.getAreas()) {
                         if (!area.getCola().isEmpty()) {
                             for (Cliente cliente : area.getCola()) {
-                                if (cliente.id.equalsIgnoreCase(txtIdCita.getText())) {
+                                if (cliente.identidad.equalsIgnoreCase(txtIdCita.getText())) {
                                     this.local = local;
                                     this.area = area;
                                     clienteSeleccionado = cliente;

@@ -710,7 +710,7 @@ public class FrameCitas extends javax.swing.JFrame {
                         // posici[on, preferencial y espera se settean
                         // cuando llegue a la cita y se agregue a la fila
                         Cita cita = new Cita(fechaCita, hora, id, false, fecha, transacciones);
-                        area.getCitas().add(cita);
+                        area.getCitasAgendadas().add(cita);
                         JOptionPane.showMessageDialog(this, "Cita guardada exitosamente.", "", 1);
                     }
                     else {
@@ -968,7 +968,7 @@ public class FrameCitas extends javax.swing.JFrame {
                     for (Area area : local.getAreas()) {
                         if (!area.getCola().isEmpty()) {
                             for (Cliente cliente : area.getCola()) {
-                                if (cliente.id.equalsIgnoreCase(txtIdInfo.getText())) {
+                                if (cliente.identidad.equalsIgnoreCase(txtIdInfo.getText())) {
                                     this.local = local;
                                     this.area = area;
                                     clienteSeleccionado = cliente;

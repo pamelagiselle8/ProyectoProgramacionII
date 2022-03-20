@@ -26,12 +26,12 @@ public class Archivos {
     public boolean validarID(String id) {
         boolean valido = true;
         for (Cliente cliente : clientes) {
-            if (cliente.getId().equalsIgnoreCase(id)) {
+            if (cliente.getIdentidad().equalsIgnoreCase(id)) {
                 valido = false;
             }
         }
         for (Usuario usuario : usuarios) {
-            if (usuario.getId().equalsIgnoreCase(id)) {
+            if (usuario.getIdentidad().equalsIgnoreCase(id)) {
                 valido = false;
             }
         }

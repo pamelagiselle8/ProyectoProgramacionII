@@ -5,22 +5,14 @@ import java.util.*;
 
 
 public class Local {
-    private String nombre;
-    private double latitud, longitud;
+    private String nombre, latitud, longitud;
     private Gerente gerente;
     private ArrayList <Area> areas = new ArrayList();
     
     public Local(String nombre, double latitud, double longitud) {
         this.nombre = nombre;
-        this.latitud = latitud;
-        this.longitud= longitud;
-    }
-    
-    public Local(String nombre, double latitud, double longitud, Gerente gerente) {
-        this.nombre = nombre;
-        this.latitud = latitud;
-        this.longitud= longitud;
-        this.gerente = gerente;
+        setLatitud(latitud);
+        setLongitud(longitud);
     }
 
     public String getNombre() {
@@ -31,20 +23,20 @@ public class Local {
         this.nombre = nombre;
     }
 
-    public double getLatitud() {
+    public String getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(String latitud) {
-        this.latitud = Double.parseDouble(latitud);
+    public void setLatitud(double latitud) {
+        this.latitud = String.valueOf(latitud);
     }
 
-    public double getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(String longitud) {
-        this.longitud = Double.parseDouble(longitud);
+    public void setLongitud(double longitud) {
+        this.longitud = String.valueOf(longitud);
     }
 
     public Gerente getGerente() {

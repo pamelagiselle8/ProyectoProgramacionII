@@ -10,41 +10,40 @@ import javax.swing.JOptionPane;
 
 
 public class Cliente {
-    protected String nombre, id, ticket;
+    protected String nombre, correo, identidad, ticket, telefono, fechaRegistro;
     protected int edad, posicion, espera;
-    protected boolean preferencial;
-    protected Date fechaCreada;
+    protected boolean preferencial, notis;
     protected ArrayList <Transaccion> transacciones = new ArrayList();
     protected SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Cliente(String id, boolean preferencial,
-                    Date fechaCreada, ArrayList<Transaccion> transacciones) {
-        this.id = id;
-        this.preferencial = preferencial;
-        setEdad(id);
-        this.fechaCreada = fechaCreada;
-        this.transacciones = transacciones;
-        setTicket();
-    }
-
-    public Cliente(String id, int posicion, int espera, boolean preferencial,
-            Date fechaCreada, ArrayList<Transaccion> transacciones) {
-        this.id = id;
-        this.preferencial = preferencial;
-        setEdad(id);
-        this.posicion = posicion;
+    public Cliente(String identidad, String nombre, int notis,
+            String correo, String telefono, Local local, Area area, 
+            String ticket, int posicion, int espera, Date fechaRegistro,
+            int preferencial, ArrayList <Transaccion> transacciones) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.identidad = identidad;
+        this.ticket = ticket;
         this.espera = espera;
-        this.fechaCreada = fechaCreada;
         this.transacciones = transacciones;
-        setTicket();
+        // Setters validados
+        setNotis(notis);
+        if (this.notis) {
+            this.telefono = telefono;
+            this.posicion = posicion;
+        }
+        setPreferencial(preferencial);
+        setFechaRegistro(fechaRegistro);
+        setEdad(identidad);
+        setTicket(local, area);
+    }
+    
+    public String getIdentidad() {
+        return identidad;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentidad(String identidad) {
+        this.identidad = identidad;
     }
 
     public int getEdad() {
@@ -83,36 +82,30 @@ public class Cliente {
         return preferencial;
     }
 
-    public void setPreferencial(boolean preferencial) {
-        this.preferencial = preferencial;
+    public void setPreferencial(int preferencial) {
+        if (preferencial == 1) {
+            this.preferencial = true;
+        }
+        else {
+            this.preferencial = false;
+        }
     }
 
     public String getTicket() {
         return ticket;
     }
-
-    public void setTicket() {
-        this.ticket = "Identidad: " + id + "\nEdad: " + edad;
-        if (preferencial) {
-            this.ticket += "\n*Cliente preferencial";
-        }
-        this.ticket += "\nFecha registro: " + sdf.format(fechaCreada) + "\nTiempo de espera estimado: " + espera + " minutos"
-                + "\nPosición en la fila: " + posicion + "\nTransacciones a realizar: ";
-        int cont = 1;
-        for (Transaccion tran : transacciones) {
-            this.ticket += "\n" + cont + ". " + tran;
-            cont++;
-        }
-    }
     
     public void setTicket(Local local, Area area) {
-        this.ticket = "Identidad: " + id;
+        this.ticket = "Identidad: " + identidad;
         if (preferencial) {
             this.ticket += "\n * Cliente preferencial";
         }
-        this.ticket += "\nLocal: " + local + "\nArea: " + area + "\nFecha registro: " + sdf.format(fechaCreada)
-                + "\nTiempo de espera estimado: " + espera + " minutos"
-                + "\nPosición en la fila: " + posicion + "\nTransacciones a realizar: ";
+        this.ticket += "\nLocal: " + local
+                + "\nArea: " + area
+                + "\nFecha registro: " + fechaRegistro
+                + "\nTiempo de espera estimado: "+ espera + " minutos"
+                + "\nPosición en la fila: " + posicion
+                + "\nTransacciones a realizar: ";
         int cont = 1;
         for (Transaccion tran : transacciones) {
             this.ticket += "\n" + cont + ". " + tran;
@@ -120,12 +113,12 @@ public class Cliente {
         }
     }
 
-    public Date getFechaCreada() {
-        return fechaCreada;
+    public String getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setFechaCreada(Date fechaCreada) {
-        this.fechaCreada = fechaCreada;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = sdf.format(fechaRegistro);
     }
 
     public ArrayList<Transaccion> getTransacciones() {
@@ -134,6 +127,51 @@ public class Cliente {
 
     public void setTransacciones(ArrayList<Transaccion> transacciones) {
         this.transacciones = transacciones;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public boolean isNotis() {
+        return notis;
+    }
+
+    public void setNotis(int notis) {
+        if (notis == 1) {
+            this.notis = true;
+        }
+        else {
+            this.notis = false;
+        }
+    }
+
+    public SimpleDateFormat getSdf() {
+        return sdf;
+    }
+
+    public void setSdf(SimpleDateFormat sdf) {
+        this.sdf = sdf;
     }
     
     

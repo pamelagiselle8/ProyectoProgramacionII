@@ -3,16 +3,11 @@ package p2proyecto_pamelaramirez;
 
 
 public class Usuario {
-    protected String nombre, id, nombreUsuario, pass;
+    protected String nombre, identidad, nombreUsuario, pass;
     
-    public Usuario(String nombre, String id, String nombreUsuario, String pass) {
+    public Usuario(String id, String nombre, String nombreUsuario, String pass) {
         this.nombre = nombre;
-        this.id = id;
-        this.nombreUsuario = nombreUsuario;
-        this.pass = pass;
-    }
-    
-    public Usuario(String nombreUsuario, String pass) {
+        this.identidad = id;
         this.nombreUsuario = nombreUsuario;
         this.pass = pass;
     }
@@ -25,12 +20,12 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getId() {
-        return id;
+    public String getIdentidad() {
+        return identidad;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentidad(String identidad) {
+        this.identidad = identidad;
     }
 
     public String getNombreUsuario() {

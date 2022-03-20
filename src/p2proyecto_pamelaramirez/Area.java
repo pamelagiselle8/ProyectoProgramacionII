@@ -8,13 +8,11 @@ public class Area {
     private String nombre;
     private ArrayList <Transaccion> transacciones = new ArrayList();
     private ArrayList <Empleado> empleados = new ArrayList();
-    private ArrayList <Cita> citas = new ArrayList();
-    private ArrayList <Cliente> cola = new ArrayList();
-    
-    public Area(String nombre, ArrayList <Transaccion> transacciones, ArrayList <Empleado> empleados) {
+    private ArrayList <Cita> citasAgendadas = new ArrayList();
+    private Cola cola = new Cola();
+
+    public Area(String nombre) {
         this.nombre = nombre;
-        this.transacciones = transacciones;
-        this.empleados = empleados;
     }
     
     public Area(String nombre, ArrayList <Empleado> empleados) {
@@ -46,20 +44,12 @@ public class Area {
         this.empleados = empleados;
     }
 
-    public ArrayList<Cliente> getCola() {
-        return cola;
+    public ArrayList<Cita> getCitasAgendadas() {
+        return citasAgendadas;
     }
 
-    public void setCola(ArrayList<Cliente> cola) {
-        this.cola = cola;
-    }
-
-    public ArrayList<Cita> getCitas() {
-        return citas;
-    }
-
-    public void setCitas(ArrayList<Cita> citas) {
-        this.citas = citas;
+    public void setCitasAgendadas(ArrayList<Cita> citasAgendadas) {
+        this.citasAgendadas = citasAgendadas;
     }
 
     @Override

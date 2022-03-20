@@ -1,27 +1,31 @@
 
 package p2proyecto_pamelaramirez;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 
 public class Cita extends Cliente {
-    private Date fechaAgendada;
-    private String hora;
+    private String fechaAgendada, hora;
 
-    public Cita(Date fechaAgendada, String hora, String id,
-            boolean preferencial, Date fechaCreada, ArrayList<Transaccion> transacciones) {
-        super(id, preferencial, fechaCreada, transacciones);
-        this.fechaAgendada = fechaAgendada;
+    public Cita(Date fechaAgendada, String hora, String identidad,
+            String nombre, int notis, String correo, String telefono,
+            Local local, Area area, String ticket, int posicion, int espera,
+            Date fechaRegistro, int preferencial, ArrayList<Transaccion> transacciones) {
+        super(identidad, nombre, notis, correo, telefono, local, area, ticket, posicion,
+                espera, fechaRegistro, preferencial, transacciones);
         this.hora = hora;
+        // Setter validado
+        setFechaAgendada(fechaAgendada);
     }
 
-    public Date getFechaAgendada() {
+    public String getFechaAgendada() {
         return fechaAgendada;
     }
 
     public void setFechaAgendada(Date fechaAgendada) {
-        this.fechaAgendada = fechaAgendada;
+        this.fechaAgendada = sdf.format(fechaAgendada);
     }
 
     public String getHora() {
@@ -32,21 +36,26 @@ public class Cita extends Cliente {
         this.hora = hora;
     }
 
-    @Override
-    public String toString() {
-        ticket = "Identidad: " + id;
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Local local, Area area) {
+        this.ticket = "Identidad: " + identidad;
         if (preferencial) {
-            ticket += "\n*Cliente preferencial";
+            this.ticket += "\n * Cliente preferencial";
         }
-        ticket += "\nFecha registro: " + sdf.format(fechaCreada)
-                + "\nFecha programada: " + fechaAgendada + "\nHora: " + hora
+        this.ticket += "\nLocal: " + local
+                + "\nArea: " + area
+                + "\nFecha registro: " + fechaRegistro
+                + "\nFecha agendada: " + fechaAgendada
+                + "\nHora: " + hora
                 + "\nTransacciones a realizar: ";
         int cont = 1;
         for (Transaccion tran : transacciones) {
-            ticket += "\n" + cont + ". " + tran;
+            this.ticket += "\n" + cont + ". " + tran;
             cont++;
         }
-        return ticket;
     }
     
 }
