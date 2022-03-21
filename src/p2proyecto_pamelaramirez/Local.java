@@ -5,14 +5,16 @@ import java.util.*;
 
 
 public class Local {
+    private int id;
     private String nombre, latitud, longitud;
     private Gerente gerente;
     private ArrayList <Area> areas = new ArrayList();
     
-    public Local(String nombre, double latitud, double longitud) {
+    public Local(int id, String nombre, String latitud, String longitud) {
+        this.id = id;
         this.nombre = nombre;
-        setLatitud(latitud);
-        setLongitud(longitud);
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public String getNombre() {
@@ -53,6 +55,14 @@ public class Local {
 
     public void setAreas(ArrayList<Area> areas) {
         this.areas = areas;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

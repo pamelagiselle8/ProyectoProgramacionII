@@ -1,12 +1,12 @@
-
 package p2proyecto_pamelaramirez;
 
-
 public class Transaccion {
-    private String tipo;
-    private int tiempo;
 
-    public Transaccion(String tipo, int tiempo) {
+    private String tipo;
+    private int id, tiempo;
+
+    public Transaccion(int id, String tipo, int tiempo) {
+        this.id = id;
         this.tipo = tipo;
         this.tiempo = tiempo;
     }
@@ -27,10 +27,17 @@ public class Transaccion {
         this.tiempo = tiempo;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return tipo;
     }
-    
-    
+
 }

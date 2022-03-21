@@ -5,13 +5,16 @@ import java.util.*;
 
 
 public class Area {
+    private int id;
     private String nombre;
     private ArrayList <Transaccion> transacciones = new ArrayList();
     private ArrayList <Empleado> empleados = new ArrayList();
-    private ArrayList <Cita> citasAgendadas = new ArrayList();
-    private Cola cola = new Cola();
+    private ArrayList <Cita> citas = new ArrayList();
+    private ArrayList<CNormal> normal = new ArrayList();
+    private ArrayList<CPreferencial> preferencial = new ArrayList();
 
-    public Area(String nombre) {
+    public Area(int id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
     }
     
@@ -44,12 +47,36 @@ public class Area {
         this.empleados = empleados;
     }
 
-    public ArrayList<Cita> getCitasAgendadas() {
-        return citasAgendadas;
+    public ArrayList<Cita> getCitas() {
+        return citas;
     }
 
-    public void setCitasAgendadas(ArrayList<Cita> citasAgendadas) {
-        this.citasAgendadas = citasAgendadas;
+    public void setCitas(ArrayList<Cita> citas) {
+        this.citas = citas;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ArrayList<CPreferencial> getPreferencial() {
+        return preferencial;
+    }
+
+    public void setPreferencial(ArrayList<CPreferencial> preferencial) {
+        this.preferencial = preferencial;
+    }
+
+    public ArrayList<CNormal> getNormal() {
+        return normal;
+    }
+
+    public void setNormal(ArrayList<CNormal> normal) {
+        this.normal = normal;
     }
 
     @Override

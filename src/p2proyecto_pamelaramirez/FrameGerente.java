@@ -9,6 +9,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 
 public class FrameGerente extends javax.swing.JFrame {
+    DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
     SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss a dd/MM/yyyy");
     Usuario usuarioIngresado;
@@ -1001,7 +1002,7 @@ public class FrameGerente extends javax.swing.JFrame {
                 //Local local = (Local)cboLocalTran.getSelectedItem();
                 if (cboAreaTran.getSelectedIndex() >= 0) {
                     Area area = (Area)cboAreaTran.getSelectedItem();
-                    area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
+                    // area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
                     //actualizarTodo();
                     JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
                 }

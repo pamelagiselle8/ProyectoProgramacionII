@@ -7,9 +7,10 @@ import java.util.*;
 import javax.swing.*;
 
 public class FrameCitas extends javax.swing.JFrame {
-    Archivos archivos = new Archivos("./RegistroClientes.cbm");
+    DatosSistema ds = new DatosSistema();
     Login login = new Login();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    HiloHora hora;
     Date fecha = new Date();
     Local local;
     Area area;
@@ -19,14 +20,18 @@ public class FrameCitas extends javax.swing.JFrame {
         pnlMostrarTicket.setVisible(false);
         pnlEncuesta.setVisible(false);
         this.setTitle("Sistema de gestión de colas inteligentes");
+        this.hora = new HiloHora(lblHora);
+        this.hora.start();
         ocultarPanelesTab1();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ds.cargarDatos();
     }
     
     public void ocultarPanelesTab1() {
         pnlMostrarTicket.setVisible(false);
         pnlTicket.setVisible(false);
         pnlCita.setVisible(false);
+        pnlNotis.setVisible(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -42,13 +47,9 @@ public class FrameCitas extends javax.swing.JFrame {
         pnlTicket = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
         txtIdCita = new javax.swing.JFormattedTextField();
-        rbtnPreferencial = new javax.swing.JRadioButton();
+        rbtnNotis = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        txtNumero = new javax.swing.JFormattedTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         pnlCita = new javax.swing.JPanel();
         txtHoraCita = new javax.swing.JFormattedTextField();
         cboAmPm = new javax.swing.JComboBox<>();
@@ -69,24 +70,20 @@ public class FrameCitas extends javax.swing.JFrame {
         btnAgregarTran = new javax.swing.JButton();
         jLabel25 = new javax.swing.JLabel();
         btnElimTran = new javax.swing.JButton();
+        rbtnPreferencial = new javax.swing.JRadioButton();
+        pnlNotis = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        txtNumero = new javax.swing.JFormattedTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         btnAgendarCita = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnGenerarTicket = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lblHora = new javax.swing.JLabel();
         pnl2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        btnTicket = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btnAsistencia = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        btnEncuesta = new javax.swing.JButton();
         pnlMostrarTicket = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtTicket = new javax.swing.JTextArea();
@@ -100,6 +97,13 @@ public class FrameCitas extends javax.swing.JFrame {
         rbtnPes = new javax.swing.JRadioButton();
         btnGuardarEncuesta = new javax.swing.JButton();
         jLabel36 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        btnAsistencia = new javax.swing.JButton();
+        btnTicket = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnEncuesta = new javax.swing.JButton();
         txtIdInfo = new javax.swing.JFormattedTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnIniciarSesion = new javax.swing.JMenu();
@@ -135,17 +139,14 @@ public class FrameCitas extends javax.swing.JFrame {
 
         tabbedPane.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel2.setBackground(new java.awt.Color(234, 163, 195));
+        jPanel2.setBackground(new java.awt.Color(247, 157, 179));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(null);
 
-        pnlTicket.setBackground(new java.awt.Color(234, 163, 195));
-        pnlTicket.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlTicket.setBackground(new java.awt.Color(247, 157, 179));
 
         jLabel35.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(255, 255, 255));
         jLabel35.setText("Número de identidad");
-        pnlTicket.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 144, 220, -1));
 
         txtIdCita.setBackground(new java.awt.Color(250, 234, 241));
         txtIdCita.setForeground(new java.awt.Color(51, 51, 51));
@@ -155,45 +156,23 @@ public class FrameCitas extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtIdCita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        pnlTicket.add(txtIdCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 173, 220, -1));
 
-        rbtnPreferencial.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        rbtnPreferencial.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnPreferencial.setText("Cliente preferencial");
-        pnlTicket.add(rbtnPreferencial, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 220, -1));
+        rbtnNotis.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        rbtnNotis.setForeground(new java.awt.Color(255, 255, 255));
+        rbtnNotis.setText("Me gustaría recibir notificaciones");
+        rbtnNotis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnNotisActionPerformed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Nombre");
-        pnlTicket.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 73, 220, -1));
 
         jTextField2.setBackground(new java.awt.Color(250, 234, 241));
-        pnlTicket.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 103, 220, -1));
 
-        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Número telefónico");
-        pnlTicket.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 214, 220, -1));
-
-        txtNumero.setBackground(new java.awt.Color(250, 234, 241));
-        txtNumero.setForeground(new java.awt.Color(51, 51, 51));
-        try {
-            txtNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        txtNumero.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        pnlTicket.add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 244, 220, -1));
-
-        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Correo electrónico");
-        pnlTicket.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 285, 220, -1));
-
-        jTextField1.setBackground(new java.awt.Color(250, 234, 241));
-        pnlTicket.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 315, 220, -1));
-
-        pnlCita.setBackground(new java.awt.Color(234, 163, 195));
+        pnlCita.setBackground(new java.awt.Color(247, 157, 179));
         pnlCita.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtHoraCita.setBackground(new java.awt.Color(250, 234, 241));
@@ -206,7 +185,7 @@ public class FrameCitas extends javax.swing.JFrame {
         txtHoraCita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         pnlCita.add(txtHoraCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 124, -1));
 
-        cboAmPm.setBackground(new java.awt.Color(255, 63, 156));
+        cboAmPm.setBackground(new java.awt.Color(255, 92, 133));
         cboAmPm.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         cboAmPm.setForeground(new java.awt.Color(255, 255, 255));
         cboAmPm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "am", "pm" }));
@@ -227,9 +206,7 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel13.setText("Hora");
         pnlCita.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
 
-        pnlTicket.add(pnlCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 230, 120));
-
-        cboAreaCita.setBackground(new java.awt.Color(255, 63, 156));
+        cboAreaCita.setBackground(new java.awt.Color(255, 92, 133));
         cboAreaCita.setForeground(new java.awt.Color(255, 255, 255));
         cboAreaCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         cboAreaCita.addActionListener(new java.awt.event.ActionListener() {
@@ -237,19 +214,15 @@ public class FrameCitas extends javax.swing.JFrame {
                 cboAreaCitaActionPerformed(evt);
             }
         });
-        pnlTicket.add(cboAreaCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 220, -1));
 
         jLabel11.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Local");
-        pnlTicket.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 220, -1));
 
         jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Area");
-        pnlTicket.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, 220, -1));
 
-        cboLocalCita.setBackground(new java.awt.Color(255, 63, 156));
         cboLocalCita.setForeground(new java.awt.Color(255, 255, 255));
         cboLocalCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         cboLocalCita.addActionListener(new java.awt.event.ActionListener() {
@@ -257,9 +230,8 @@ public class FrameCitas extends javax.swing.JFrame {
                 cboLocalCitaActionPerformed(evt);
             }
         });
-        pnlTicket.add(cboLocalCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 220, -1));
 
-        btnGuardarCita.setBackground(new java.awt.Color(204, 58, 129));
+        btnGuardarCita.setBackground(new java.awt.Color(216, 75, 110));
         btnGuardarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnGuardarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarCita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/save (1).png"))); // NOI18N
@@ -270,7 +242,6 @@ public class FrameCitas extends javax.swing.JFrame {
                 btnGuardarCitaActionPerformed(evt);
             }
         });
-        pnlTicket.add(btnGuardarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, 352, 34));
 
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -279,8 +250,6 @@ public class FrameCitas extends javax.swing.JFrame {
         listTranCita.setModel(new DefaultListModel());
         jScrollPane1.setViewportView(listTranCita);
 
-        pnlTicket.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, 150, -1));
-
         jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
 
         listTranAsigCita.setBackground(new java.awt.Color(250, 234, 241));
@@ -288,19 +257,15 @@ public class FrameCitas extends javax.swing.JFrame {
         listTranAsigCita.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(listTranAsigCita);
 
-        pnlTicket.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, 150, -1));
-
         jLabel18.setFont(new java.awt.Font("Helvetica Neue", 2, 13)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Transacciones disponibles");
-        pnlTicket.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 230, -1, -1));
 
         jLabel23.setFont(new java.awt.Font("Helvetica Neue", 2, 13)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("Transacciones a realizar");
-        pnlTicket.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, -1, -1));
 
-        btnAgregarTran.setBackground(new java.awt.Color(204, 58, 129));
+        btnAgregarTran.setBackground(new java.awt.Color(216, 75, 110));
         btnAgregarTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnAgregarTran.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarTran.setText("Agregar");
@@ -310,14 +275,12 @@ public class FrameCitas extends javax.swing.JFrame {
                 btnAgregarTranActionPerformed(evt);
             }
         });
-        pnlTicket.add(btnAgregarTran, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 410, 150, 31));
 
         jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("->");
-        pnlTicket.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, 50, -1));
 
-        btnElimTran.setBackground(new java.awt.Color(204, 58, 129));
+        btnElimTran.setBackground(new java.awt.Color(216, 75, 110));
         btnElimTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimTran.setForeground(new java.awt.Color(255, 255, 255));
         btnElimTran.setText("Eliminar");
@@ -327,12 +290,155 @@ public class FrameCitas extends javax.swing.JFrame {
                 btnElimTranActionPerformed(evt);
             }
         });
-        pnlTicket.add(btnElimTran, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 410, 150, 31));
 
-        jPanel2.add(pnlTicket);
-        pnlTicket.setBounds(536, 56, 770, 620);
+        rbtnPreferencial.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        rbtnPreferencial.setForeground(new java.awt.Color(255, 255, 255));
+        rbtnPreferencial.setText("Cliente preferencial");
 
-        jPanel3.setBackground(new java.awt.Color(234, 163, 195));
+        pnlNotis.setBackground(new java.awt.Color(247, 157, 179));
+
+        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Número telefónico");
+
+        txtNumero.setBackground(new java.awt.Color(250, 234, 241));
+        txtNumero.setForeground(new java.awt.Color(51, 51, 51));
+        try {
+            txtNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtNumero.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Correo electrónico");
+
+        jTextField1.setBackground(new java.awt.Color(250, 234, 241));
+
+        javax.swing.GroupLayout pnlNotisLayout = new javax.swing.GroupLayout(pnlNotis);
+        pnlNotis.setLayout(pnlNotisLayout);
+        pnlNotisLayout.setHorizontalGroup(
+            pnlNotisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNotisLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnlNotisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        pnlNotisLayout.setVerticalGroup(
+            pnlNotisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNotisLayout.createSequentialGroup()
+                .addComponent(jLabel16)
+                .addGap(13, 13, 13)
+                .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(jLabel15)
+                .addGap(13, 13, 13)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1))
+        );
+
+        javax.swing.GroupLayout pnlTicketLayout = new javax.swing.GroupLayout(pnlTicket);
+        pnlTicket.setLayout(pnlTicketLayout);
+        pnlTicketLayout.setHorizontalGroup(
+            pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTicketLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdCita, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pnlNotis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rbtnPreferencial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlCita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rbtnNotis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboLocalCita, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboAreaCita, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel23))
+                    .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlTicketLayout.createSequentialGroup()
+                            .addComponent(btnAgregarTran, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnElimTran, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTicketLayout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
+        );
+        pnlTicketLayout.setVerticalGroup(
+            pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTicketLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel19))
+                    .addComponent(jLabel11))
+                .addGap(10, 10, 10)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboLocalCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel35))
+                    .addComponent(jLabel12))
+                .addGap(9, 9, 9)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(txtIdCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboAreaCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addComponent(rbtnNotis)
+                        .addGap(20, 20, 20)
+                        .addComponent(pnlNotis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbtnPreferencial)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlCita, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlTicketLayout.createSequentialGroup()
+                        .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel18))
+                        .addGap(13, 13, 13)
+                        .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlTicketLayout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel25))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregarTran, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnElimTran, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(247, 157, 179));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
@@ -345,12 +451,9 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/41-home-outline.gif"))); // NOI18N
         jLabel5.setText("Citas y tickets");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 230, -1));
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 230, -1));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/circuloNaranjaOscuro250.png"))); // NOI18N
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(-130, -160, 260, 300));
-
-        btnAgendarCita.setBackground(new java.awt.Color(204, 58, 129));
+        btnAgendarCita.setBackground(new java.awt.Color(216, 75, 110));
         btnAgendarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnAgendarCita.setForeground(new java.awt.Color(255, 255, 255));
         btnAgendarCita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/23-calendar-outline (1).gif"))); // NOI18N
@@ -363,14 +466,14 @@ public class FrameCitas extends javax.swing.JFrame {
                 btnAgendarCitaActionPerformed(evt);
             }
         });
-        jPanel3.add(btnAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 230, 50));
+        jPanel3.add(btnAgendarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, 230, 50));
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Generar ticket virtual para caja");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, -1, -1));
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
 
-        btnGenerarTicket.setBackground(new java.awt.Color(204, 58, 129));
+        btnGenerarTicket.setBackground(new java.awt.Color(216, 75, 110));
         btnGenerarTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnGenerarTicket.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerarTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/70-ticket-outline.gif"))); // NOI18N
@@ -383,97 +486,44 @@ public class FrameCitas extends javax.swing.JFrame {
                 btnGenerarTicketActionPerformed(evt);
             }
         });
-        jPanel3.add(btnGenerarTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 230, 50));
+        jPanel3.add(btnGenerarTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 230, 50));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/esquinasupderPINK.png"))); // NOI18N
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-260, -10, -1, -1));
+        lblHora.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        lblHora.setForeground(new java.awt.Color(255, 255, 255));
+        lblHora.setText("Hora");
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/circuloNaranjaOscuro250.png"))); // NOI18N
-        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(-130, -160, 260, 300));
-
-        jPanel2.add(jPanel3);
-        jPanel3.setBounds(0, 0, 530, 971);
-
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/circuloNaranjaOscuro250.png"))); // NOI18N
-        jPanel2.add(jLabel22);
-        jLabel22.setBounds(1040, 840, 250, 280);
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/basePink2.png"))); // NOI18N
-        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(890, 740, 590, 270);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(152, 152, 152))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         tabbedPane.addTab("Registro", jPanel2);
 
-        pnl2.setBackground(new java.awt.Color(204, 163, 183));
+        pnl2.setBackground(new java.awt.Color(247, 157, 179));
         pnl2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         pnl2.setLayout(null);
 
-        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/info (1).png"))); // NOI18N
-        jLabel3.setText(" Información");
-        pnl2.add(jLabel3);
-        jLabel3.setBounds(190, 150, 190, 25);
-
-        btnTicket.setBackground(new java.awt.Color(140, 89, 113));
-        btnTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnTicket.setForeground(new java.awt.Color(255, 255, 255));
-        btnTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/edit.png"))); // NOI18N
-        btnTicket.setText(" Consultar ticket");
-        btnTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTicket.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTicketActionPerformed(evt);
-            }
-        });
-        pnl2.add(btnTicket);
-        btnTicket.setBounds(190, 230, 190, 50);
-
-        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Ver información de su ticket");
-        pnl2.add(jLabel2);
-        jLabel2.setBounds(180, 300, 210, 17);
-
-        btnAsistencia.setBackground(new java.awt.Color(140, 89, 113));
-        btnAsistencia.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnAsistencia.setForeground(new java.awt.Color(255, 255, 255));
-        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/clock.png"))); // NOI18N
-        btnAsistencia.setText(" Registrar asistencia");
-        btnAsistencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAsistenciaActionPerformed(evt);
-            }
-        });
-        pnl2.add(btnAsistencia);
-        btnAsistencia.setBounds(190, 370, 190, 50);
-
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Asistencia a cita programada");
-        pnl2.add(jLabel1);
-        jLabel1.setBounds(180, 440, 210, 20);
-
-        btnEncuesta.setBackground(new java.awt.Color(140, 89, 113));
-        btnEncuesta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnEncuesta.setForeground(new java.awt.Color(255, 255, 255));
-        btnEncuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/star.png"))); // NOI18N
-        btnEncuesta.setText(" Llenar encuesta de satisfacción");
-        btnEncuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEncuesta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEncuestaActionPerformed(evt);
-            }
-        });
-        pnl2.add(btnEncuesta);
-        btnEncuesta.setBounds(150, 520, 270, 50);
-
-        pnlMostrarTicket.setBackground(new java.awt.Color(204, 163, 183));
+        pnlMostrarTicket.setBackground(new java.awt.Color(247, 157, 179));
 
         txtTicket.setEditable(false);
         txtTicket.setBackground(new java.awt.Color(236, 222, 229));
@@ -486,7 +536,7 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Ticket registrado");
 
-        pnlEncuesta.setBackground(new java.awt.Color(204, 163, 183));
+        pnlEncuesta.setBackground(new java.awt.Color(247, 157, 179));
 
         lbPregunta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         lbPregunta.setForeground(new java.awt.Color(255, 255, 255));
@@ -517,7 +567,7 @@ public class FrameCitas extends javax.swing.JFrame {
         rbtnPes.setText("Pésimo");
         rbtnPes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btnGuardarEncuesta.setBackground(new java.awt.Color(140, 89, 113));
+        btnGuardarEncuesta.setBackground(new java.awt.Color(216, 75, 110));
         btnGuardarEncuesta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnGuardarEncuesta.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardarEncuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/save (1).png"))); // NOI18N
@@ -603,7 +653,72 @@ public class FrameCitas extends javax.swing.JFrame {
         pnl2.add(jLabel36);
         jLabel36.setBounds(590, 110, 170, 17);
 
-        txtIdInfo.setBackground(new java.awt.Color(236, 222, 229));
+        jPanel4.setBackground(new java.awt.Color(247, 157, 179));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAsistencia.setBackground(new java.awt.Color(216, 75, 110));
+        btnAsistencia.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAsistencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/clock.png"))); // NOI18N
+        btnAsistencia.setText(" Registrar asistencia");
+        btnAsistencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsistenciaActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnAsistencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, 230, 50));
+
+        btnTicket.setBackground(new java.awt.Color(216, 75, 110));
+        btnTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnTicket.setForeground(new java.awt.Color(255, 255, 255));
+        btnTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/edit.png"))); // NOI18N
+        btnTicket.setText(" Consultar ticket");
+        btnTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTicketActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 230, 50));
+
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Ver información de su ticket");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, 210, -1));
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Asistencia a cita programada");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 480, 230, 20));
+
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/info (1).png"))); // NOI18N
+        jLabel3.setText(" Información");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 230, 40));
+
+        btnEncuesta.setBackground(new java.awt.Color(216, 75, 110));
+        btnEncuesta.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEncuesta.setForeground(new java.awt.Color(255, 255, 255));
+        btnEncuesta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/star.png"))); // NOI18N
+        btnEncuesta.setText(" Encuesta de satisfacción");
+        btnEncuesta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEncuesta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEncuestaActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnEncuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 540, 230, 50));
+
+        pnl2.add(jPanel4);
+        jPanel4.setBounds(0, 0, 530, 971);
+
+        txtIdInfo.setBackground(new java.awt.Color(250, 234, 241));
+        txtIdInfo.setForeground(new java.awt.Color(51, 51, 51));
         try {
             txtIdInfo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-#####")));
         } catch (java.text.ParseException ex) {
@@ -619,7 +734,7 @@ public class FrameCitas extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1462, Short.MAX_VALUE)
+            .addComponent(tabbedPane)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -686,7 +801,7 @@ public class FrameCitas extends javax.swing.JFrame {
 
     private void btnGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCitaActionPerformed
         // Mostrar ticket al guardar y guardar cita
-        if (txtIdCita.getText().isEmpty()) {
+        /*if (txtIdCita.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         }
         else {
@@ -738,7 +853,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Debe seleccionar el local y el área.", "", 2);
             }
         }
-        
+        */
     }//GEN-LAST:event_btnGuardarCitaActionPerformed
 
     private void btnAgendarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitaActionPerformed
@@ -755,7 +870,7 @@ public class FrameCitas extends javax.swing.JFrame {
         pnlEncuesta.setVisible(false);
         pnlMostrarTicket.setVisible(true);
         try {
-            Cliente cliente = buscarCliente();
+            CNormal cliente = buscarCliente();
             txtTicket.setText(cliente.getTicket());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Debe ingresar el número de identidad del cliente.", "", 2);
@@ -764,8 +879,8 @@ public class FrameCitas extends javax.swing.JFrame {
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
         // Registrar asistencia a cita programada
-        Cliente cliente = buscarCliente();
-        if (cliente instanceof Cita) {
+        CNormal cliente = buscarCliente();
+        if (true) {
             
             JOptionPane.showMessageDialog(this, "Asistencia registrada exitosamente.", "", 1);
         }
@@ -826,7 +941,7 @@ public class FrameCitas extends javax.swing.JFrame {
         // Mostrar panel encuesta
         pnlEncuesta.setVisible(true);
         pnlMostrarTicket.setVisible(false);
-        Cliente cliente = buscarCliente();
+        CNormal cliente = buscarCliente();
     }//GEN-LAST:event_btnEncuestaActionPerformed
 
     private void btnGuardarEncuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEncuestaActionPerformed
@@ -841,6 +956,10 @@ public class FrameCitas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Gracias por su opinión.", "", 1);
         }
     }//GEN-LAST:event_btnGuardarEncuestaActionPerformed
+
+    private void rbtnNotisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnNotisActionPerformed
+        pnlNotis.setVisible(rbtnNotis.isSelected());
+    }//GEN-LAST:event_rbtnNotisActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -895,19 +1014,15 @@ public class FrameCitas extends javax.swing.JFrame {
     private javax.swing.JFrame frameCita;
     private javax.swing.JFrame frameTicket;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
@@ -917,28 +1032,31 @@ public class FrameCitas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbPregunta;
+    private javax.swing.JLabel lblHora;
     private javax.swing.JList<String> listTranAsigCita;
     private javax.swing.JList<String> listTranCita;
     private javax.swing.JPanel pnl2;
     private javax.swing.JPanel pnlCita;
     private javax.swing.JPanel pnlEncuesta;
     private javax.swing.JPanel pnlMostrarTicket;
+    private javax.swing.JPanel pnlNotis;
     private javax.swing.JPanel pnlTicket;
     private javax.swing.JRadioButton rbtnBue;
     private javax.swing.JRadioButton rbtnExc;
     private javax.swing.JRadioButton rbtnMal;
     private javax.swing.JRadioButton rbtnMod;
+    private javax.swing.JRadioButton rbtnNotis;
     private javax.swing.JRadioButton rbtnPes;
     private javax.swing.JRadioButton rbtnPreferencial;
     private javax.swing.JTabbedPane tabbedPane;
@@ -959,9 +1077,9 @@ public class FrameCitas extends javax.swing.JFrame {
         }
     }
     
-    public Cliente buscarCliente() {
-        Cliente clienteSeleccionado = null;
-        pnlMostrarTicket.setVisible(true);
+    public CNormal buscarCliente() {
+        CNormal clienteSeleccionado = null;
+        /*pnlMostrarTicket.setVisible(true);
         if (!login.locales.isEmpty()) {
             for (Local local : login.locales) {
                 if (!local.getAreas().isEmpty()) {
@@ -979,7 +1097,7 @@ public class FrameCitas extends javax.swing.JFrame {
                     }
                 }
             }
-        }
+        }*/
         return clienteSeleccionado;
     }
     

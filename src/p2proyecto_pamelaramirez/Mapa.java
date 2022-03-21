@@ -21,7 +21,7 @@ public class Mapa {
     // Longitud -180 a 180
     static double latitud = -90, longitud = -180;
     
-    public static void coordenadas(double latitud, double longitud, String local) {
+    public static void coordenadas(String latitud, String longitud, String local) {
         Engine engine = Engine.newInstance(
         EngineOptions.newBuilder(HARDWARE_ACCELERATED)
                 .licenseKey("6P830J66YBJTILINDYTPJQC6PJ3YF3UK1AFIVUWED3OD37VP3YPFAS6S3D9M818BVU46")

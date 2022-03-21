@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class Ventanilla extends Thread {
     private boolean ciclo, abierta;
-    private Cliente cliente;
+    private CNormal cliente;
     
     @Override
     public void run(){

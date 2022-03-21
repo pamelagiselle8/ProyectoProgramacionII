@@ -1,4 +1,3 @@
-
 package p2proyecto_pamelaramirez;
 
 import java.text.*;
@@ -7,25 +6,26 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-
 public class FrameAdmin extends javax.swing.JFrame {
+    DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
-    SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss a dd/MM/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Usuario usuarioIngresado;
-    ArrayList <Usuario> usuarios = new ArrayList();
-    ArrayList <Local> locales = new ArrayList();
-    ArrayList <Cita> citas = new ArrayList();
-    ArrayList <String> bitacora = new ArrayList();
+    ArrayList<Usuario> usuarios = new ArrayList();
+    ArrayList<Local> locales = new ArrayList();
+    ArrayList<Cita> citas = new ArrayList();
+    ArrayList<String> bitacora = new ArrayList();
     Local local;
     Area area;
-    
+
     public FrameAdmin() {
         initComponents();
         this.setTitle("Administrador");
         this.setLocationRelativeTo(null);
+        pnlLocal.setVisible(false);
+        pnlArea.setVisible(false);
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -36,10 +36,6 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         cboTipoUser = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
-        cboUser = new javax.swing.JComboBox<>();
-        btnEditUser = new javax.swing.JButton();
-        cboElimUser = new javax.swing.JButton();
         cboListarUser = new javax.swing.JButton();
         btnGuardarUser = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -50,6 +46,12 @@ public class FrameAdmin extends javax.swing.JFrame {
         txtNomDeUsuario = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtPassUser = new javax.swing.JTextField();
+        pnlLocal = new javax.swing.JPanel();
+        lblCboUser = new javax.swing.JLabel();
+        cboLocales = new javax.swing.JComboBox<>();
+        pnlArea = new javax.swing.JPanel();
+        lblCboUser1 = new javax.swing.JLabel();
+        cboAreas = new javax.swing.JComboBox<>();
         jPanel15 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -181,28 +183,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         cboTipoUser.setBackground(new java.awt.Color(50, 152, 255));
         cboTipoUser.setForeground(new java.awt.Color(255, 255, 255));
         cboTipoUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -", "Administrador del sistema", "Gerente", "Empleado" }));
-
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Usuario");
-
-        cboUser.setBackground(new java.awt.Color(50, 152, 255));
-        cboUser.setForeground(new java.awt.Color(255, 255, 255));
-        cboUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-
-        btnEditUser.setBackground(new java.awt.Color(34, 131, 229));
-        btnEditUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnEditUser.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditUser.setText("Modificar usuario");
-        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+        cboTipoUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditUserActionPerformed(evt);
+                cboTipoUserActionPerformed(evt);
             }
         });
-
-        cboElimUser.setBackground(new java.awt.Color(34, 131, 229));
-        cboElimUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        cboElimUser.setForeground(new java.awt.Color(255, 255, 255));
-        cboElimUser.setText("Eliminar usuario");
 
         cboListarUser.setBackground(new java.awt.Color(34, 131, 229));
         cboListarUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -249,6 +234,60 @@ public class FrameAdmin extends javax.swing.JFrame {
         txtPassUser.setBackground(new java.awt.Color(204, 227, 255));
         txtPassUser.setForeground(new java.awt.Color(51, 51, 51));
 
+        pnlLocal.setBackground(new java.awt.Color(125, 177, 229));
+
+        lblCboUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblCboUser.setText("Local");
+
+        cboLocales.setBackground(new java.awt.Color(50, 152, 255));
+        cboLocales.setForeground(new java.awt.Color(255, 255, 255));
+        cboLocales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        cboLocales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLocalesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlLocalLayout = new javax.swing.GroupLayout(pnlLocal);
+        pnlLocal.setLayout(pnlLocalLayout);
+        pnlLocalLayout.setHorizontalGroup(
+            pnlLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(cboLocales, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pnlLocalLayout.setVerticalGroup(
+            pnlLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLocalLayout.createSequentialGroup()
+                .addComponent(lblCboUser)
+                .addGap(12, 12, 12)
+                .addComponent(cboLocales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pnlArea.setBackground(new java.awt.Color(125, 177, 229));
+
+        lblCboUser1.setForeground(new java.awt.Color(255, 255, 255));
+        lblCboUser1.setText("Area");
+
+        cboAreas.setBackground(new java.awt.Color(50, 152, 255));
+        cboAreas.setForeground(new java.awt.Color(255, 255, 255));
+        cboAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+
+        javax.swing.GroupLayout pnlAreaLayout = new javax.swing.GroupLayout(pnlArea);
+        pnlArea.setLayout(pnlAreaLayout);
+        pnlAreaLayout.setHorizontalGroup(
+            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCboUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(cboAreas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pnlAreaLayout.setVerticalGroup(
+            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAreaLayout.createSequentialGroup()
+                .addComponent(lblCboUser1)
+                .addGap(12, 12, 12)
+                .addComponent(cboAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -257,35 +296,28 @@ public class FrameAdmin extends javax.swing.JFrame {
                 .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cboTipoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160)
-                        .addComponent(cboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cboTipoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(160, 160, 160)
-                        .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addGap(325, 325, 325)
-                        .addComponent(cboElimUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(160, 160, 160)
-                        .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(200, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pnlArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,44 +326,34 @@ public class FrameAdmin extends javax.swing.JFrame {
                 .addComponent(jLabel10)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboTipoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(12, 12, 12)
+                        .addComponent(cboTipoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel13)
                         .addGap(12, 12, 12)
-                        .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel14))
-                    .addComponent(cboElimUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14)
+                        .addGap(12, 12, 12)
                         .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel15))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
                         .addGap(12, 12, 12)
-                        .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel16)
-                .addGap(12, 12, 12)
-                .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16)
+                        .addGap(12, 12, 12)
+                        .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(pnlLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(160, Short.MAX_VALUE))
         );
 
@@ -416,7 +438,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         cboGerLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
 
         rbtnElimGerLocal.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnElimGerLocal.setText("Eliminar gerente del local");
+        rbtnElimGerLocal.setText("Eliminar gerente actual ");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1194,67 +1216,45 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     private void btnCambiarCuentaAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCuentaAdminActionPerformed
         this.setVisible(false);
-        bitacora.add("Cierre de sesión " + formato.format(fecha)
-            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
-        usuarioIngresado = null;
+//        bitacora.add("Cierre de sesión " + formato.format(fecha)
+//            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
+//        usuarioIngresado = null;
     }//GEN-LAST:event_btnCambiarCuentaAdminActionPerformed
 
     private void btnCerrarSesionAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionAdminActionPerformed
         this.setVisible(false);
         this.setVisible(true);
-        bitacora.add("Cierre de sesión " + formato.format(fecha)
-            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
-        usuarioIngresado = null;
+//        bitacora.add("Cierre de sesión " + formato.format(fecha)
+//            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
+//        usuarioIngresado = null;
     }//GEN-LAST:event_btnCerrarSesionAdminActionPerformed
-
-    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
-        Usuario user = (Usuario)cboUser.getSelectedItem();
-        if (user instanceof Administrador) {
-            cboTipoUser.setSelectedIndex(1);
-        }
-        else if (user instanceof Gerente) {
-            cboTipoUser.setSelectedIndex(2);
-        }
-        else if (user instanceof Empleado) {
-            cboTipoUser.setSelectedIndex(3);
-        }
-        txtNomUser.setText(user.getNombre());
-        txtIdUser.setText(user.getIdentidad());
-        txtNomDeUsuario.setText(user.getNombreUsuario());
-        txtPassUser.setText(user.getPass());
-    }//GEN-LAST:event_btnEditUserActionPerformed
 
     private void btnGuardarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUserActionPerformed
         int tipo = cboTipoUser.getSelectedIndex();
-        String nom, id, nomUser, pass;
-        nom = txtNomUser.getText();
-        id = txtIdUser.getText();
-        nomUser = txtNomDeUsuario.getText();
-        pass = txtPassUser.getText();
         boolean agregado = false;
         if (txtNomUser.getText().isEmpty() || txtIdUser.getText().isEmpty()
-            || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
-        }
-        else {
-            switch(tipo) {
+                || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
+        } else {
+            switch (tipo) {
                 case 1: {
-                    usuarios.add(new Administrador(nom, id, nomUser, pass));
+                    ds.addAdmin(txtIdUser.getText(), txtNomUser.getText(),
+                            txtNomDeUsuario.getText(), txtPassUser.getText());
                     agregado = true;
                     break;
                 }
                 case 2: {
-                    usuarios.add(new Gerente(nom, id, nomUser, pass));
+                    // ds.agregarGerente(id, nom, nomUser, pass, //);
                     agregado = true;
                     break;
                 }
                 case 3: {
-                    usuarios.add(new Empleado(nom, id, nomUser, pass));
+                    // ds.agregarEmpleado(id, nom, nomUser, pass, //);
                     agregado = true;
                     break;
                 }
                 default: {
-                    JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de usuario.", "", 2);
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de usuario.", "Tipo de usuario nulo", 2);
                     break;
                 }
             }
@@ -1266,7 +1266,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarUserActionPerformed
 
     private void btnGuardarLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLocalActionPerformed
-        boolean agregado = false;
+        /*boolean agregado = false;
         if (txtNomLocal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         }
@@ -1282,23 +1282,22 @@ public class FrameAdmin extends javax.swing.JFrame {
         if (agregado) {
             actualizarTodo();
             JOptionPane.showMessageDialog(this, "Local agregado exitosamente.", "", 1);
-        }
+        }*/
     }//GEN-LAST:event_btnGuardarLocalActionPerformed
 
     private void btnGuardarAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAreaActionPerformed
         if (txtNomArea.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
-        }
-        else {
-            ArrayList <Empleado> empleados = new ArrayList();
+        } else {
+            ArrayList<Empleado> empleados = new ArrayList();
             DefaultListModel modeloEmp = (DefaultListModel) listEmpAsigLocal.getModel();
             try {
                 for (Object emp : modeloEmp.toArray()) {
                     if (emp instanceof Empleado) {
-                        empleados.add((Empleado)emp);
+                        empleados.add((Empleado) emp);
                     }
                 }
-                ((Local)cboLocalArea.getSelectedItem()).getAreas().add(new Area(txtNomArea.getText(), empleados));
+                ((Local) cboLocalArea.getSelectedItem()).getAreas().add(new Area(txtNomArea.getText(), empleados));
                 actualizarTodo();
                 JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
             } catch (Exception e) {
@@ -1314,8 +1313,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             listEmpAsigLocalModel.addElement(empSeleccionado);
             listEmpModel.removeElement(empSeleccionado);
             usuarios.remove(empSeleccionado);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un empleado.", "", 2);
         }
     }//GEN-LAST:event_btnAgrEmpLocalActionPerformed
@@ -1328,8 +1326,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             listEmpModel.addElement(empSeleccionado);
             listEmpAsigLocalModel.removeElement(empSeleccionado);
             usuarios.add(empSeleccionado);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un empleado.", "", 2);
         }
     }//GEN-LAST:event_btnElimEmpLocalActionPerformed
@@ -1341,19 +1338,18 @@ public class FrameAdmin extends javax.swing.JFrame {
         for (Area area : localSeleccionado.getAreas()) {
             cboAreaModel.addElement(area);
         }*/
-        cboAreaTran.setModel(llenarCboAreas((Local)cboLocalTran.getSelectedItem()));
+        cboAreaTran.setModel(llenarCboAreas((Local) cboLocalTran.getSelectedItem()));
     }//GEN-LAST:event_cboLocalTranActionPerformed
 
     private void btnGuardarTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTranActionPerformed
         if (txtTipoTran.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
-        }
-        else {
+        } else {
             if (cboLocalTran.getSelectedIndex() >= 0) {
-                Local local = (Local)cboLocalTran.getSelectedItem();
+                Local local = (Local) cboLocalTran.getSelectedItem();
                 if (cboAreaTran.getSelectedIndex() >= 0) {
-                    Area area = (Area)cboAreaTran.getSelectedItem();
-                    area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
+                    Area area = (Area) cboAreaTran.getSelectedItem();
+                    //area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
                     actualizarTodo();
                     JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
                 }
@@ -1366,7 +1362,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cboGuardarCitaActionPerformed
 
     private void btnCargarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCitaActionPerformed
-        Cliente clienteSeleccionado = buscarCliente();
+        /*Cliente clienteSeleccionado = buscarCliente();
         if (clienteSeleccionado instanceof Cita) {
             dcCita.setDate(((Cita)clienteSeleccionado).getFechaAgendada());
         }
@@ -1376,7 +1372,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
         listEmpAsigLocal2.setModel(listTranModel);
         // cboLocalCita.setSelectedItem(local);
-        cboAreaCita.setSelectedItem(area);
+        cboAreaCita.setSelectedItem(area);*/
     }//GEN-LAST:event_btnCargarCitaActionPerformed
 
     private void btnElimEmpLocal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpLocal2ActionPerformed
@@ -1389,14 +1385,11 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
         if (cboLocalesMapa.getSelectedIndex() >= 0) {
-            //new Mapa().coordenadas(ALLBITS, HEIGHT);
-            //actualizarTodo();
-            JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.");
+            ImageIcon icono = new ImageIcon("loadingGifChiki.gif");
+            JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.", "Cargando mapa", 1, icono);
+            //JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.");
             Local local = (Local) cboLocalesMapa.getSelectedItem();
             new Mapa().coordenadas(local.getLatitud(), local.getLongitud(), local.getNombre());
-            
-            //Mapa ubicacion = new Mapa();
-            //ubicacion.coordenadas(local.getLatitud(), local.getLongitud());
         }
     }//GEN-LAST:event_btnMapaActionPerformed
 
@@ -1409,7 +1402,34 @@ public class FrameAdmin extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Notificacion enviada exitosamente");
     }//GEN-LAST:event_btnNotiActionPerformed
 
-    
+    private void cboTipoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoUserActionPerformed
+        switch (cboTipoUser.getSelectedIndex()) {
+            case 1: {
+                pnlLocal.setVisible(false);
+                pnlArea.setVisible(false);
+                break;
+            }
+            case 2: {
+                cboLocales.setModel(ds.llenarCboLocales());
+                pnlLocal.setVisible(true);
+                pnlArea.setVisible(false);
+                break;
+            }
+            case 3: {
+                cboLocales.setModel(ds.llenarCboLocales());
+                pnlLocal.setVisible(true);
+                pnlArea.setVisible(true);
+                break;
+            }
+        }
+    }//GEN-LAST:event_cboTipoUserActionPerformed
+
+    private void cboLocalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocalesActionPerformed
+        if (cboTipoUser.getSelectedIndex() == 3) {
+            cboAreas.setModel(ds.llenarCboAreas((Local)cboLocales.getSelectedItem()));
+        }
+    }//GEN-LAST:event_cboLocalesActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1452,7 +1472,6 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnEditLocal;
     private javax.swing.JButton btnEditLocal1;
     private javax.swing.JButton btnEditTran;
-    private javax.swing.JButton btnEditUser;
     private javax.swing.JButton btnElimEmpLocal;
     private javax.swing.JButton btnElimEmpLocal2;
     private javax.swing.JButton btnElimLocal;
@@ -1472,7 +1491,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboArea;
     private javax.swing.JComboBox<String> cboAreaCita;
     private javax.swing.JComboBox<String> cboAreaTran;
-    private javax.swing.JButton cboElimUser;
+    private javax.swing.JComboBox<String> cboAreas;
     private javax.swing.JComboBox<String> cboGerLocal;
     private javax.swing.JButton cboGuardarCita;
     private javax.swing.JButton cboListarUser;
@@ -1480,15 +1499,14 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboLocalArea;
     private javax.swing.JComboBox<String> cboLocalCita;
     private javax.swing.JComboBox<String> cboLocalTran;
+    private javax.swing.JComboBox<String> cboLocales;
     private javax.swing.JComboBox<String> cboLocalesMapa;
     private javax.swing.JComboBox<String> cboTipoUser;
     private javax.swing.JComboBox<String> cboTran;
-    private javax.swing.JComboBox<String> cboUser;
     private com.toedter.calendar.JDateChooser dcCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1548,11 +1566,15 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JLabel lblCboUser;
+    private javax.swing.JLabel lblCboUser1;
     private javax.swing.JList<String> listEmpAsigLocal;
     private javax.swing.JList<String> listEmpAsigLocal2;
     private javax.swing.JList<String> listEmpLocal;
     private javax.swing.JList<String> listEmpLocal2;
+    private javax.swing.JPanel pnlArea;
     private javax.swing.JPanel pnlFechaCitaAdmin;
+    private javax.swing.JPanel pnlLocal;
     private javax.swing.JRadioButton rbtnElimGerLocal;
     private javax.swing.JSpinner spLatitud;
     private javax.swing.JSpinner spLongitud;
@@ -1571,9 +1593,9 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField txtPassUser;
     private javax.swing.JTextField txtTipoTran;
     // End of variables declaration//GEN-END:variables
-    
+
     // Actualiza todas las tabs con info de arraylists
-    public void actualizarTodo(){
+    public void actualizarTodo() {
         int tab = tabbedPane.getSelectedIndex();
         // Modelos
         DefaultComboBoxModel cboUserModel = new DefaultComboBoxModel();
@@ -1589,11 +1611,10 @@ public class FrameAdmin extends javax.swing.JFrame {
                 cboUserModel.addElement(usuario);
                 if (usuario instanceof Gerente) {
                     cboGerModel.addElement(usuario);
-                }
-                else if (usuario instanceof Empleado) {
+                } else if (usuario instanceof Empleado) {
                     listEmpModel.addElement(usuario);
                 }
-            } 
+            }
         }
         if (!locales.isEmpty()) {
             for (Local local : locales) {
@@ -1610,10 +1631,12 @@ public class FrameAdmin extends javax.swing.JFrame {
                 }
             }
         }
-        switch(tab) {
+        switch (tab) {
             case 0: {
                 // Tab usuarios
-                cboUser.setModel(cboUserModel);
+                pnlArea.setVisible(false);
+                pnlLocal.setVisible(false);
+                //cboLocales.setModel(cboUserModel);
                 break;
             }
             case 1: {
@@ -1657,12 +1680,12 @@ public class FrameAdmin extends javax.swing.JFrame {
             case 7: {
                 // Tab analisis de datos
                 //cboLocalesMapa.setModel(cboAreaModel);
-                cboLocalesMapa.setModel(llenarCboLocales());
+                cboLocalesMapa.setModel(ds.llenarCboLocales());
                 break;
             }
         }
     }
-    
+
     public DefaultComboBoxModel llenarCboAreas(Local localSeleccionado) {
         DefaultComboBoxModel cboAreaModel = new DefaultComboBoxModel();
         for (Area area : localSeleccionado.getAreas()) {
@@ -1670,7 +1693,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
         return cboAreaModel;
     }
-    
+
     public DefaultComboBoxModel llenarCboLocales() {
         DefaultComboBoxModel cboLocalModel = new DefaultComboBoxModel();
         if (!locales.isEmpty()) {
@@ -1680,7 +1703,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
         return cboLocalModel;
     }
-    
+
     public DefaultListModel llenarListTran(Area areaSeleccionada) {
         DefaultListModel listTranModel = new DefaultListModel();
         if (!areaSeleccionada.getTransacciones().isEmpty()) {
@@ -1690,9 +1713,9 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
         return listTranModel;
     }
-    
+
     public void llenarArbolColas() {
-        if (!locales.isEmpty()) {
+        /*if (!locales.isEmpty()) {
             // Modelos
             DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Empresa");
             DefaultTreeModel treeModelo = new DefaultTreeModel(raiz);
@@ -1723,10 +1746,10 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             treeModelo.reload();
             treeColas.setModel(treeModelo);
-        }
+        }*/
     }
-    
-    public Cliente buscarCliente() {
+
+    /*public Cliente buscarCliente() {
         Cliente clienteSeleccionado = null;
         if (!locales.isEmpty()) {
             for (Local local : locales) {
@@ -1747,9 +1770,6 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         }
         return clienteSeleccionado;
-    }
-    
+    }*/
     // Metodos de limpiar tabs aqui
-    
-    
 }
