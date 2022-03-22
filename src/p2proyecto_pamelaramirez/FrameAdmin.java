@@ -1,5 +1,6 @@
 package p2proyecto_pamelaramirez;
 
+import java.net.URL;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
@@ -7,23 +8,92 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 public class FrameAdmin extends javax.swing.JFrame {
+
     DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    Usuario usuarioIngresado;
-    ArrayList<Usuario> usuarios = new ArrayList();
-    ArrayList<Local> locales = new ArrayList();
-    ArrayList<Cita> citas = new ArrayList();
-    ArrayList<String> bitacora = new ArrayList();
-    Local local;
-    Area area;
 
     public FrameAdmin() {
         initComponents();
         this.setTitle("Administrador");
         this.setLocationRelativeTo(null);
-        pnlLocal.setVisible(false);
-        pnlArea.setVisible(false);
+    }
+
+    public void limpiarTab1() {
+        txtNomUser.setText(null);
+        txtIdUser.setText(null);
+        txtNomDeUsuario.setText(null);
+        txtPassUser.setText(null);
+    }
+
+    public void limpiarTab2() {
+        txtNomLocal.setText(null);
+        spLatitud.setValue(-90);
+        spLongitud.setValue(-180);
+    }
+
+    public void limpiarTab3() {
+        txtNomArea.setText(null);
+
+    }
+
+    public void limpiarTab4() {
+        txtTipoTran.setText(null);
+        spTiemTran.setValue(0);
+    }
+
+    // Actualiza todas las tabs con info de arraylists
+    public void actualizarTodo() {
+        int tab = tabbedPane.getSelectedIndex();
+        switch (tab) {
+            case 0: {
+                // Tab usuarios
+                limpiarTab1();
+                cboUsuarios.setModel(ds.llenarCboUsuarios());
+                break;
+            }
+            case 1: {
+                // Tab locales
+                cboLocal.setModel(ds.llenarCboLocales());
+                listGer.setModel(ds.llenarListGerentes());
+                listGer.setModel(new DefaultListModel());
+                break;
+            }
+            case 2: {
+                // Tab areas
+                listEmp.setModel(ds.llenarListEmpleados());
+                listEmpArea.setModel(new DefaultListModel());
+                listTran.setModel(ds.llenarListTran());
+                cboLocalArea.setModel(ds.llenarCboLocales());
+                cboArea.setModel(ds.llenarCboAreas());
+                break;
+            }
+            case 3: {
+                // Tab transacciones
+                cboTran.setModel(ds.llenarCboTransacciones());
+                break;
+            }
+            case 4: {
+                // Tab citas y tickets
+                cboLocalCita.setModel(ds.llenarCboLocales());
+                break;
+            }
+            case 5: {
+                // Tab colas
+                
+                break;
+            }
+            case 6: {
+                // Tab bitacora
+
+                break;
+            }
+            case 7: {
+                // Tab analisis de datos
+                cboLocalesMapa.setModel(ds.llenarCboLocales());
+                break;
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -36,7 +106,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         cboTipoUser = new javax.swing.JComboBox<>();
-        cboListarUser = new javax.swing.JButton();
+        btnListarUser = new javax.swing.JButton();
         btnGuardarUser = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         txtNomUser = new javax.swing.JTextField();
@@ -46,18 +116,17 @@ public class FrameAdmin extends javax.swing.JFrame {
         txtNomDeUsuario = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtPassUser = new javax.swing.JTextField();
-        pnlLocal = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnElimUser = new javax.swing.JButton();
+        btnEditUser = new javax.swing.JToggleButton();
         lblCboUser = new javax.swing.JLabel();
-        cboLocales = new javax.swing.JComboBox<>();
-        pnlArea = new javax.swing.JPanel();
-        lblCboUser1 = new javax.swing.JLabel();
-        cboAreas = new javax.swing.JComboBox<>();
+        cboUsuarios = new javax.swing.JComboBox<>();
         jPanel15 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         cboLocal = new javax.swing.JComboBox<>();
-        btnEditLocal = new javax.swing.JButton();
         btnElimLocal = new javax.swing.JButton();
         btnListarLocal = new javax.swing.JButton();
         btnGuardarLocal = new javax.swing.JButton();
@@ -67,15 +136,22 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel47 = new javax.swing.JLabel();
         spLatitud = new javax.swing.JSpinner();
         spLongitud = new javax.swing.JSpinner();
-        jLabel22 = new javax.swing.JLabel();
-        cboGerLocal = new javax.swing.JComboBox<>();
-        rbtnElimGerLocal = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        listGerLocal = new javax.swing.JList<>();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        btnAddGer = new javax.swing.JButton();
+        jLabel52 = new javax.swing.JLabel();
+        btnElimGer = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        listGer = new javax.swing.JList<>();
+        btnEditLocal = new javax.swing.JToggleButton();
         jPanel16 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         cboArea = new javax.swing.JComboBox<>();
-        btnEditLocal1 = new javax.swing.JButton();
         btnElimLocal1 = new javax.swing.JButton();
         btnListarLocal1 = new javax.swing.JButton();
         btnGuardarArea = new javax.swing.JButton();
@@ -84,20 +160,28 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel40 = new javax.swing.JLabel();
         cboLocalArea = new javax.swing.JComboBox<>();
         jScrollPane8 = new javax.swing.JScrollPane();
-        listEmpAsigLocal = new javax.swing.JList<>();
+        listEmpArea = new javax.swing.JList<>();
         jLabel28 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
-        btnAgrEmpLocal = new javax.swing.JButton();
+        btnAddEmpArea = new javax.swing.JButton();
         jLabel50 = new javax.swing.JLabel();
-        btnElimEmpLocal = new javax.swing.JButton();
+        btnElimEmpArea = new javax.swing.JButton();
         jScrollPane9 = new javax.swing.JScrollPane();
-        listEmpLocal = new javax.swing.JList<>();
+        listEmp = new javax.swing.JList<>();
+        jLabel5 = new javax.swing.JLabel();
+        btnEditArea = new javax.swing.JToggleButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        listTran = new javax.swing.JList<>();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        listTranArea = new javax.swing.JList<>();
+        jLabel53 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        btnAddTranArea = new javax.swing.JButton();
+        jLabel55 = new javax.swing.JLabel();
+        btnElimTranArea = new javax.swing.JButton();
         jPanel17 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        cboLocalTran = new javax.swing.JComboBox<>();
-        btnEditTran = new javax.swing.JButton();
         btnElimTran = new javax.swing.JButton();
         btnListarTran = new javax.swing.JButton();
         btnGuardarTran = new javax.swing.JButton();
@@ -105,10 +189,10 @@ public class FrameAdmin extends javax.swing.JFrame {
         txtTipoTran = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         spTiemTran = new javax.swing.JSpinner();
-        jLabel21 = new javax.swing.JLabel();
-        cboAreaTran = new javax.swing.JComboBox<>();
         cboTran = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnEditTran = new javax.swing.JToggleButton();
         jPanel18 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
@@ -133,16 +217,19 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnAgrEmpLocal2 = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
         btnElimEmpLocal2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         treeColas = new javax.swing.JTree();
+        jLabel8 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtBitacora = new javax.swing.JTextArea();
         jLabel41 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel21 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -151,17 +238,16 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnMapa = new javax.swing.JButton();
         cboLocalesMapa = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        btnNoti = new javax.swing.JButton();
-        txtNumero = new javax.swing.JTextField();
-        txtMensaje = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        btnCambiarCuentaAdmin = new javax.swing.JMenuItem();
-        btnCerrarSesionAdmin = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tabbedPane.setBackground(new java.awt.Color(153, 204, 255));
         tabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -171,14 +257,19 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(125, 177, 229));
         jPanel1.setForeground(new java.awt.Color(125, 177, 229));
+        jPanel1.setLayout(null);
 
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/user.png"))); // NOI18N
         jLabel10.setText(" Administración de usuarios");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(60, 50, 269, 24);
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Tipo de usuario");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(140, 160, 220, 17);
 
         cboTipoUser.setBackground(new java.awt.Color(50, 152, 255));
         cboTipoUser.setForeground(new java.awt.Color(255, 255, 255));
@@ -188,11 +279,20 @@ public class FrameAdmin extends javax.swing.JFrame {
                 cboTipoUserActionPerformed(evt);
             }
         });
+        jPanel1.add(cboTipoUser);
+        cboTipoUser.setBounds(140, 190, 220, 23);
 
-        cboListarUser.setBackground(new java.awt.Color(34, 131, 229));
-        cboListarUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        cboListarUser.setForeground(new java.awt.Color(255, 255, 255));
-        cboListarUser.setText("Listar usuarios registrados");
+        btnListarUser.setBackground(new java.awt.Color(34, 131, 229));
+        btnListarUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnListarUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnListarUser.setText("Listar usuarios registrados");
+        btnListarUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnListarUser);
+        btnListarUser.setBounds(520, 340, 220, 35);
 
         btnGuardarUser.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -204,15 +304,23 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnGuardarUserActionPerformed(evt);
             }
         });
+        jPanel1.add(btnGuardarUser);
+        btnGuardarUser.setBounds(140, 520, 220, 35);
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Nombre");
+        jPanel1.add(jLabel13);
+        jLabel13.setBounds(140, 230, 220, 17);
 
         txtNomUser.setBackground(new java.awt.Color(204, 227, 255));
         txtNomUser.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel1.add(txtNomUser);
+        txtNomUser.setBounds(140, 260, 220, 23);
 
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Identidad");
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(140, 300, 55, 17);
 
         txtIdUser.setBackground(new java.awt.Color(204, 227, 255));
         txtIdUser.setForeground(new java.awt.Color(51, 51, 51));
@@ -221,153 +329,86 @@ public class FrameAdmin extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jPanel1.add(txtIdUser);
+        txtIdUser.setBounds(140, 330, 220, 23);
 
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Nombre de usuario");
+        jPanel1.add(jLabel15);
+        jLabel15.setBounds(140, 370, 220, 17);
 
         txtNomDeUsuario.setBackground(new java.awt.Color(204, 227, 255));
         txtNomDeUsuario.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel1.add(txtNomDeUsuario);
+        txtNomDeUsuario.setBounds(140, 400, 220, 23);
 
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Contraseña");
+        jPanel1.add(jLabel16);
+        jLabel16.setBounds(140, 440, 220, 17);
 
         txtPassUser.setBackground(new java.awt.Color(204, 227, 255));
         txtPassUser.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel1.add(txtPassUser);
+        txtPassUser.setBounds(140, 470, 220, 23);
 
-        pnlLocal.setBackground(new java.awt.Color(125, 177, 229));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        jLabel3.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(-7, -10, 1270, 130);
 
-        lblCboUser.setForeground(new java.awt.Color(255, 255, 255));
-        lblCboUser.setText("Local");
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(0, 0, 900, 100);
 
-        cboLocales.setBackground(new java.awt.Color(50, 152, 255));
-        cboLocales.setForeground(new java.awt.Color(255, 255, 255));
-        cboLocales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-        cboLocales.addActionListener(new java.awt.event.ActionListener() {
+        btnElimUser.setBackground(new java.awt.Color(34, 131, 229));
+        btnElimUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnElimUser.setText("Eliminar usuario");
+        jPanel1.add(btnElimUser);
+        btnElimUser.setBounds(520, 290, 220, 35);
+
+        btnEditUser.setBackground(new java.awt.Color(34, 131, 229));
+        btnEditUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEditUser.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditUser.setText("Modificar usuario");
+        btnEditUser.setSize(new java.awt.Dimension(220, 35));
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboLocalesActionPerformed(evt);
+                btnEditUserActionPerformed(evt);
             }
         });
+        jPanel1.add(btnEditUser);
+        btnEditUser.setBounds(520, 240, 220, 35);
 
-        javax.swing.GroupLayout pnlLocalLayout = new javax.swing.GroupLayout(pnlLocal);
-        pnlLocal.setLayout(pnlLocalLayout);
-        pnlLocalLayout.setHorizontalGroup(
-            pnlLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblCboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(cboLocales, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlLocalLayout.setVerticalGroup(
-            pnlLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlLocalLayout.createSequentialGroup()
-                .addComponent(lblCboUser)
-                .addGap(12, 12, 12)
-                .addComponent(cboLocales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        lblCboUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblCboUser.setText("Usuarios registrados");
+        jPanel1.add(lblCboUser);
+        lblCboUser.setBounds(520, 160, 220, 17);
 
-        pnlArea.setBackground(new java.awt.Color(125, 177, 229));
-
-        lblCboUser1.setForeground(new java.awt.Color(255, 255, 255));
-        lblCboUser1.setText("Area");
-
-        cboAreas.setBackground(new java.awt.Color(50, 152, 255));
-        cboAreas.setForeground(new java.awt.Color(255, 255, 255));
-        cboAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-
-        javax.swing.GroupLayout pnlAreaLayout = new javax.swing.GroupLayout(pnlArea);
-        pnlArea.setLayout(pnlAreaLayout);
-        pnlAreaLayout.setHorizontalGroup(
-            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblCboUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(cboAreas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlAreaLayout.setVerticalGroup(
-            pnlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAreaLayout.createSequentialGroup()
-                .addComponent(lblCboUser1)
-                .addGap(12, 12, 12)
-                .addComponent(cboAreas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 8, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cboTipoUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14)
-                                    .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(160, 160, 160)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pnlArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnlLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(205, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel10)
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(12, 12, 12)
-                        .addComponent(cboTipoUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel13)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtNomUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel14)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtIdUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel15)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtNomDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel16)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtPassUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboListarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(pnlLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(160, Short.MAX_VALUE))
-        );
+        cboUsuarios.setBackground(new java.awt.Color(50, 152, 255));
+        cboUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        cboUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        cboUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboUsuariosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cboUsuarios);
+        cboUsuarios.setBounds(520, 190, 220, 23);
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 994, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
         );
 
         tabbedPane.addTab("Usuarios", jPanel14);
@@ -375,33 +416,39 @@ public class FrameAdmin extends javax.swing.JFrame {
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel8.setBackground(new java.awt.Color(125, 177, 229));
+        jPanel8.setLayout(null);
 
         jLabel17.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/map.png"))); // NOI18N
         jLabel17.setText(" Administración de locales");
+        jPanel8.add(jLabel17);
+        jLabel17.setBounds(60, 50, 445, 24);
 
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Local");
+        jLabel19.setText("Locales registrados");
+        jPanel8.add(jLabel19);
+        jLabel19.setBounds(520, 160, 220, 17);
 
         cboLocal.setBackground(new java.awt.Color(50, 152, 255));
         cboLocal.setForeground(new java.awt.Color(255, 255, 255));
         cboLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-
-        btnEditLocal.setBackground(new java.awt.Color(34, 131, 229));
-        btnEditLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnEditLocal.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditLocal.setText("Modificar local");
+        jPanel8.add(cboLocal);
+        cboLocal.setBounds(520, 190, 220, 23);
 
         btnElimLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnElimLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnElimLocal.setText("Eliminar local");
+        jPanel8.add(btnElimLocal);
+        btnElimLocal.setBounds(520, 290, 220, 35);
 
         btnListarLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnListarLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnListarLocal.setText("Listar locales registrados");
+        jPanel8.add(btnListarLocal);
+        btnListarLocal.setBounds(520, 340, 220, 35);
 
         btnGuardarLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -413,145 +460,152 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnGuardarLocalActionPerformed(evt);
             }
         });
+        jPanel8.add(btnGuardarLocal);
+        btnGuardarLocal.setBounds(140, 570, 310, 35);
 
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Nombre");
+        jPanel8.add(jLabel20);
+        jLabel20.setBounds(140, 160, 220, 17);
 
         txtNomLocal.setBackground(new java.awt.Color(204, 227, 255));
         txtNomLocal.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel8.add(txtNomLocal);
+        txtNomLocal.setBounds(140, 190, 220, 23);
 
         jLabel46.setForeground(new java.awt.Color(255, 255, 255));
         jLabel46.setText("Longitud");
+        jPanel8.add(jLabel46);
+        jLabel46.setBounds(140, 300, 135, 17);
 
         jLabel47.setForeground(new java.awt.Color(255, 255, 255));
         jLabel47.setText("Latitud");
+        jPanel8.add(jLabel47);
+        jLabel47.setBounds(140, 230, 220, 17);
 
         spLatitud.setModel(new javax.swing.SpinnerNumberModel(-90.0d, -90.0d, 90.0d, 1.0d));
+        jPanel8.add(spLatitud);
+        spLatitud.setBounds(140, 260, 220, 23);
 
         spLongitud.setModel(new javax.swing.SpinnerNumberModel(-180.0d, -180.0d, 180.0d, 1.0d));
+        jPanel8.add(spLongitud);
+        spLongitud.setBounds(140, 330, 220, 23);
 
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Gerente asignado");
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel4.setText("jLabel3");
+        jLabel4.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel8.add(jLabel4);
+        jLabel4.setBounds(-7, -10, 1270, 130);
 
-        cboGerLocal.setBackground(new java.awt.Color(50, 152, 255));
-        cboGerLocal.setForeground(new java.awt.Color(255, 255, 255));
-        cboGerLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        listGerLocal.setBackground(new java.awt.Color(204, 227, 255));
+        listGerLocal.setForeground(new java.awt.Color(51, 51, 51));
+        listGerLocal.setModel(new DefaultListModel());
+        jScrollPane10.setViewportView(listGerLocal);
 
-        rbtnElimGerLocal.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnElimGerLocal.setText("Eliminar gerente actual ");
+        jPanel8.add(jScrollPane10);
+        jScrollPane10.setBounds(320, 400, 130, 90);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(txtNomLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160)
-                        .addComponent(cboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(160, 160, 160)
-                        .addComponent(btnEditLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(245, 245, 245)
-                        .addComponent(btnElimLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(spLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(160, 160, 160)
-                        .addComponent(btnListarLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboGerLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtnElimGerLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardarLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel17)
-                .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel19))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNomLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel47)
-                        .addGap(12, 12, 12)
-                        .addComponent(spLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(btnEditLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(3, 3, 3)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel46))
-                    .addComponent(btnElimLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnListarLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jLabel22)
-                .addGap(12, 12, 12)
-                .addComponent(cboGerLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(rbtnElimGerLocal)
-                .addGap(18, 18, 18)
-                .addComponent(btnGuardarLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jLabel42.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel42.setText("Gerentes");
+        jPanel8.add(jLabel42);
+        jLabel42.setBounds(140, 370, 90, 17);
 
-        jPanel15.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jLabel51.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel51.setText("Asignado");
+        jPanel8.add(jLabel51);
+        jLabel51.setBounds(320, 370, 90, 17);
+
+        btnAddGer.setBackground(new java.awt.Color(34, 131, 229));
+        btnAddGer.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAddGer.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddGer.setText("Asignar");
+        btnAddGer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGerActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnAddGer);
+        btnAddGer.setBounds(140, 510, 130, 35);
+
+        jLabel52.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel52.setText("->");
+        jPanel8.add(jLabel52);
+        jLabel52.setBounds(290, 440, 16, 17);
+
+        btnElimGer.setBackground(new java.awt.Color(34, 131, 229));
+        btnElimGer.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimGer.setForeground(new java.awt.Color(255, 255, 255));
+        btnElimGer.setText("Eliminar");
+        btnElimGer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimGerActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnElimGer);
+        btnElimGer.setBounds(320, 510, 130, 35);
+
+        listGer.setBackground(new java.awt.Color(204, 227, 255));
+        listGer.setForeground(new java.awt.Color(51, 51, 51));
+        listGer.setModel(new DefaultListModel());
+        jScrollPane11.setViewportView(listGer);
+
+        jPanel8.add(jScrollPane11);
+        jScrollPane11.setBounds(140, 400, 130, 90);
+
+        btnEditLocal.setBackground(new java.awt.Color(34, 131, 229));
+        btnEditLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEditLocal.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditLocal.setText("Modificar local");
+        btnEditLocal.setSize(new java.awt.Dimension(220, 35));
+        btnEditLocal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditLocalActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnEditLocal);
+        btnEditLocal.setBounds(520, 240, 220, 35);
+
+        jPanel15.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 660));
 
         tabbedPane.addTab("Locales", jPanel15);
 
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel13.setBackground(new java.awt.Color(125, 177, 229));
+        jPanel13.setLayout(null);
 
         jLabel36.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(255, 255, 255));
         jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/map-pin.png"))); // NOI18N
         jLabel36.setText(" Administración de áreas");
+        jPanel13.add(jLabel36);
+        jLabel36.setBounds(60, 50, 445, 24);
 
         jLabel37.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel37.setText("Área");
+        jLabel37.setText("Áreas registradas");
+        jPanel13.add(jLabel37);
+        jLabel37.setBounds(520, 160, 220, 17);
 
         cboArea.setBackground(new java.awt.Color(50, 152, 255));
         cboArea.setForeground(new java.awt.Color(255, 255, 255));
         cboArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-
-        btnEditLocal1.setBackground(new java.awt.Color(34, 131, 229));
-        btnEditLocal1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnEditLocal1.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditLocal1.setText("Modificar área");
+        jPanel13.add(cboArea);
+        cboArea.setBounds(520, 190, 220, 23);
 
         btnElimLocal1.setBackground(new java.awt.Color(34, 131, 229));
         btnElimLocal1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimLocal1.setForeground(new java.awt.Color(255, 255, 255));
         btnElimLocal1.setText("Eliminar área");
+        jPanel13.add(btnElimLocal1);
+        btnElimLocal1.setBounds(520, 290, 220, 35);
 
         btnListarLocal1.setBackground(new java.awt.Color(34, 131, 229));
         btnListarLocal1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarLocal1.setForeground(new java.awt.Color(255, 255, 255));
         btnListarLocal1.setText("Listar áreas registradas");
+        jPanel13.add(btnListarLocal1);
+        btnListarLocal1.setBounds(520, 340, 220, 35);
 
         btnGuardarArea.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -563,190 +617,188 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnGuardarAreaActionPerformed(evt);
             }
         });
+        jPanel13.add(btnGuardarArea);
+        btnGuardarArea.setBounds(140, 530, 220, 35);
 
         jLabel39.setForeground(new java.awt.Color(255, 255, 255));
         jLabel39.setText("Nombre");
+        jPanel13.add(jLabel39);
+        jLabel39.setBounds(140, 160, 220, 17);
 
         txtNomArea.setBackground(new java.awt.Color(204, 227, 255));
         txtNomArea.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel13.add(txtNomArea);
+        txtNomArea.setBounds(140, 190, 220, 23);
 
         jLabel40.setForeground(new java.awt.Color(255, 255, 255));
         jLabel40.setText("Local");
+        jPanel13.add(jLabel40);
+        jLabel40.setBounds(140, 230, 220, 17);
 
         cboLocalArea.setBackground(new java.awt.Color(50, 152, 255));
         cboLocalArea.setForeground(new java.awt.Color(255, 255, 255));
         cboLocalArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        jPanel13.add(cboLocalArea);
+        cboLocalArea.setBounds(140, 260, 220, 23);
 
-        listEmpAsigLocal.setBackground(new java.awt.Color(204, 227, 255));
-        listEmpAsigLocal.setForeground(new java.awt.Color(51, 51, 51));
-        listEmpAsigLocal.setModel(new DefaultListModel());
-        jScrollPane8.setViewportView(listEmpAsigLocal);
+        listEmpArea.setBackground(new java.awt.Color(204, 227, 255));
+        listEmpArea.setForeground(new java.awt.Color(51, 51, 51));
+        listEmpArea.setModel(new DefaultListModel());
+        jScrollPane8.setViewportView(listEmpArea);
+
+        jPanel13.add(jScrollPane8);
+        jScrollPane8.setBounds(270, 330, 90, 130);
 
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Empleados");
+        jPanel13.add(jLabel28);
+        jLabel28.setBounds(140, 300, 100, 17);
 
         jLabel49.setForeground(new java.awt.Color(255, 255, 255));
         jLabel49.setText("Asignados");
+        jPanel13.add(jLabel49);
+        jLabel49.setBounds(270, 300, 90, 17);
 
-        btnAgrEmpLocal.setBackground(new java.awt.Color(34, 131, 229));
-        btnAgrEmpLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnAgrEmpLocal.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgrEmpLocal.setText("Agregar");
-        btnAgrEmpLocal.addActionListener(new java.awt.event.ActionListener() {
+        btnAddEmpArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnAddEmpArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAddEmpArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddEmpArea.setText("Agregar");
+        btnAddEmpArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgrEmpLocalActionPerformed(evt);
+                btnAddEmpAreaActionPerformed(evt);
             }
         });
+        jPanel13.add(btnAddEmpArea);
+        btnAddEmpArea.setBounds(140, 480, 90, 35);
 
         jLabel50.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(255, 255, 255));
         jLabel50.setText("->");
+        jPanel13.add(jLabel50);
+        jLabel50.setBounds(240, 390, 16, 17);
 
-        btnElimEmpLocal.setBackground(new java.awt.Color(34, 131, 229));
-        btnElimEmpLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnElimEmpLocal.setForeground(new java.awt.Color(255, 255, 255));
-        btnElimEmpLocal.setText("Eliminar");
-        btnElimEmpLocal.addActionListener(new java.awt.event.ActionListener() {
+        btnElimEmpArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnElimEmpArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimEmpArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnElimEmpArea.setText("Eliminar");
+        btnElimEmpArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnElimEmpLocalActionPerformed(evt);
+                btnElimEmpAreaActionPerformed(evt);
             }
         });
+        jPanel13.add(btnElimEmpArea);
+        btnElimEmpArea.setBounds(270, 480, 90, 35);
 
-        listEmpLocal.setBackground(new java.awt.Color(204, 227, 255));
-        listEmpLocal.setForeground(new java.awt.Color(51, 51, 51));
-        listEmpLocal.setModel(new DefaultListModel());
-        jScrollPane9.setViewportView(listEmpLocal);
+        listEmp.setBackground(new java.awt.Color(204, 227, 255));
+        listEmp.setForeground(new java.awt.Color(51, 51, 51));
+        listEmp.setModel(new DefaultListModel());
+        jScrollPane9.setViewportView(listEmp);
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel40, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cboLocalArea, javax.swing.GroupLayout.Alignment.LEADING, 0, 220, Short.MAX_VALUE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel13Layout.createSequentialGroup()
-                                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(btnAgrEmpLocal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnElimEmpLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNomArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
-                            .addComponent(btnGuardarArea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(160, 160, 160)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel37, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btnListarLocal1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnElimLocal1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEditLocal1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cboArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(108, Short.MAX_VALUE))
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel36)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel39)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNomArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel40)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboLocalArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnElimEmpLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel13Layout.createSequentialGroup()
-                                        .addComponent(jLabel28)
-                                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                                .addGap(71, 71, 71)
-                                                .addComponent(jLabel50))))
-                                    .addGroup(jPanel13Layout.createSequentialGroup()
-                                        .addComponent(jLabel49)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAgrEmpLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(jLabel37)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditLocal1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnElimLocal1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnListarLocal1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnGuardarArea, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
-        );
+        jPanel13.add(jScrollPane9);
+        jScrollPane9.setBounds(140, 330, 90, 130);
 
-        jPanel16.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel5.setText("jLabel3");
+        jLabel5.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel13.add(jLabel5);
+        jLabel5.setBounds(-7, -10, 1270, 130);
+
+        btnEditArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnEditArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEditArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditArea.setText("Modificar área");
+        btnEditArea.setSize(new java.awt.Dimension(220, 35));
+        btnEditArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditAreaActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnEditArea);
+        btnEditArea.setBounds(520, 240, 220, 35);
+
+        listTran.setBackground(new java.awt.Color(204, 227, 255));
+        listTran.setForeground(new java.awt.Color(51, 51, 51));
+        jScrollPane12.setViewportView(listTran);
+
+        jPanel13.add(jScrollPane12);
+        jScrollPane12.setBounds(520, 420, 90, 90);
+
+        listTranArea.setBackground(new java.awt.Color(204, 227, 255));
+        listTranArea.setForeground(new java.awt.Color(51, 51, 51));
+        jScrollPane13.setViewportView(listTranArea);
+
+        jPanel13.add(jScrollPane13);
+        jScrollPane13.setBounds(650, 420, 90, 90);
+
+        jLabel53.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel53.setText("Transacciones");
+        jPanel13.add(jLabel53);
+        jLabel53.setBounds(520, 390, 84, 17);
+
+        jLabel54.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel54.setText("Asignadas");
+        jPanel13.add(jLabel54);
+        jLabel54.setBounds(650, 390, 100, 17);
+
+        btnAddTranArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnAddTranArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnAddTranArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddTranArea.setText("Agregar");
+        btnAddTranArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTranAreaActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnAddTranArea);
+        btnAddTranArea.setBounds(520, 530, 90, 35);
+
+        jLabel55.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel55.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel55.setText("->");
+        jPanel13.add(jLabel55);
+        jLabel55.setBounds(620, 470, 16, 17);
+
+        btnElimTranArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnElimTranArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimTranArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnElimTranArea.setText("Eliminar");
+        btnElimTranArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimTranAreaActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnElimTranArea);
+        btnElimTranArea.setBounds(650, 530, 90, 35);
+
+        jPanel16.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 660));
 
         tabbedPane.addTab("Áreas", jPanel16);
 
         jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel9.setBackground(new java.awt.Color(125, 177, 229));
+        jPanel9.setLayout(null);
 
         jLabel24.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/edit.png"))); // NOI18N
         jLabel24.setText(" Administración de transacciones");
-
-        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setText("Área");
-
-        cboLocalTran.setBackground(new java.awt.Color(50, 152, 255));
-        cboLocalTran.setForeground(new java.awt.Color(255, 255, 255));
-        cboLocalTran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
-        cboLocalTran.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboLocalTranActionPerformed(evt);
-            }
-        });
-
-        btnEditTran.setBackground(new java.awt.Color(34, 131, 229));
-        btnEditTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnEditTran.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditTran.setText("Modificar transacción");
+        jPanel9.add(jLabel24);
+        jLabel24.setBounds(60, 50, 315, 24);
 
         btnElimTran.setBackground(new java.awt.Color(34, 131, 229));
         btnElimTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimTran.setForeground(new java.awt.Color(255, 255, 255));
         btnElimTran.setText("Eliminar transacción");
+        jPanel9.add(btnElimTran);
+        btnElimTran.setBounds(520, 290, 220, 35);
 
         btnListarTran.setBackground(new java.awt.Color(34, 131, 229));
         btnListarTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarTran.setForeground(new java.awt.Color(255, 255, 255));
         btnListarTran.setText("Listar transacciones");
+        jPanel9.add(btnListarTran);
+        btnListarTran.setBounds(520, 340, 220, 35);
 
         btnGuardarTran.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -758,104 +810,59 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnGuardarTranActionPerformed(evt);
             }
         });
+        jPanel9.add(btnGuardarTran);
+        btnGuardarTran.setBounds(140, 340, 220, 35);
 
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setText("Tipo de transacción");
+        jPanel9.add(jLabel27);
+        jLabel27.setBounds(140, 160, 220, 17);
 
         txtTipoTran.setBackground(new java.awt.Color(204, 227, 255));
         txtTipoTran.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel9.add(txtTipoTran);
+        txtTipoTran.setBounds(140, 180, 220, 23);
 
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setText("Tiempo estimado");
+        jPanel9.add(jLabel29);
+        jLabel29.setBounds(140, 220, 220, 17);
 
         spTiemTran.setModel(new javax.swing.SpinnerNumberModel(10, 10, 120, 10));
-
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Local");
-
-        cboAreaTran.setBackground(new java.awt.Color(50, 152, 255));
-        cboAreaTran.setForeground(new java.awt.Color(255, 255, 255));
-        cboAreaTran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        jPanel9.add(spTiemTran);
+        spTiemTran.setBounds(140, 250, 220, 23);
 
         cboTran.setBackground(new java.awt.Color(50, 152, 255));
         cboTran.setForeground(new java.awt.Color(255, 255, 255));
         cboTran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        jPanel9.add(cboTran);
+        cboTran.setBounds(520, 190, 220, 23);
 
         jLabel34.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel34.setText("Transacción");
+        jLabel34.setText("Transacciones registradas");
+        jPanel9.add(jLabel34);
+        jLabel34.setBounds(520, 160, 220, 17);
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(98, 98, 98))
-                                .addComponent(cboLocalTran, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboAreaTran, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                .addComponent(txtTipoTran, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spTiemTran, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGuardarTran, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(160, 160, 160)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnElimTran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEditTran, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnListarTran, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cboTran, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel24))
-                .addContainerGap(200, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditTran, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnElimTran, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnListarTran, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboLocalTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboAreaTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel27)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtTipoTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel29)))
-                .addGap(18, 18, 18)
-                .addComponent(spTiemTran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGuardarTran, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 223, Short.MAX_VALUE))
-        );
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel6.setText("jLabel3");
+        jLabel6.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel9.add(jLabel6);
+        jLabel6.setBounds(-7, -10, 1270, 130);
 
-        jPanel17.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        btnEditTran.setBackground(new java.awt.Color(34, 131, 229));
+        btnEditTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnEditTran.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditTran.setText("Modificar transacción");
+        btnEditTran.setSize(new java.awt.Dimension(220, 35));
+        btnEditTran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditTranActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnEditTran);
+        btnEditTran.setBounds(520, 240, 220, 35);
+
+        jPanel17.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 660));
 
         tabbedPane.addTab("Transacciones", jPanel17);
 
@@ -869,12 +876,12 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/calendar.png"))); // NOI18N
         jLabel31.setText(" Administración de citas y tickets");
         jPanel10.add(jLabel31);
-        jLabel31.setBounds(100, 50, 311, 24);
+        jLabel31.setBounds(60, 50, 311, 24);
 
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setText("Local");
         jPanel10.add(jLabel32);
-        jLabel32.setBounds(100, 209, 220, 17);
+        jLabel32.setBounds(140, 290, 220, 17);
 
         cboLocalCita.setBackground(new java.awt.Color(50, 152, 255));
         cboLocalCita.setForeground(new java.awt.Color(255, 255, 255));
@@ -885,18 +892,18 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel10.add(cboLocalCita);
-        cboLocalCita.setBounds(100, 238, 220, 23);
+        cboLocalCita.setBounds(140, 320, 220, 23);
 
         jLabel33.setForeground(new java.awt.Color(255, 255, 255));
         jLabel33.setText("Área");
         jPanel10.add(jLabel33);
-        jLabel33.setBounds(100, 279, 220, 17);
+        jLabel33.setBounds(140, 360, 220, 17);
 
         cboAreaCita.setBackground(new java.awt.Color(50, 152, 255));
         cboAreaCita.setForeground(new java.awt.Color(255, 255, 255));
         cboAreaCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         jPanel10.add(cboAreaCita);
-        cboAreaCita.setBounds(100, 308, 220, 23);
+        cboAreaCita.setBounds(140, 390, 220, 23);
 
         cboGuardarCita.setBackground(new java.awt.Color(34, 131, 229));
         cboGuardarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -909,12 +916,12 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel10.add(cboGuardarCita);
-        cboGuardarCita.setBounds(100, 352, 220, 35);
+        cboGuardarCita.setBounds(140, 440, 220, 35);
 
         jLabel35.setForeground(new java.awt.Color(255, 255, 255));
         jLabel35.setText("Identidad");
         jPanel10.add(jLabel35);
-        jLabel35.setBounds(100, 86, 55, 17);
+        jLabel35.setBounds(140, 160, 55, 17);
 
         txtIdCita.setBackground(new java.awt.Color(204, 227, 255));
         txtIdCita.setForeground(new java.awt.Color(51, 51, 51));
@@ -925,7 +932,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         }
         txtIdCita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel10.add(txtIdCita);
-        txtIdCita.setBounds(100, 115, 220, 23);
+        txtIdCita.setBounds(140, 190, 220, 23);
 
         btnCargarCita.setBackground(new java.awt.Color(34, 131, 229));
         btnCargarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -937,82 +944,72 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel10.add(btnCargarCita);
-        btnCargarCita.setBounds(100, 156, 220, 35);
+        btnCargarCita.setBounds(140, 240, 220, 35);
 
         btnReenviarTicket.setBackground(new java.awt.Color(34, 131, 229));
         btnReenviarTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnReenviarTicket.setForeground(new java.awt.Color(255, 255, 255));
         btnReenviarTicket.setText("Reenviar ticket a otra área");
+        btnReenviarTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReenviarTicketActionPerformed(evt);
+            }
+        });
         jPanel10.add(btnReenviarTicket);
-        btnReenviarTicket.setBounds(100, 405, 220, 35);
+        btnReenviarTicket.setBounds(140, 490, 220, 35);
 
         pnlFechaCitaAdmin.setBackground(new java.awt.Color(125, 177, 229));
+        pnlFechaCitaAdmin.setLayout(null);
 
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setText("Fecha");
+        pnlFechaCitaAdmin.add(jLabel30);
+        jLabel30.setBounds(0, 0, 220, 17);
 
         dcCita.setBackground(new java.awt.Color(125, 177, 229));
         dcCita.setForeground(new java.awt.Color(51, 51, 51));
-
-        javax.swing.GroupLayout pnlFechaCitaAdminLayout = new javax.swing.GroupLayout(pnlFechaCitaAdmin);
-        pnlFechaCitaAdmin.setLayout(pnlFechaCitaAdminLayout);
-        pnlFechaCitaAdminLayout.setHorizontalGroup(
-            pnlFechaCitaAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFechaCitaAdminLayout.createSequentialGroup()
-                .addGroup(pnlFechaCitaAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dcCita, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
-                .addGap(0, 20, Short.MAX_VALUE))
-        );
-        pnlFechaCitaAdminLayout.setVerticalGroup(
-            pnlFechaCitaAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFechaCitaAdminLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel30)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dcCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
-        );
+        pnlFechaCitaAdmin.add(dcCita);
+        dcCita.setBounds(0, 30, 220, 23);
 
         jPanel10.add(pnlFechaCitaAdmin);
-        pnlFechaCitaAdmin.setBounds(460, 80, 240, 60);
+        pnlFechaCitaAdmin.setBounds(500, 160, 220, 50);
 
         listEmpLocal2.setBackground(new java.awt.Color(204, 227, 255));
         listEmpLocal2.setForeground(new java.awt.Color(51, 51, 51));
         jScrollPane6.setViewportView(listEmpLocal2);
 
         jPanel10.add(jScrollPane6);
-        jScrollPane6.setBounds(460, 260, 130, 130);
+        jScrollPane6.setBounds(500, 320, 130, 160);
 
         listEmpAsigLocal2.setBackground(new java.awt.Color(204, 227, 255));
         listEmpAsigLocal2.setForeground(new java.awt.Color(51, 51, 51));
         jScrollPane7.setViewportView(listEmpAsigLocal2);
 
         jPanel10.add(jScrollPane7);
-        jScrollPane7.setBounds(640, 260, 130, 130);
+        jScrollPane7.setBounds(680, 320, 130, 160);
 
         jLabel44.setForeground(new java.awt.Color(255, 255, 255));
         jLabel44.setText("Transacciones");
         jPanel10.add(jLabel44);
-        jLabel44.setBounds(460, 230, 84, 17);
+        jLabel44.setBounds(500, 290, 84, 17);
 
         jLabel45.setForeground(new java.awt.Color(255, 255, 255));
         jLabel45.setText("Asignadas");
         jPanel10.add(jLabel45);
-        jLabel45.setBounds(640, 230, 130, 17);
+        jLabel45.setBounds(680, 290, 130, 17);
 
         btnAgrEmpLocal2.setBackground(new java.awt.Color(34, 131, 229));
         btnAgrEmpLocal2.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnAgrEmpLocal2.setForeground(new java.awt.Color(255, 255, 255));
         btnAgrEmpLocal2.setText("Agregar");
         jPanel10.add(btnAgrEmpLocal2);
-        btnAgrEmpLocal2.setBounds(460, 400, 130, 35);
+        btnAgrEmpLocal2.setBounds(500, 490, 130, 35);
 
         jLabel48.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(255, 255, 255));
         jLabel48.setText("->");
         jPanel10.add(jLabel48);
-        jLabel48.setBounds(610, 320, 16, 17);
+        jLabel48.setBounds(650, 390, 16, 17);
 
         btnElimEmpLocal2.setBackground(new java.awt.Color(34, 131, 229));
         btnElimEmpLocal2.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -1024,20 +1021,29 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel10.add(btnElimEmpLocal2);
-        btnElimEmpLocal2.setBounds(640, 400, 130, 35);
+        btnElimEmpLocal2.setBounds(680, 490, 130, 35);
 
-        jPanel18.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel7.setText("jLabel3");
+        jLabel7.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel10.add(jLabel7);
+        jLabel7.setBounds(-7, -10, 1270, 130);
+
+        jPanel18.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 680));
 
         tabbedPane.addTab("Citas y tickets", jPanel18);
 
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel11.setBackground(new java.awt.Color(125, 177, 229));
+        jPanel11.setLayout(null);
 
         jLabel38.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(255, 255, 255));
         jLabel38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/users.png"))); // NOI18N
         jLabel38.setText(" Colas en tiempo real");
+        jPanel11.add(jLabel38);
+        jLabel38.setBounds(60, 50, 220, 24);
 
         treeColas.setBackground(new java.awt.Color(204, 227, 255));
         treeColas.setForeground(new java.awt.Color(51, 51, 51));
@@ -1045,28 +1051,16 @@ public class FrameAdmin extends javax.swing.JFrame {
         treeColas.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane3.setViewportView(treeColas);
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(430, Short.MAX_VALUE))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel38)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
-        );
+        jPanel11.add(jScrollPane3);
+        jScrollPane3.setBounds(140, 170, 620, 382);
 
-        jPanel19.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel8.setText("jLabel3");
+        jLabel8.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel11.add(jLabel8);
+        jLabel8.setBounds(-7, -10, 1270, 130);
+
+        jPanel19.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 680));
 
         tabbedPane.addTab("Colas", jPanel19);
 
@@ -1074,42 +1068,39 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(125, 177, 229));
         jPanel6.setForeground(new java.awt.Color(125, 177, 229));
-
-        txtBitacora.setEditable(false);
-        txtBitacora.setBackground(new java.awt.Color(204, 227, 255));
-        txtBitacora.setColumns(20);
-        txtBitacora.setForeground(new java.awt.Color(51, 51, 51));
-        txtBitacora.setRows(5);
-        jScrollPane1.setViewportView(txtBitacora);
+        jPanel6.setLayout(null);
 
         jLabel41.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(255, 255, 255));
         jLabel41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/unlock.png"))); // NOI18N
         jLabel41.setText(" Bitácora de acceso");
         jLabel41.setToolTipText("");
+        jPanel6.add(jLabel41);
+        jLabel41.setBounds(60, 50, 220, 24);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(430, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel41)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76))
-        );
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel9.setText("jLabel3");
+        jLabel9.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel6.add(jLabel9);
+        jLabel9.setBounds(-7, -10, 1270, 130);
 
-        jPanel20.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        jPanel6.add(jScrollPane2);
+        jScrollPane2.setBounds(150, 170, 690, 420);
+
+        jPanel20.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 680));
 
         tabbedPane.addTab("Bitácora de acceso", jPanel20);
 
@@ -1121,21 +1112,21 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/Estadisticas.png"))); // NOI18N
         jPanel5.add(jLabel18);
-        jLabel18.setBounds(67, 118, 260, 211);
+        jLabel18.setBounds(100, 140, 260, 211);
 
-        jLabel23.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/bar-chart-2.png"))); // NOI18N
         jLabel23.setText(" Análisis de datos");
         jPanel5.add(jLabel23);
-        jLabel23.setBounds(100, 50, 265, 56);
+        jLabel23.setBounds(60, 50, 200, 24);
 
         btnPDF.setBackground(new java.awt.Color(34, 131, 229));
         btnPDF.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnPDF.setForeground(new java.awt.Color(255, 255, 255));
         btnPDF.setText("Imprimir reporte estadístico");
         jPanel5.add(btnPDF);
-        btnPDF.setBounds(100, 347, 210, 35);
+        btnPDF.setBounds(140, 350, 210, 35);
 
         btnMapa.setBackground(new java.awt.Color(34, 131, 229));
         btnMapa.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -1147,65 +1138,46 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel5.add(btnMapa);
-        btnMapa.setBounds(100, 470, 210, 35);
+        btnMapa.setBounds(140, 480, 210, 35);
 
         cboLocalesMapa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel5.add(cboLocalesMapa);
-        cboLocalesMapa.setBounds(100, 423, 210, 23);
+        cboLocalesMapa.setBounds(140, 430, 210, 23);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Locales");
         jPanel5.add(jLabel1);
-        jLabel1.setBounds(100, 400, 210, 17);
+        jLabel1.setBounds(140, 410, 210, 17);
 
-        btnNoti.setBackground(new java.awt.Color(34, 131, 229));
-        btnNoti.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnNoti.setForeground(new java.awt.Color(255, 255, 255));
-        btnNoti.setText("Enviar notificacion");
-        btnNoti.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNotiActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnNoti);
-        btnNoti.setBounds(420, 470, 210, 35);
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
+        jLabel12.setText("jLabel3");
+        jLabel12.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel5.add(jLabel12);
+        jLabel12.setBounds(-7, -10, 1270, 130);
 
-        txtNumero.setText("numero");
-        jPanel5.add(txtNumero);
-        txtNumero.setBounds(420, 340, 210, 23);
-
-        txtMensaje.setText("mensaje");
-        jPanel5.add(txtMensaje);
-        txtMensaje.setBounds(420, 390, 210, 23);
-
-        jPanel21.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 630));
+        jPanel21.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 680));
 
         tabbedPane.addTab("Análisis de datos", jPanel21);
 
-        getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, 0, 1040, 630));
+        getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, 0, 1130, 660));
 
-        jMenuBar1.setBackground(new java.awt.Color(34, 131, 229));
-
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/user.png"))); // NOI18N
         jMenu1.setText("Cuenta");
 
-        btnCambiarCuentaAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/log-out.png"))); // NOI18N
-        btnCambiarCuentaAdmin.setText("Cerrar sesion");
-        btnCambiarCuentaAdmin.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Cambiar de cuenta");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarCuentaAdminActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(btnCambiarCuentaAdmin);
+        jMenu1.add(jMenuItem1);
 
-        btnCerrarSesionAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/user-plus.png"))); // NOI18N
-        btnCerrarSesionAdmin.setText("Cambiar de cuenta");
-        btnCerrarSesionAdmin.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setText("Cerrar sesión");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionAdminActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(btnCerrarSesionAdmin);
+        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -1214,145 +1186,148 @@ public class FrameAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCambiarCuentaAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCuentaAdminActionPerformed
-        this.setVisible(false);
-//        bitacora.add("Cierre de sesión " + formato.format(fecha)
-//            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
-//        usuarioIngresado = null;
-    }//GEN-LAST:event_btnCambiarCuentaAdminActionPerformed
-
-    private void btnCerrarSesionAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionAdminActionPerformed
-        this.setVisible(false);
-        this.setVisible(true);
-//        bitacora.add("Cierre de sesión " + formato.format(fecha)
-//            + " (Usuario: " + usuarioIngresado.getNombreUsuario() + ")\n");
-//        usuarioIngresado = null;
-    }//GEN-LAST:event_btnCerrarSesionAdminActionPerformed
-
     private void btnGuardarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUserActionPerformed
         int tipo = cboTipoUser.getSelectedIndex();
         boolean agregado = false;
-        if (txtNomUser.getText().isEmpty() || txtIdUser.getText().isEmpty()
-                || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
+        if (txtNomUser.getText().isEmpty() || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
         } else {
-            switch (tipo) {
-                case 1: {
-                    ds.addAdmin(txtIdUser.getText(), txtNomUser.getText(),
-                            txtNomDeUsuario.getText(), txtPassUser.getText());
-                    agregado = true;
-                    break;
+            if (ds.idValido(txtIdUser.getText())) {
+                if (ds.userValido(txtNomDeUsuario.getText())) {
+                    if (btnGuardarUser.getText().equals("Guardar")) {
+                        // Agregar nuevo usuario
+                        switch (tipo) {
+                            case 1: {
+                                ds.addAdmin(txtIdUser.getText(), txtNomUser.getText(),
+                                        txtNomDeUsuario.getText(), txtPassUser.getText());
+                                agregado = true;
+                                break;
+                            }
+                            case 2: {
+                                ds.addGerSinLocal(txtIdUser.getText(), txtNomUser.getText(),
+                                        txtNomDeUsuario.getText(), txtPassUser.getText());
+                                agregado = true;
+                                break;
+                            }
+                            case 3: {
+                                ds.addEmpSinArea(txtIdUser.getText(), txtNomUser.getText(),
+                                        txtNomDeUsuario.getText(), txtPassUser.getText());
+                                agregado = true;
+                                break;
+                            }
+                            default: {
+                                JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de usuario.",
+                                        "Tipo de usuario nulo", 2);
+                                break;
+                            }
+                        }
+                    } else {
+                        // MODIFICAR AQUI
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "El nombre de usuario ingresado ya está ocupado.", "", 2);
                 }
-                case 2: {
-                    // ds.agregarGerente(id, nom, nomUser, pass, //);
-                    agregado = true;
-                    break;
-                }
-                case 3: {
-                    // ds.agregarEmpleado(id, nom, nomUser, pass, //);
-                    agregado = true;
-                    break;
-                }
-                default: {
-                    JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de usuario.", "Tipo de usuario nulo", 2);
-                    break;
-                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un usuario con la identidad ingresada.", "", 2);
             }
         }
         if (agregado) {
-            actualizarTodo();
+            cboUsuarios.setModel(ds.llenarCboUsuarios());
             JOptionPane.showMessageDialog(this, "Usuario agregado exitosamente.", "", 1);
         }
     }//GEN-LAST:event_btnGuardarUserActionPerformed
 
     private void btnGuardarLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLocalActionPerformed
-        /*boolean agregado = false;
         if (txtNomLocal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
-        }
-        else {
-            Local local = new Local(txtNomLocal.getText(), (double)spLatitud.getValue(), (double)spLongitud.getValue());
-            try {
-                local.setGerente((Gerente)cboGerLocal.getSelectedItem());
-            } catch (Exception e) {
+        } else {
+            if (btnGuardarLocal.getText().equals("Guardar")) {
+                DefaultListModel modeloGer = (DefaultListModel) listEmp.getModel();
+                DefaultListModel modeloGerLocal = (DefaultListModel) listGerLocal.getModel();
+                ds.addLocal(txtNomLocal.getText(),
+                        String.valueOf(spLatitud.getValue()),
+                        String.valueOf(spLongitud.getValue()));
+                txtNomLocal.setText(null);
+                Local local = ds.getLocales().get(ds.getLocales().size() - 1);
+                if (listGerLocal.getModel().getSize() == 1) {
+                    Gerente ger = (Gerente) modeloGerLocal.getElementAt(0);
+                    ds.addGerente(ger.getIdentidad(), ger.getNombre(),
+                            ger.getNombreUsuario(), ger.getPass(), local);
+                    ds.elimGerSinLocal(ger.getId());
+                }
+                cboLocal.setModel(ds.llenarCboLocales());
+                JOptionPane.showMessageDialog(this, "Local agregado exitosamente.", "", 1);
+            } else {
+                // MODIFICAR AQUI
             }
-            locales.add(local);
-            agregado = true;
         }
-        if (agregado) {
-            actualizarTodo();
-            JOptionPane.showMessageDialog(this, "Local agregado exitosamente.", "", 1);
-        }*/
     }//GEN-LAST:event_btnGuardarLocalActionPerformed
 
     private void btnGuardarAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAreaActionPerformed
         if (txtNomArea.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         } else {
-            ArrayList<Empleado> empleados = new ArrayList();
-            DefaultListModel modeloEmp = (DefaultListModel) listEmpAsigLocal.getModel();
-            try {
-                for (Object emp : modeloEmp.toArray()) {
-                    if (emp instanceof Empleado) {
-                        empleados.add((Empleado) emp);
+            if (btnGuardarArea.getText().equals("Guardar")) {
+                DefaultListModel modeloEmp = (DefaultListModel) listEmp.getModel();
+                DefaultListModel modeloEmpArea = (DefaultListModel) listEmpArea.getModel();
+                if (cboLocalArea.getSelectedIndex() >= 0) {
+                    Local local = (Local) cboLocalArea.getSelectedItem();
+                    ds.addArea(txtNomArea.getText(), local);
+                    Area area = local.getAreas().get(local.getAreas().size() - 1);
+                    if (modeloEmpArea.getSize() >= 1) {
+                        for (Object empleado : modeloEmpArea.toArray()) {
+                            // Agregando los nuevos empleados a la tabla
+                            Empleado emp = (Empleado) empleado;
+                            ds.addEmpleado(emp.getIdentidad(), emp.getNombre(),
+                                    emp.getNombreUsuario(), emp.getPass(), area);
+                            ds.elimEmpSinArea(((Empleado) emp).getId());
+                        }
                     }
+                    cboArea.setModel(ds.llenarCboAreas());
+                    JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
                 }
-                ((Local) cboLocalArea.getSelectedItem()).getAreas().add(new Area(txtNomArea.getText(), empleados));
-                actualizarTodo();
-                JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
-            } catch (Exception e) {
+            } else {
+                // MODIFICAR AQUI
             }
         }
     }//GEN-LAST:event_btnGuardarAreaActionPerformed
 
-    private void btnAgrEmpLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgrEmpLocalActionPerformed
-        if (listEmpLocal.getSelectedIndex() >= 0) {
-            DefaultListModel listEmpModel = (DefaultListModel) listEmpLocal.getModel();
-            DefaultListModel listEmpAsigLocalModel = (DefaultListModel) listEmpAsigLocal.getModel();
-            Empleado empSeleccionado = (Empleado) listEmpModel.elementAt(listEmpLocal.getSelectedIndex());
-            listEmpAsigLocalModel.addElement(empSeleccionado);
-            listEmpModel.removeElement(empSeleccionado);
-            usuarios.remove(empSeleccionado);
+    private void btnAddEmpAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpAreaActionPerformed
+        if (listEmp.getSelectedIndex() >= 0) {
+            DefaultListModel listEmpModel = (DefaultListModel) listEmp.getModel();
+            DefaultListModel listEmpAreaModel = (DefaultListModel) listEmpArea.getModel();
+            Empleado emp = (Empleado) listEmpModel.elementAt(listEmp.getSelectedIndex());
+            listEmpAreaModel.addElement(emp);
+            listEmpModel.removeElement(emp);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un empleado.", "", 2);
         }
-    }//GEN-LAST:event_btnAgrEmpLocalActionPerformed
+    }//GEN-LAST:event_btnAddEmpAreaActionPerformed
 
-    private void btnElimEmpLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpLocalActionPerformed
-        if (listEmpAsigLocal.getSelectedIndex() >= 0) {
-            DefaultListModel listEmpModel = (DefaultListModel) listEmpLocal.getModel();
-            DefaultListModel listEmpAsigLocalModel = (DefaultListModel) listEmpAsigLocal.getModel();
-            Empleado empSeleccionado = (Empleado) listEmpAsigLocalModel.elementAt(listEmpAsigLocal.getSelectedIndex());
-            listEmpModel.addElement(empSeleccionado);
-            listEmpAsigLocalModel.removeElement(empSeleccionado);
-            usuarios.add(empSeleccionado);
+    private void btnElimEmpAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpAreaActionPerformed
+        if (listEmpArea.getSelectedIndex() >= 0) {
+            DefaultListModel listEmpModel = (DefaultListModel) listEmp.getModel();
+            DefaultListModel listEmpAreaModel = (DefaultListModel) listEmpArea.getModel();
+            Empleado emp = (Empleado) listEmpAreaModel.elementAt(listEmpArea.getSelectedIndex());
+            listEmpModel.addElement(emp);
+            listEmpAreaModel.removeElement(emp);
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un empleado.", "", 2);
         }
-    }//GEN-LAST:event_btnElimEmpLocalActionPerformed
-
-    private void cboLocalTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocalTranActionPerformed
-        /*Local localSeleccionado = (Local) cboLocalTran.getSelectedItem();
-        llenarCboAreas((Local) cboLocalTran.getSelectedItem());
-        DefaultComboBoxModel cboAreaModel = new DefaultComboBoxModel();
-        for (Area area : localSeleccionado.getAreas()) {
-            cboAreaModel.addElement(area);
-        }*/
-        cboAreaTran.setModel(llenarCboAreas((Local) cboLocalTran.getSelectedItem()));
-    }//GEN-LAST:event_cboLocalTranActionPerformed
+    }//GEN-LAST:event_btnElimEmpAreaActionPerformed
 
     private void btnGuardarTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarTranActionPerformed
         if (txtTipoTran.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         } else {
-            if (cboLocalTran.getSelectedIndex() >= 0) {
-                Local local = (Local) cboLocalTran.getSelectedItem();
-                if (cboAreaTran.getSelectedIndex() >= 0) {
-                    Area area = (Area) cboAreaTran.getSelectedItem();
-                    //area.getTransacciones().add(new Transaccion(txtTipoTran.getText(), (Integer)spTiemTran.getValue()));
-                    actualizarTodo();
-                    JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
-                }
+            if (btnGuardarTran.getText().equals("Guardar")) {
+                ds.addTranSinArea(txtTipoTran.getText(),
+                        (Integer) spTiemTran.getValue());
+                cboTran.setModel(ds.llenarCboTransacciones());
+                JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
+            } else {
+                // MODIFICAR AQUI
             }
         }
     }//GEN-LAST:event_btnGuardarTranActionPerformed
@@ -1362,17 +1337,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cboGuardarCitaActionPerformed
 
     private void btnCargarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCitaActionPerformed
-        /*Cliente clienteSeleccionado = buscarCliente();
-        if (clienteSeleccionado instanceof Cita) {
-            dcCita.setDate(((Cita)clienteSeleccionado).getFechaAgendada());
-        }
-        DefaultListModel listTranModel = new DefaultListModel();
-        for (Transaccion tran : clienteSeleccionado.getTransacciones()) {
-            listTranModel.addElement(tran);
-        }
-        listEmpAsigLocal2.setModel(listTranModel);
-        // cboLocalCita.setSelectedItem(local);
-        cboAreaCita.setSelectedItem(area);*/
+
     }//GEN-LAST:event_btnCargarCitaActionPerformed
 
     private void btnElimEmpLocal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpLocal2ActionPerformed
@@ -1380,14 +1345,16 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnElimEmpLocal2ActionPerformed
 
     private void cboLocalCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocalCitaActionPerformed
-        cboAreaCita.setModel(llenarCboAreas((Local) cboLocalCita.getSelectedItem()));
+        cboAreaCita.setModel(ds.llenarCboAreas((Local) cboLocalCita.getSelectedItem()));
     }//GEN-LAST:event_cboLocalCitaActionPerformed
 
     private void btnMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMapaActionPerformed
         if (cboLocalesMapa.getSelectedIndex() >= 0) {
-            ImageIcon icono = new ImageIcon("loadingGifChiki.gif");
-            JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.", "Cargando mapa", 1, icono);
-            //JOptionPane.showMessageDialog(this, "Por favor espere un segundo mientras carga el mapa del local.");
+            ImageIcon icono = new ImageIcon(FrameAdmin.class.getResource("cargando.gif").getFile());
+            JOptionPane.showMessageDialog(this,
+                    "Por favor espere unos segundos mientras carga el mapa del local."
+                    + "\nPresione OK para continuar.",
+                    "Cargando mapa", 1, icono);
             Local local = (Local) cboLocalesMapa.getSelectedItem();
             new Mapa().coordenadas(local.getLatitud(), local.getLongitud(), local.getNombre());
         }
@@ -1397,38 +1364,181 @@ public class FrameAdmin extends javax.swing.JFrame {
         actualizarTodo();
     }//GEN-LAST:event_tabbedPaneStateChanged
 
-    private void btnNotiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotiActionPerformed
-        new Notificaciones().enviarNotificacion(txtMensaje.getText(), txtNumero.getText());
-        JOptionPane.showMessageDialog(this, "Notificacion enviada exitosamente");
-    }//GEN-LAST:event_btnNotiActionPerformed
-
     private void cboTipoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoUserActionPerformed
-        switch (cboTipoUser.getSelectedIndex()) {
-            case 1: {
-                pnlLocal.setVisible(false);
-                pnlArea.setVisible(false);
-                break;
-            }
-            case 2: {
-                cboLocales.setModel(ds.llenarCboLocales());
-                pnlLocal.setVisible(true);
-                pnlArea.setVisible(false);
-                break;
-            }
-            case 3: {
-                cboLocales.setModel(ds.llenarCboLocales());
-                pnlLocal.setVisible(true);
-                pnlArea.setVisible(true);
-                break;
-            }
-        }
+
     }//GEN-LAST:event_cboTipoUserActionPerformed
 
-    private void cboLocalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocalesActionPerformed
-        if (cboTipoUser.getSelectedIndex() == 3) {
-            cboAreas.setModel(ds.llenarCboAreas((Local)cboLocales.getSelectedItem()));
+    private void cboUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboUsuariosActionPerformed
+
+    }//GEN-LAST:event_cboUsuariosActionPerformed
+
+    private void btnListarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarUserActionPerformed
+
+    }//GEN-LAST:event_btnListarUserActionPerformed
+
+    private void btnReenviarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarTicketActionPerformed
+        // JOptionPane.showInputDialog("Ingrese la posicion de la cola ", fecha,
+        // "Reenviar ticket", 2);
+    }//GEN-LAST:event_btnReenviarTicketActionPerformed
+
+    private void btnAddGerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGerActionPerformed
+        if (listGer.getSelectedIndex() >= 0) {
+            DefaultListModel listGerModel = (DefaultListModel) listGer.getModel();
+            DefaultListModel listGerLocalModel = (DefaultListModel) listGerLocal.getModel();
+            Gerente gerente = (Gerente) listGerModel.elementAt(listGer.getSelectedIndex());
+            if (listGerLocal.getModel().getSize() == 1) {
+                Gerente asignado = (Gerente) listGerLocalModel.getElementAt(0);
+                listGerLocalModel.removeElement(asignado);
+                listGerLocalModel.addElement(gerente);
+                listGerModel.addElement(asignado);
+                listGerModel.removeElement(gerente);
+            } else {
+                listGerLocalModel.addElement(gerente);
+                listGerModel.removeElement(gerente);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un gerente.", "", 2);
         }
-    }//GEN-LAST:event_cboLocalesActionPerformed
+    }//GEN-LAST:event_btnAddGerActionPerformed
+
+    private void btnElimGerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimGerActionPerformed
+        if (listGerLocal.getSelectedIndex() >= 0) {
+            DefaultListModel listGerModel = (DefaultListModel) listGer.getModel();
+            DefaultListModel listGerLocalModel = (DefaultListModel) listGerLocal.getModel();
+            Gerente gerente = (Gerente) listGerLocalModel.elementAt(listGerLocal.getSelectedIndex());
+            listGerLocalModel.removeElement(gerente);
+            listGerModel.addElement(gerente);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un gerente.", "", 2);
+        }
+    }//GEN-LAST:event_btnElimGerActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        if (cboUsuarios.getSelectedIndex() >= 0) {
+            if (btnEditUser.getText().equals("Modificar usuario")) {
+                btnGuardarUser.setText("Guardar cambios");
+                btnEditUser.setText("Cancelar");
+                Usuario user = (Usuario) cboUsuarios.getSelectedItem();
+                if (user instanceof Administrador) {
+                    cboTipoUser.setSelectedIndex(1);
+                } else if (user instanceof Gerente) {
+                    cboTipoUser.setSelectedIndex(2);
+                } else {
+                    cboTipoUser.setSelectedIndex(3);
+                }
+                txtNomUser.setText(user.getNombre());
+                txtIdUser.setText(user.getIdentidad());
+                txtNomDeUsuario.setText(user.getNombreUsuario());
+                txtPassUser.setText(user.getPass());
+            } else {
+                btnGuardarUser.setText("Guardar");
+                btnEditUser.setText("Modificar usuario");
+                limpiarTab1();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+        }
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
+    private void btnEditLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditLocalActionPerformed
+        if (cboLocal.getSelectedIndex() >= 0) {
+            if (btnEditLocal.getText().equals("Modificar local")) {
+                btnGuardarLocal.setText("Guardar cambios");
+                btnEditLocal.setText("Cancelar");
+                Local local = (Local) cboLocal.getSelectedItem();
+                txtNomLocal.setText(local.getNombre());
+                spLatitud.setValue(Double.parseDouble(local.getLatitud()));
+                spLongitud.setValue(Double.parseDouble(local.getLongitud()));
+                listGerLocal.setModel(ds.llenarListGerente(local));
+            } else {
+                listGerLocal.setModel(new DefaultListModel());
+                btnGuardarLocal.setText("Guardar");
+                btnEditLocal.setText("Modificar local");
+                limpiarTab2();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+        }
+    }//GEN-LAST:event_btnEditLocalActionPerformed
+
+    private void btnEditAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditAreaActionPerformed
+        if (cboArea.getSelectedIndex() >= 0) {
+            if (btnEditArea.getText().equals("Modificar área")) {
+                btnGuardarArea.setText("Guardar cambios");
+                btnEditArea.setText("Cancelar");
+                Area area = (Area) cboArea.getSelectedItem();
+                txtNomArea.setText(area.getNombre());
+                listEmpArea.setModel(ds.llenarListEmpleados(area));
+                listTranArea.setModel(ds.llenarListTranArea(area));
+                for (int i = 0; i < ds.getLocales().size(); i++) {
+                    if (!ds.getLocales().get(i).getAreas().isEmpty()) {
+                        if (ds.getLocales().get(i).getAreas().contains(area)) {
+                            // cboLocalArea.setSelectedItem(ds.getLocales().get(i));
+                            cboLocalArea.setSelectedIndex(i);
+                        }
+                    }
+                }
+            } else {
+                listEmpArea.setModel(new DefaultListModel());
+                btnGuardarArea.setText("Guardar");
+                btnEditArea.setText("Modificar área");
+                limpiarTab3();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+        }
+    }//GEN-LAST:event_btnEditAreaActionPerformed
+
+    private void btnEditTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTranActionPerformed
+        if (cboArea.getSelectedIndex() >= 0) {
+            if (btnEditArea.getText().equals("Modificar transacción")) {
+                btnGuardarArea.setText("Guardar cambios");
+                btnEditArea.setText("Cancelar");
+                Transaccion tran = (Transaccion) cboTran.getSelectedItem();
+                txtTipoTran.setText(tran.getTipo());
+                spTiemTran.setValue(tran.getTiempo());
+            } else {
+                btnGuardarArea.setText("Guardar");
+                btnEditArea.setText("Modificar transacción");
+                limpiarTab4();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+        }
+    }//GEN-LAST:event_btnEditTranActionPerformed
+
+    private void btnElimTranAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimTranAreaActionPerformed
+        if (listTranArea.getSelectedIndex() >= 0) {
+            DefaultListModel listTranModel = (DefaultListModel) listTran.getModel();
+            DefaultListModel listTranAreaModel = (DefaultListModel) listTranArea.getModel();
+            Transaccion tran = (Transaccion) listTranAreaModel.elementAt(listTranArea.getSelectedIndex());
+            listTranModel.addElement(tran);
+            listTranAreaModel.removeElement(tran);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
+        }
+    }//GEN-LAST:event_btnElimTranAreaActionPerformed
+
+    private void btnAddTranAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTranAreaActionPerformed
+        if (listTran.getSelectedIndex() >= 0) {
+            DefaultListModel listTranModel = (DefaultListModel) listTran.getModel();
+            DefaultListModel listTranAreaModel = (DefaultListModel) listTranArea.getModel();
+            Transaccion tran = (Transaccion) listTranModel.elementAt(listTran.getSelectedIndex());
+            listTranAreaModel.addElement(tran);
+            listTranModel.removeElement(tran);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
+        }
+    }//GEN-LAST:event_btnAddTranAreaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1464,19 +1574,23 @@ public class FrameAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgrEmpLocal;
+    private javax.swing.JButton btnAddEmpArea;
+    private javax.swing.JButton btnAddGer;
+    private javax.swing.JButton btnAddTranArea;
     private javax.swing.JButton btnAgrEmpLocal2;
-    private javax.swing.JMenuItem btnCambiarCuentaAdmin;
     private javax.swing.JButton btnCargarCita;
-    private javax.swing.JMenuItem btnCerrarSesionAdmin;
-    private javax.swing.JButton btnEditLocal;
-    private javax.swing.JButton btnEditLocal1;
-    private javax.swing.JButton btnEditTran;
-    private javax.swing.JButton btnElimEmpLocal;
+    private javax.swing.JToggleButton btnEditArea;
+    private javax.swing.JToggleButton btnEditLocal;
+    private javax.swing.JToggleButton btnEditTran;
+    private javax.swing.JToggleButton btnEditUser;
+    private javax.swing.JButton btnElimEmpArea;
     private javax.swing.JButton btnElimEmpLocal2;
+    private javax.swing.JButton btnElimGer;
     private javax.swing.JButton btnElimLocal;
     private javax.swing.JButton btnElimLocal1;
     private javax.swing.JButton btnElimTran;
+    private javax.swing.JButton btnElimTranArea;
+    private javax.swing.JButton btnElimUser;
     private javax.swing.JButton btnGuardarArea;
     private javax.swing.JButton btnGuardarLocal;
     private javax.swing.JButton btnGuardarTran;
@@ -1484,29 +1598,25 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnListarLocal;
     private javax.swing.JButton btnListarLocal1;
     private javax.swing.JButton btnListarTran;
+    private javax.swing.JButton btnListarUser;
     private javax.swing.JButton btnMapa;
-    private javax.swing.JButton btnNoti;
     private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnReenviarTicket;
     private javax.swing.JComboBox<String> cboArea;
     private javax.swing.JComboBox<String> cboAreaCita;
-    private javax.swing.JComboBox<String> cboAreaTran;
-    private javax.swing.JComboBox<String> cboAreas;
-    private javax.swing.JComboBox<String> cboGerLocal;
     private javax.swing.JButton cboGuardarCita;
-    private javax.swing.JButton cboListarUser;
     private javax.swing.JComboBox<String> cboLocal;
     private javax.swing.JComboBox<String> cboLocalArea;
     private javax.swing.JComboBox<String> cboLocalCita;
-    private javax.swing.JComboBox<String> cboLocalTran;
-    private javax.swing.JComboBox<String> cboLocales;
     private javax.swing.JComboBox<String> cboLocalesMapa;
     private javax.swing.JComboBox<String> cboTipoUser;
     private javax.swing.JComboBox<String> cboTran;
+    private javax.swing.JComboBox<String> cboUsuarios;
     private com.toedter.calendar.JDateChooser dcCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1514,15 +1624,14 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -1533,17 +1642,31 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1560,159 +1683,41 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCboUser;
-    private javax.swing.JLabel lblCboUser1;
-    private javax.swing.JList<String> listEmpAsigLocal;
+    private javax.swing.JList<String> listEmp;
+    private javax.swing.JList<String> listEmpArea;
     private javax.swing.JList<String> listEmpAsigLocal2;
-    private javax.swing.JList<String> listEmpLocal;
     private javax.swing.JList<String> listEmpLocal2;
-    private javax.swing.JPanel pnlArea;
+    private javax.swing.JList<String> listGer;
+    private javax.swing.JList<String> listGerLocal;
+    private javax.swing.JList<String> listTran;
+    private javax.swing.JList<String> listTranArea;
     private javax.swing.JPanel pnlFechaCitaAdmin;
-    private javax.swing.JPanel pnlLocal;
-    private javax.swing.JRadioButton rbtnElimGerLocal;
     private javax.swing.JSpinner spLatitud;
     private javax.swing.JSpinner spLongitud;
     private javax.swing.JSpinner spTiemTran;
     private p2proyecto_pamelaramirez.UIAdmin tabbedPane;
     private javax.swing.JTree treeColas;
-    private javax.swing.JTextArea txtBitacora;
     private javax.swing.JFormattedTextField txtIdCita;
     private javax.swing.JFormattedTextField txtIdUser;
-    private javax.swing.JTextField txtMensaje;
     private javax.swing.JTextField txtNomArea;
     private javax.swing.JTextField txtNomDeUsuario;
     private javax.swing.JTextField txtNomLocal;
     private javax.swing.JTextField txtNomUser;
-    private javax.swing.JTextField txtNumero;
     private javax.swing.JTextField txtPassUser;
     private javax.swing.JTextField txtTipoTran;
     // End of variables declaration//GEN-END:variables
-
-    // Actualiza todas las tabs con info de arraylists
-    public void actualizarTodo() {
-        int tab = tabbedPane.getSelectedIndex();
-        // Modelos
-        DefaultComboBoxModel cboUserModel = new DefaultComboBoxModel();
-        DefaultComboBoxModel cboLocalModel = new DefaultComboBoxModel();
-        DefaultComboBoxModel cboAreaModel = new DefaultComboBoxModel();
-        DefaultComboBoxModel cboGerModel = new DefaultComboBoxModel();
-        DefaultComboBoxModel cboTranModel = new DefaultComboBoxModel();
-        DefaultListModel listEmpModel = new DefaultListModel();
-        DefaultListModel listEmpLocalModel = new DefaultListModel();
-        // Actualizar modelos
-        if (!usuarios.isEmpty()) {
-            for (Usuario usuario : usuarios) {
-                cboUserModel.addElement(usuario);
-                if (usuario instanceof Gerente) {
-                    cboGerModel.addElement(usuario);
-                } else if (usuario instanceof Empleado) {
-                    listEmpModel.addElement(usuario);
-                }
-            }
-        }
-        if (!locales.isEmpty()) {
-            for (Local local : locales) {
-                cboLocalModel.addElement(local);
-                if (!local.getAreas().isEmpty()) {
-                    for (Area area : local.getAreas()) {
-                        cboAreaModel.addElement(area);
-                        if (!area.getTransacciones().isEmpty()) {
-                            for (Transaccion tran : area.getTransacciones()) {
-                                cboTranModel.addElement(tran);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        switch (tab) {
-            case 0: {
-                // Tab usuarios
-                pnlArea.setVisible(false);
-                pnlLocal.setVisible(false);
-                //cboLocales.setModel(cboUserModel);
-                break;
-            }
-            case 1: {
-                // Tab locales
-                cboLocal.setModel(cboLocalModel);
-                cboGerLocal.setModel(cboGerModel);
-                listEmpLocal.setModel(listEmpModel);
-                listEmpAsigLocal.setModel(listEmpLocalModel);
-                break;
-            }
-            case 2: {
-                // Tab areas
-                cboLocalArea.setModel(cboLocalModel);
-                cboArea.setModel(cboAreaModel);
-                break;
-            }
-            case 3: {
-                // Tab transacciones
-                cboLocalTran.setModel(cboLocalModel);
-                cboTran.setModel(cboTranModel);
-                break;
-            }
-            case 4: {
-                // Tab citas y tickets
-                //cboLocalCita.setModel(cboLocalModel);
-                break;
-            }
-            case 5: {
-                // Tab colas
-                llenarArbolColas();
-                break;
-            }
-            case 6: {
-                // Tab bitacora
-                txtBitacora.setText(null);
-                for (String string : bitacora) {
-                    txtBitacora.setText(string);
-                }
-                break;
-            }
-            case 7: {
-                // Tab analisis de datos
-                //cboLocalesMapa.setModel(cboAreaModel);
-                cboLocalesMapa.setModel(ds.llenarCboLocales());
-                break;
-            }
-        }
-    }
-
-    public DefaultComboBoxModel llenarCboAreas(Local localSeleccionado) {
-        DefaultComboBoxModel cboAreaModel = new DefaultComboBoxModel();
-        for (Area area : localSeleccionado.getAreas()) {
-            cboAreaModel.addElement(area);
-        }
-        return cboAreaModel;
-    }
-
-    public DefaultComboBoxModel llenarCboLocales() {
-        DefaultComboBoxModel cboLocalModel = new DefaultComboBoxModel();
-        if (!locales.isEmpty()) {
-            for (Local local : locales) {
-                cboLocalModel.addElement(local);
-            }
-        }
-        return cboLocalModel;
-    }
-
-    public DefaultListModel llenarListTran(Area areaSeleccionada) {
-        DefaultListModel listTranModel = new DefaultListModel();
-        if (!areaSeleccionada.getTransacciones().isEmpty()) {
-            for (Transaccion tran : areaSeleccionada.getTransacciones()) {
-                listTranModel.addElement(tran);
-            }
-        }
-        return listTranModel;
-    }
 
     public void llenarArbolColas() {
         /*if (!locales.isEmpty()) {

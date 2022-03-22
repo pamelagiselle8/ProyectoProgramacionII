@@ -16,6 +16,12 @@ public class Local {
         this.latitud = latitud;
         this.longitud = longitud;
     }
+    
+    public Local(String nombre, Double latitud, Double longitud) {
+        this.nombre = nombre;
+        setLatitud(latitud);
+        setLongitud(longitud);
+    }
 
     public String getNombre() {
         return nombre;

@@ -9,6 +9,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 public class Login extends javax.swing.JFrame {
+    ImageIcon iconoGif = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
     DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
     SimpleDateFormat formato = new SimpleDateFormat("hh:mm:ss a dd/MM/yyyy");
@@ -67,21 +68,21 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/lock.png"))); // NOI18N
         jLabel3.setText(" Contraseña");
         pnlLogin.add(jLabel3);
-        jLabel3.setBounds(200, 360, 109, 24);
+        jLabel3.setBounds(200, 354, 109, 40);
 
         txtPassword.setBackground(new java.awt.Color(255, 229, 229));
         txtPassword.setForeground(new java.awt.Color(51, 51, 51));
         txtPassword.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtPassword.setSelectionColor(new java.awt.Color(236, 120, 120));
         pnlLogin.add(txtPassword);
-        txtPassword.setBounds(400, 360, 165, 23);
+        txtPassword.setBounds(400, 360, 165, 30);
 
         txtNombreUsuario.setBackground(new java.awt.Color(255, 229, 229));
         txtNombreUsuario.setForeground(new java.awt.Color(51, 51, 51));
         txtNombreUsuario.setSelectedTextColor(new java.awt.Color(255, 255, 255));
         txtNombreUsuario.setSelectionColor(new java.awt.Color(236, 120, 120));
         pnlLogin.add(txtNombreUsuario);
-        txtNombreUsuario.setBounds(400, 310, 165, 23);
+        txtNombreUsuario.setBounds(400, 310, 165, 30);
 
         btnIniciarSesion.setBackground(new java.awt.Color(204, 60, 60));
         btnIniciarSesion.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -146,24 +147,32 @@ public class Login extends javax.swing.JFrame {
         if (txtNombreUsuario.getText().isEmpty() || txtPassword.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
         } else {
-            boolean user = false, pass = false;
+            boolean pass = false;
             for (Usuario usuario : ds.getUsuarios()) {
-                if (usuario.getNombreUsuario().equals(txtNombreUsuario.getText())) {
-                    user = true;
-                }
-                if (usuario.getPass().equals(new String(txtPassword.getPassword()))) {
+                if (usuario.getNombreUsuario().equals(txtNombreUsuario.getText())
+                        && usuario.getPass().equals(new String(txtPassword.getPassword()))) {
                     pass = true;
+                    ImageIcon icono = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
+                    JOptionPane.showMessageDialog(this, "Bienvenido(a) de nuevo.","Sesion iniciada", 1, icono);
+                    if (usuario instanceof Administrador) {
+                        new FrameAdmin().setVisible(true);
+                    } else if (usuario instanceof Gerente) {
+                        new FrameGerente().setVisible(true);
+                    } else {
+                        // new FrameEmpleado().setVisible(true);
+                    }
+                    txtNombreUsuario.setText(null);
+                    txtPassword.setText(null);
+                    this.setVisible(false);
+                    break;
                 }
             }
-            if (user && pass) {
-                JOptionPane.showMessageDialog(this, "Bienvenido(a) de nuevo.", "Sesion iniciada", 1);
-            } else if (!user) {
-                JOptionPane.showMessageDialog(this, "Por favor verifique el nombre de usuario ingresado.", "Usuario inválido", 2);
-            } else if (!pass && user) {
-                JOptionPane.showMessageDialog(this, "Por favor verifique la contraseña ingresada.", "Contraseña incorrecta", 2);
+            if (!pass) {
+                JOptionPane.showMessageDialog(this,
+                        "Por favor verifique el nombre de usuario y contraseña ingresados.",
+                        "Credenciales inválidas", 2);
             }
-            // Bitacora aqui !!!  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            new FrameAdmin().setVisible(true);
+            // Bitacora aqui !!!  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 

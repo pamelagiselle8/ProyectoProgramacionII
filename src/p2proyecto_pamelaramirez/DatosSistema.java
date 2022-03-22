@@ -5,19 +5,113 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class DatosSistema {
+
     private Dba ds = new Dba("./DBProyecto.mdb");
     private ArrayList<Usuario> usuarios = new ArrayList();
     private ArrayList<Local> locales = new ArrayList();
+    private ArrayList<Empleado> empleados = new ArrayList();
+    private ArrayList<Gerente> gerentes = new ArrayList();
+    private ArrayList<Transaccion> transacciones = new ArrayList();
 
     public DatosSistema() {
         cargarDatos();
     }
 
+    // Validaciones
+    public boolean idValido(String id) {
+        cargarDatos();
+        boolean valido = true;
+        if (!usuarios.isEmpty()) {
+            for (Usuario user : usuarios) {
+                if (user.getIdentidad().equals(id)) {
+                    valido = false;
+                }
+            }
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                if (emp.getIdentidad().equals(id)) {
+                    valido = false;
+                }
+            }
+        }
+        if (!gerentes.isEmpty()) {
+            for (Gerente ger : gerentes) {
+                if (ger.getIdentidad().equals(id)) {
+                    valido = false;
+                }
+            }
+        }
+        return valido;
+    }
+
+    public boolean userValido(String username) {
+        cargarDatos();
+        boolean valido = true;
+        if (!usuarios.isEmpty()) {
+            for (Usuario user : usuarios) {
+                if (user.getNombreUsuario().equals(username)) {
+                    valido = false;
+                }
+            }
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                if (emp.getNombreUsuario().equals(username)) {
+                    valido = false;
+                }
+            }
+        }
+        if (!gerentes.isEmpty()) {
+            for (Gerente ger : gerentes) {
+                if (ger.getNombreUsuario().equals(username)) {
+                    valido = false;
+                }
+            }
+        }
+        return valido;
+    }
+
     // Metodos para llenar componentes
+    public DefaultComboBoxModel llenarCboUsuarios() {
+        cargarDatos();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Usuario user : usuarios) {
+            modelo.addElement(user);
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                modelo.addElement(emp);
+            }
+        }
+        if (!gerentes.isEmpty()) {
+            for (Gerente ger : gerentes) {
+                modelo.addElement(ger);
+            }
+        }
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                if (local.getGerente() != null) {
+                    modelo.addElement(local.getGerente());
+                }
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            modelo.addElement(emp);
+                        }
+                    }
+                }
+            }
+        }
+        return modelo;
+    }
+
     public DefaultComboBoxModel llenarCboLocales() {
-        cargarLocales();
+        cargarDatos();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         for (Local local : locales) {
             modelo.addElement(local);
@@ -26,7 +120,7 @@ public class DatosSistema {
     }
 
     public DefaultComboBoxModel llenarCboAreas(Local local) {
-        cargarLocales();
+        cargarDatos();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         if (!local.getAreas().isEmpty()) {
             for (Area area : local.getAreas()) {
@@ -35,8 +129,77 @@ public class DatosSistema {
         }
         return modelo;
     }
-    
-    public DefaultListModel llenarListTran(Area area) {
+
+    public DefaultComboBoxModel llenarCboAreas() {
+        cargarDatos();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    modelo.addElement(area);
+                }
+            }
+        }
+        return modelo;
+    }
+
+    public DefaultComboBoxModel llenarCboTransacciones() {
+        cargarDatos();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    if (!area.getTransacciones().isEmpty()) {
+                        for (Transaccion tran : area.getTransacciones()) {
+                            modelo.addElement(tran);
+                        }
+                    }
+                }
+            }
+        }
+        return modelo;
+    }
+
+    public DefaultListModel llenarListGerentes() {
+        cargarDatos();
+        DefaultListModel listModel = new DefaultListModel();
+        for (Gerente ger : gerentes) {
+            listModel.addElement(ger);
+        }
+        return listModel;
+    }
+
+    public DefaultListModel llenarListGerente(Local local) {
+        cargarDatos();
+        DefaultListModel listModel = new DefaultListModel();
+        if (local.getGerente() != null) {
+            listModel.addElement(local.getGerente());
+        }
+        return listModel;
+    }
+
+    public DefaultListModel llenarListEmpleados() {
+        cargarDatos();
+        DefaultListModel listModel = new DefaultListModel();
+        for (Empleado emp : empleados) {
+            listModel.addElement(emp);
+        }
+        return listModel;
+    }
+
+    public DefaultListModel llenarListEmpleados(Area area) {
+        cargarDatos();
+        DefaultListModel listModel = new DefaultListModel();
+        if (!area.getEmpleados().isEmpty()) {
+            for (Empleado emp : area.getEmpleados()) {
+                listModel.addElement(emp);
+            }
+        }
+        return listModel;
+    }
+
+    public DefaultListModel llenarListTranArea(Area area) {
+        cargarDatos();
         DefaultListModel listTranModel = new DefaultListModel();
         if (!area.getTransacciones().isEmpty()) {
             for (Transaccion tran : area.getTransacciones()) {
@@ -45,16 +208,45 @@ public class DatosSistema {
         }
         return listTranModel;
     }
+    
+    public DefaultListModel llenarListTran() {
+        cargarDatos();
+        DefaultListModel modelo = new DefaultListModel();
+        for (Transaccion tran : transacciones) {
+            modelo.addElement(tran);
+        }
+        return modelo;
+    }
+    
+    public void listarUsuarios(JTable tabla, int instancia, int atributos) {
 
-    // Metodos para cargar datos
-    public void cargarDatos() {
-        cargarAdmins();
-        cargarLocales();
-        cargarBitacora();
     }
 
-    public void cargarBitacora() {
-        //
+// Metodos para cargar datos
+    public void cargarDatos() {
+        cargarAdmins();
+        // Cargar gerentes sin local
+        cargarGerSinLocal();
+        // Cargar empleados sin area
+        cargarEmpSinArea();
+        cargarLocales();
+    }
+
+    public void cargarBitacora(JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] encabezado = new String[3];
+        modelo.setColumnCount(3);
+        encabezado[0] = "Usuario";
+        encabezado[1] = "Fecha";
+        encabezado[2] = "Actividad";
+//        Object[] row = new Object[4];
+//        row[0] = user.getIdentidad();
+//        row[1] = user.getNombre();
+//        row[2] = user.getNombreUsuario();
+//        row[3] = user.getPass();
+//        modelo.addRow(row);
+        modelo.setColumnIdentifiers(encabezado);
+        tabla.setModel(modelo);
     }
 
     public void cargarAdmins() {
@@ -66,6 +258,54 @@ public class DatosSistema {
             ResultSet rs = ds.query.getResultSet();
             while (rs.next()) {
                 usuarios.add(new Administrador(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+    }
+
+    public void cargarEmpSinArea() {
+        empleados.clear();
+        ds.conectar();
+        try {
+            ds.query.execute("select * from EmpSinArea");
+            ResultSet rs = ds.query.getResultSet();
+            while (rs.next()) {
+                empleados.add(new Empleado(rs.getInt(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+    }
+
+    public void cargarGerSinLocal() {
+        gerentes.clear();
+        ds.conectar();
+        try {
+            ds.query.execute("select * from GerSinLocal");
+            ResultSet rs = ds.query.getResultSet();
+            while (rs.next()) {
+                gerentes.add(new Gerente(rs.getInt(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+    }
+
+    public void cargarTranSinArea() {
+        transacciones.clear();
+        ds.conectar();
+        try {
+            ds.query.execute("select * from TranSinArea");
+            ResultSet rs = ds.query.getResultSet();
+            while (rs.next()) {
+                transacciones.add(new Transaccion(rs.getInt(1),
+                        rs.getString(2), rs.getInt(3)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -272,6 +512,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addNormal(int pos, String id, String nom, int notis,
@@ -288,6 +529,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addPreferencialNotis(int pos, String id, String nom, int notis,
@@ -304,6 +546,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addPreferencial(int pos, String id, String nom, int notis,
@@ -320,9 +563,10 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
-    public void addagregarCitasNotis(int pos, String id, String nom, int notis, int pref,
+    public void addCitaNotis(int pos, String id, String nom, int notis, int pref,
             String correo, String telefono, String fecha, String fechaCita, String horaCita, Area area) {
         ds.conectar();
         try {
@@ -337,6 +581,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addCitas(int pos, String id, String nom, int notis, int pref,
@@ -353,6 +598,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addAdmin(String id, String nom, String user, String pass) {
@@ -367,6 +613,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addGerente(String id, String nom, String user, String pass, Local local) {
@@ -381,6 +628,21 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
+    }
+
+    public void addGerSinLocal(String id, String nom, String user, String pass) {
+        ds.conectar();
+        try {
+            ds.query.execute("insert into GerSinLocal "
+                    + "(Identidad, Nombre, Usuario, Contrasena) "
+                    + "Values ('" + id + "', '" + nom + "', '" + user + "','" + pass + "')");
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
     }
 
     public void addEmpleado(String id, String nom, String user, String pass, Area area) {
@@ -395,6 +657,21 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
+    }
+
+    public void addEmpSinArea(String id, String nom, String user, String pass) {
+        ds.conectar();
+        try {
+            ds.query.execute("insert into EmpSinArea "
+                    + "(Identidad, Nombre, Usuario, Contrasena) "
+                    + "Values ('" + id + "', '" + nom + "', '" + user + "','" + pass + "')");
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
     }
 
     public void addLocal(String nom, String lat, String lon) {
@@ -409,6 +686,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addArea(String nom, Local local) {
@@ -423,6 +701,7 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
     }
 
     public void addTransaccion(String tipo, int tiempo, Area area) {
@@ -437,14 +716,96 @@ public class DatosSistema {
             ex.printStackTrace();
         }
         ds.desconectar();
+        cargarDatos();
+    }
+
+    public void addTranSinArea(String tipo, int tiempo) {
+        ds.conectar();
+        try {
+            ds.query.execute("insert into TranSinArea "
+                    + "(Tipo, Tiempo) "
+                    + "Values ('" + tipo + "', '" + tiempo + "')");
+            ds.commit();
+            cargarDatosAreas();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
     }
 
     public void addBitacora() {
         // cargarBitacora();
     }
-    
-    // Getters y setters
 
+    // Metodos para modificar
+    // Metodos para eliminar
+    public void elimGerente(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Gerentes"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimGerSinLocal(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from GerSinLocal"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimEmpleado(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Empleados"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimEmpSinArea(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from EmpSinArea"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimTranSinArea(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from TranSinArea"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    // Getters y setters
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -460,6 +821,21 @@ public class DatosSistema {
     public void setLocales(ArrayList<Local> locales) {
         this.locales = locales;
     }
-    
+
+    public ArrayList<Empleado> getEmpleados() {
+        return empleados;
+    }
+
+    public void setEmpleados(ArrayList<Empleado> empleados) {
+        this.empleados = empleados;
+    }
+
+    public ArrayList<Gerente> getGerentes() {
+        return gerentes;
+    }
+
+    public void setGerentes(ArrayList<Gerente> gerentes) {
+        this.gerentes = gerentes;
+    }
 
 }

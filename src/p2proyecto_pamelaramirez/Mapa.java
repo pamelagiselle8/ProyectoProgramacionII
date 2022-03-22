@@ -19,7 +19,6 @@ import javax.swing.WindowConstants;
 public class Mapa {
     // Latitud -90 a 90
     // Longitud -180 a 180
-    static double latitud = -90, longitud = -180;
     
     public static void coordenadas(String latitud, String longitud, String local) {
         Engine engine = Engine.newInstance(

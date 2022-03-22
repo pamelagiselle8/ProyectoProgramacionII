@@ -55,7 +55,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return nombreUsuario;
+        return nombre;
     }
 
 }
