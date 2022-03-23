@@ -89,7 +89,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 5: {
                 // Tab colas
-
+                
                 break;
             }
             case 6: {
@@ -1240,6 +1240,7 @@ public class FrameAdmin extends javax.swing.JFrame {
 
         jMenu1.setText("Cuenta");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/user-plus.png"))); // NOI18N
         jMenuItem1.setText("Cambiar de cuenta");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1248,6 +1249,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/log-out.png"))); // NOI18N
         jMenuItem2.setText("Cerrar sesión");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1563,13 +1565,17 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.setVisible(false);
-        ds.addBitacora(user, "Cierre de sesión");
+        if (user != null) {
+            ds.addBitacora(user, "Cierre de sesión");
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.setVisible(false);
         new Login().setVisible(true);
-        ds.addBitacora(user, "Cierre de sesión");
+        if (user != null) {
+            ds.addBitacora(user, "Cierre de sesión");
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
@@ -1613,6 +1619,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 txtNomLocal.setText(local.getNombre());
                 spLatitud.setValue(Double.parseDouble(local.getLatitud()));
                 spLongitud.setValue(Double.parseDouble(local.getLongitud()));
+                listGer.setModel(ds.llenarListGerentes());
                 listGerLocal.setModel(ds.llenarListGerente(local));
             } else {
                 cboLocal.setEnabled(true);
@@ -1637,8 +1644,8 @@ public class FrameAdmin extends javax.swing.JFrame {
                 txtNomArea.setText(area.getNombre());
                 listEmpArea.setModel(ds.llenarListEmpleados(area));
                 listTranArea.setModel(ds.llenarListTranArea(area));
-                listTran.setModel(ds.llenarListTran(area));
-                DefaultComboBoxModel mod = (DefaultComboBoxModel) cboLocalArea.getModel();
+                // listTran.setModel(ds.llenarListTran(area));
+                listTran.setModel(ds.llenarListTranValidado(area));
                 // Seleccionar en cboLocalArea el local al que pertenece
             } else {
                 cboArea.setEnabled(true);

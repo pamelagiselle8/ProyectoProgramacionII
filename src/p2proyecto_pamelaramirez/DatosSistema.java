@@ -50,6 +50,24 @@ public class DatosSistema {
                 }
             }
         }
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                if (local.getGerente() != null) {
+                    if (local.getGerente().getIdentidad().equals(id)) {
+                        valido = false;
+                    }
+                }
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            if (emp.getIdentidad().equals(id)) {
+                                valido = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return valido;
     }
 
@@ -77,7 +95,74 @@ public class DatosSistema {
                 }
             }
         }
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                if (local.getGerente() != null) {
+                    if (local.getGerente().getNombreUsuario().equals(username)) {
+                        valido = false;
+                    }
+                }
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            if (emp.getNombreUsuario().equals(username)) {
+                                valido = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return valido;
+    }
+
+    public Usuario login(String username, String pass) {
+        cargarDatos();
+        Usuario usuario = null;
+        boolean valido = false;
+        if (!usuarios.isEmpty()) {
+            for (Usuario user : usuarios) {
+                if (user.getNombreUsuario().equals(username)
+                        && user.getPass().equals(pass)) {
+                    return user;
+                }
+            }
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                if (emp.getNombreUsuario().equals(username)
+                        && emp.getPass().equals(pass)) {
+                    return emp;
+                }
+            }
+        }
+        if (!gerentes.isEmpty()) {
+            for (Gerente ger : gerentes) {
+                if (ger.getNombreUsuario().equals(username)
+                        && ger.getPass().equals(pass)) {
+                    return ger;
+                }
+            }
+        }
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                if (local.getGerente().getNombreUsuario().equals(username)
+                        && local.getGerente().getPass().equals(pass)) {
+                    return local.getGerente();
+                }
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            if (emp.getNombreUsuario().equals(username)
+                                    && emp.getPass().equals(pass)) {
+                                return emp;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return usuario;
     }
 
     public void buscarCliente() {
@@ -130,9 +215,11 @@ public class DatosSistema {
     public DefaultComboBoxModel llenarCboAreas(Local local) {
         cargarDatos();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        if (!local.getAreas().isEmpty()) {
-            for (Area area : local.getAreas()) {
-                modelo.addElement(area);
+        if (local != null) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    modelo.addElement(area);
+                }
             }
         }
         return modelo;
@@ -145,6 +232,45 @@ public class DatosSistema {
             if (!local.getAreas().isEmpty()) {
                 for (Area area : local.getAreas()) {
                     modelo.addElement(area);
+                }
+            }
+        }
+        return modelo;
+    }
+
+    public DefaultComboBoxModel llenarCboEmpleados() {
+        cargarDatos();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            modelo.addElement(emp);
+                        }
+                    }
+                }
+            }
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                modelo.addElement(emp);
+            }
+        }
+        return modelo;
+    }
+
+    public DefaultComboBoxModel llenarCboEmpleados(Local local) {
+        cargarDatos();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        if (local != null) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            modelo.addElement(emp);
+                        }
+                    }
                 }
             }
         }
@@ -176,6 +302,21 @@ public class DatosSistema {
             listModel.addElement(local.getGerente());
         }
         return listModel;
+    }
+
+    public DefaultListModel llenarListGerentEmpleados(Local local) {
+        cargarDatos();
+        DefaultListModel model = new DefaultListModel();
+        if (!local.getAreas().isEmpty()) {
+            for (Area area : local.getAreas()) {
+                if (!area.getEmpleados().isEmpty()) {
+                    for (Empleado emp : area.getEmpleados()) {
+                        model.addElement(emp);
+                    }
+                }
+            }
+        }
+        return model;
     }
 
     public DefaultListModel llenarListEmpleados() {
@@ -235,6 +376,30 @@ public class DatosSistema {
         return modelo;
     }
 
+    public DefaultListModel llenarListTranValidado(Area area) {
+        cargarDatos();
+        DefaultListModel modelo = new DefaultListModel();
+
+        if (!area.getTransacciones().isEmpty()) {
+            for (Transaccion tran : transacciones) {
+                boolean agregar = true;
+                for (Transaccion tranArea : area.getTransacciones()) {
+                    if (tran.toString().equalsIgnoreCase(tranArea.toString())) {
+                        agregar = false;
+                    }
+                }
+                if (agregar) {
+                    modelo.addElement(tran);
+                }
+            }
+        } else {
+            for (Transaccion tran : transacciones) {
+                modelo.addElement(tran);
+            }
+        }
+        return modelo;
+    }
+
     // Metodos para listar
     public void listarUsuarios(JTable tabla) {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -248,6 +413,16 @@ public class DatosSistema {
         ArrayList<Usuario> usuarios = new ArrayList();
         for (Usuario user : this.usuarios) {
             usuarios.add(user);
+        }
+        if (!gerentes.isEmpty()) {
+            for (Gerente ger : gerentes) {
+                usuarios.add(ger);
+            }
+        }
+        if (!empleados.isEmpty()) {
+            for (Empleado emp : empleados) {
+                usuarios.add(emp);
+            }
         }
         for (Local local : locales) {
             if (local.getGerente() != null) {
@@ -560,12 +735,12 @@ public class DatosSistema {
                                     area.getCitas().add(new Cita(
                                             rs.getInt(1), rs.getString(2), rs.getString(3), preferencial, true,
                                             rs.getString(6), rs.getString(7),
-                                            rs.getString(10), rs.getString(11), rs.getString(12), local, area));
+                                            rs.getString(9), rs.getString(10), rs.getString(11), local, area));
                                 } else if (rs.getInt(5) == 0) {
                                     // Cita de cliente que no desea recibir notificaciones
                                     area.getCitas().add(new Cita(
                                             rs.getInt(1), rs.getString(2), rs.getString(3), preferencial, false,
-                                            rs.getString(10), rs.getString(11), rs.getString(12), local, area));
+                                            rs.getString(9), rs.getString(10), rs.getString(11), local, area));
                                 }
                             }
                         } catch (SQLException ex) {
@@ -630,9 +805,9 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into CNormales "
-                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Correo, Telefono, Fecha registro ) "
+                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Correo, Telefono, Fecha) "
                     + "Values ('" + area.getId() + "', '" + pos + "', '" + id + "', '" + nom + "', '"
-                    + notis + "','" + correo + "','" + telefono + "','" + fecha + "','" + area.getId() + "')");
+                    + notis + "','" + correo + "','" + telefono + "','" + fecha + "')");
             ds.commit();
             cargarDatosAreas();
         } catch (SQLException ex) {
@@ -647,9 +822,9 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into CNormales "
-                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Fecha registro ) "
+                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Fecha) "
                     + "Values ('" + area.getId() + "', '" + pos + "', '" + id + "', '" + nom + "', '"
-                    + notis + "','" + fecha + "','" + area.getId() + "')");
+                    + notis + "','" + fecha + "')");
             ds.commit();
             cargarDatosAreas();
         } catch (SQLException ex) {
@@ -664,9 +839,9 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into CPreferenciales "
-                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Correo, Telefono, Fecha registro ) "
+                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Correo, Telefono, Fecha) "
                     + "Values ('" + area.getId() + "', '" + pos + "', '" + id + "', '" + nom + "', '"
-                    + notis + "','" + correo + "','" + telefono + "','" + fecha + "','" + area.getId() + "')");
+                    + notis + "','" + correo + "','" + telefono + "','" + fecha + "')");
             ds.commit();
             cargarDatosAreas();
         } catch (SQLException ex) {
@@ -681,9 +856,9 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into CPreferenciales "
-                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Fecha registro ) "
+                    + "(IdArea, Posicion, Identidad, Nombre, Notis, Fecha) "
                     + "Values ('" + area.getId() + "', '" + pos + "', '" + id + "', '" + nom + "', '"
-                    + notis + "','" + fecha + "','" + area.getId() + "')");
+                    + notis + "','" + fecha + "')");
             ds.commit();
             cargarDatosAreas();
         } catch (SQLException ex) {
@@ -698,7 +873,7 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into Citas "
-                    + "(Identidad, Nombre, Preferencial, Notis, Correo, Telefono, IdArea, Fecha registro, Fecha cita, Hora cita ) "
+                    + "(Identidad, Nombre, Preferencial, Notis, Correo, Telefono, IdArea, Fecha, FechaCita, HoraCita) "
                     + "Values ('" + id + "', '" + nom + "', '" + pref + "', '" + notis + "', '"
                     + correo + "','" + telefono + "','" + area.getId() + "','" + fecha + "','" + fechaCita + "','"
                     + horaCita + "')");
@@ -716,7 +891,7 @@ public class DatosSistema {
         ds.conectar();
         try {
             ds.query.execute("insert into Citas "
-                    + "(Identidad, Nombre, Preferencial, Notis, IdArea, Fecha registro, Fecha cita, Hora cita ) "
+                    + "(Identidad, Nombre, Preferencial, Notis, IdArea, Fecha, FechaCita, HoraCita) "
                     + "Values ('" + id + "', '" + nom + "', '" + pref + "', '" + notis + "', '"
                     + "','" + area.getId() + "','" + fecha + "','" + fechaCita + "','" + horaCita + "')");
             ds.commit();

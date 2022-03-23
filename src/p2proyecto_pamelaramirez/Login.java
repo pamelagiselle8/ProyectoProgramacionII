@@ -9,6 +9,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 public class Login extends javax.swing.JFrame {
+
     ImageIcon iconoGif = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
     DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
@@ -147,32 +148,44 @@ public class Login extends javax.swing.JFrame {
         if (txtNombreUsuario.getText().isEmpty() || txtPassword.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
         } else {
-            boolean pass = false;
-            for (Usuario usuario : ds.getUsuarios()) {
-                if (usuario.getNombreUsuario().equals(txtNombreUsuario.getText())
-                        && usuario.getPass().equals(new String(txtPassword.getPassword()))) {
-                    pass = true;
-                    ImageIcon icono = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
-                    JOptionPane.showMessageDialog(this, "Bienvenido(a) de nuevo.","Sesion iniciada", 1, icono);
-                    if (usuario instanceof Administrador) {
-                        
-                        new FrameAdmin().setVisible(true);
-                    } else if (usuario instanceof Gerente) {
-                        new FrameGerente().setVisible(true);
-                    } else {
-                        // new FrameEmpleado().setVisible(true);
+            Usuario usuario = ds.login(txtNombreUsuario.getText(), new String(txtPassword.getPassword()));
+            if (usuario != null) {
+                boolean ingreso = false;
+                ImageIcon icono = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
+                if (usuario instanceof Administrador) {
+                    new FrameAdmin().ingresar(usuario);
+                    ingreso = true;
+                } else if (usuario instanceof Gerente) {
+                    for (Local local : ds.getLocales()) {
+                        if (local.getGerente() != null) {
+                            if (local.getGerente() == usuario) {
+                                ingreso = true;
+                                new FrameGerente().ingresar(usuario);
+                                break;
+                            }
+                        }
                     }
+                    if (!ds.getGerentes().isEmpty()) {
+                        if (ds.getGerentes().contains(usuario)) {
+                            JOptionPane.showMessageDialog(this, "No cuenta con acceso de gerente porque aún"
+                                    + " no ha sido asignado a ningún local.", "Acceso denegado", 2);
+                        }
+                    }
+                } else {
+                    // new FrameEmpleado().setVisible(true);
+                }
+                if (ingreso) {
+                    this.setVisible(false);
+                    JOptionPane.showMessageDialog(this, "Bienvenido(a) de nuevo.",
+                            "Sesion iniciada", 1, icono);
                     ds.addBitacora(usuario, "Inicio de sesión");
                     txtNombreUsuario.setText(null);
                     txtPassword.setText(null);
-                    this.setVisible(false);
-                    break;
                 }
-            }
-            if (!pass) {
+            } else {
                 JOptionPane.showMessageDialog(this,
                         "Por favor verifique el nombre de usuario y contraseña ingresados.",
-                        "Credenciales inválidas", 2);
+                        "Acceso denegado", 2);
             }
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed

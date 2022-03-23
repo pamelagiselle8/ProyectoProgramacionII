@@ -1,4 +1,3 @@
-
 package p2proyecto_pamelaramirez;
 
 import java.text.SimpleDateFormat;
@@ -7,12 +6,13 @@ import java.util.*;
 import javax.swing.*;
 
 public class FrameCitas extends javax.swing.JFrame {
+
     DatosSistema ds = new DatosSistema();
     Login login = new Login();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     HiloHora hora;
     Date fecha = new Date();
-    
+
     public FrameCitas() {
         initComponents();
         pnlMostrarTicket.setVisible(false);
@@ -24,7 +24,7 @@ public class FrameCitas extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ds.cargarDatos();
     }
-    
+
     public CNormal buscarCliente() {
         CNormal clienteSeleccionado = null;
         /*pnlMostrarTicket.setVisible(true);
@@ -48,22 +48,24 @@ public class FrameCitas extends javax.swing.JFrame {
         }*/
         return clienteSeleccionado;
     }
-    
+
     public void limpiarTab1() {
         cboLocalCita.setSelectedIndex(0);
         txtIdCita.setText(null);
         dcFechaCita.setDate(null);
         txtHoraCita.setText(null);
+        listTranCita.setModel(ds.llenarListTran());
         listTranAsigCita.setModel(new DefaultListModel());
+        ocultarPanelesTab1();
     }
-    
+
     public void ocultarPanelesTab1() {
         pnlMostrarTicket.setVisible(false);
         pnlTicket.setVisible(false);
         pnlCita.setVisible(false);
         pnlNotis.setVisible(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,7 +81,7 @@ public class FrameCitas extends javax.swing.JFrame {
         txtIdCita = new javax.swing.JFormattedTextField();
         rbtnNotis = new javax.swing.JRadioButton();
         jLabel19 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNom = new javax.swing.JTextField();
         pnlCita = new javax.swing.JPanel();
         txtHoraCita = new javax.swing.JFormattedTextField();
         cboAmPm = new javax.swing.JComboBox<>();
@@ -105,7 +107,7 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtNumero = new javax.swing.JFormattedTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -169,11 +171,16 @@ public class FrameCitas extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
 
         tabbedPane.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedPaneStateChanged(evt);
+            }
+        });
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(247, 157, 179));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
-        pnlTicket.setBackground(new java.awt.Color(153, 153, 153));
+        pnlTicket.setBackground(new java.awt.Color(247, 157, 179));
 
         jLabel35.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(255, 255, 255));
@@ -203,9 +210,9 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Nombre");
 
-        jTextField2.setBackground(new java.awt.Color(250, 234, 241));
-        jTextField2.setSelectedTextColor(new java.awt.Color(255, 255, 255));
-        jTextField2.setSelectionColor(new java.awt.Color(255, 92, 133));
+        txtNom.setBackground(new java.awt.Color(250, 234, 241));
+        txtNom.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtNom.setSelectionColor(new java.awt.Color(255, 92, 133));
 
         pnlCita.setBackground(new java.awt.Color(247, 157, 179));
         pnlCita.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -354,9 +361,9 @@ public class FrameCitas extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Correo electrónico");
 
-        jTextField1.setBackground(new java.awt.Color(250, 234, 241));
-        jTextField1.setSelectedTextColor(new java.awt.Color(255, 255, 255));
-        jTextField1.setSelectionColor(new java.awt.Color(255, 92, 133));
+        txtCorreo.setBackground(new java.awt.Color(250, 234, 241));
+        txtCorreo.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        txtCorreo.setSelectionColor(new java.awt.Color(255, 92, 133));
 
         javax.swing.GroupLayout pnlNotisLayout = new javax.swing.GroupLayout(pnlNotis);
         pnlNotis.setLayout(pnlNotisLayout);
@@ -368,7 +375,7 @@ public class FrameCitas extends javax.swing.JFrame {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         pnlNotisLayout.setVerticalGroup(
             pnlNotisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +386,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel15)
                 .addGap(13, 13, 13)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
         );
 
@@ -391,7 +398,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdCita, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -436,7 +443,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTicketLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cboLocalCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(pnlTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,7 +487,7 @@ public class FrameCitas extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel3.setBackground(new java.awt.Color(247, 157, 179));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
@@ -835,7 +842,55 @@ public class FrameCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerarTicketActionPerformed
 
     private void btnGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCitaActionPerformed
-        
+        if (ds.idValido(txtIdCita.getText())) {
+            if (listTranAsigCita.getModel().getSize() > 0) {
+                Area area = (Area) cboAreaCita.getSelectedItem();
+                String id = txtIdCita.getText(), nom = txtNom.getText(), correo = txtCorreo.getText(),
+                        tel = txtNumero.getText(), hora = txtHoraCita.getText(),
+                        fecha = sdf.format(this.fecha), fechaCita = "";
+                try {
+                    fechaCita = sdf.format(dcFechaCita.getDate());
+                } catch (Exception e) {
+                }
+                int posNormal = 0, posPref = 0, notis = 0, pref = 0;
+                if (rbtnNotis.isSelected()) {
+                    notis = 1;
+                }
+                if (rbtnPreferencial.isSelected()) {
+                    pref = 1;
+                }
+                if (!area.getNormal().isEmpty()) {
+                    posNormal = area.getNormal().size();
+                }
+                if (!area.getPreferencial().isEmpty()) {
+                    posNormal = area.getPreferencial().size();
+                }
+                // Clientes normales y preferenciales
+                if (!pnlCita.isVisible()) {
+                    if (!rbtnPreferencial.isSelected()) {
+                        // Cliente normal
+                        ds.addNormal(posNormal, id, nom, notis, correo, tel, fecha, area);
+                    }
+                    else if (rbtnPreferencial.isSelected()) {
+                        // Cliente preferencial 
+                        ds.addPreferencial(posPref, id, nom, notis, correo, tel, fecha, area);
+                    }
+                    JOptionPane.showMessageDialog(this, "Ticket generado exitosamente.", "", 1);
+                }
+                else {
+                    // Citas normales y preferenciales
+                    ds.addCitaNotis(0, id, nom, notis, pref, correo, tel, fecha, fechaCita, hora, area);
+                    JOptionPane.showMessageDialog(this, "Cita programada exitosamente.", "", 1);
+                    System.out.println(area.getCitas().get(0).getNombre());
+                }
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un ticket/cita "
+                        + "con el número de identidad ingresado.", "", 2);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar las transacciones a realizar.", "", 2);
+        }
     }//GEN-LAST:event_btnGuardarCitaActionPerformed
 
     private void btnAgendarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitaActionPerformed
@@ -863,8 +918,7 @@ public class FrameCitas extends javax.swing.JFrame {
         if (true) {
             // Codigo registrar asistencia aqui
             JOptionPane.showMessageDialog(this, "Asistencia registrada exitosamente.", "", 1);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Su ticket no pertenece a una cita agendada.", "", 2);
         }
     }//GEN-LAST:event_btnAsistenciaActionPerformed
@@ -883,8 +937,7 @@ public class FrameCitas extends javax.swing.JFrame {
             Transaccion tranSeleccionada = (Transaccion) listTranModel.getElementAt(listTranCita.getSelectedIndex());
             listTranAsigModel.addElement(tranSeleccionada);
             listTranAsigCita.setModel(listTranAsigModel);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
         }
     }//GEN-LAST:event_btnAgregarTranActionPerformed
@@ -892,12 +945,11 @@ public class FrameCitas extends javax.swing.JFrame {
     private void cboAreaCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAreaCitaActionPerformed
         if (cboAreaCita.getSelectedIndex() >= 0) {
             try {
-                Area area = (Area)cboAreaCita.getSelectedItem();
+                Area area = (Area) cboAreaCita.getSelectedItem();
                 listTranCita.setModel(ds.llenarListTranArea(area));
             } catch (Exception e) {
             }
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un área.", "", 2);
         }
     }//GEN-LAST:event_cboAreaCitaActionPerformed
@@ -910,8 +962,7 @@ public class FrameCitas extends javax.swing.JFrame {
             listTranAsigModel.removeElement(tranSeleccionada);
             listTranCita.setModel(listTranModel);
             listTranAsigCita.setModel(listTranAsigModel);
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
         }
     }//GEN-LAST:event_btnElimTranActionPerformed
@@ -927,8 +978,7 @@ public class FrameCitas extends javax.swing.JFrame {
         if (lbPregunta.getText().equals("¿Cómo considera que fue el tiempo de espera?")) {
             // codigo aquiii
             lbPregunta.setText("¿Cómo calificaría el servicio brindado?");
-        }
-        else {
+        } else {
             // codigo aquiii
             lbPregunta.setText("¿Cómo considera que fue el tiempo de espera?");
             pnlEncuesta.setVisible(false);
@@ -940,6 +990,15 @@ public class FrameCitas extends javax.swing.JFrame {
         pnlNotis.setVisible(rbtnNotis.isSelected());
         JOptionPane.showMessageDialog(this, "Su número debe estar verificado en Twilio para recibir notificaciones del sistema.", "Aviso", 1);
     }//GEN-LAST:event_rbtnNotisActionPerformed
+
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
+        int tab = tabbedPane.getSelectedIndex();
+        if (tab == 0) {
+
+        } else {
+
+        }
+    }//GEN-LAST:event_tabbedPaneStateChanged
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1021,8 +1080,6 @@ public class FrameCitas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbPregunta;
     private javax.swing.JLabel lblHora;
     private javax.swing.JList<String> listTranAsigCita;
@@ -1041,11 +1098,13 @@ public class FrameCitas extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbtnPes;
     private javax.swing.JRadioButton rbtnPreferencial;
     private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JTextField txtCorreo;
     private javax.swing.JFormattedTextField txtHoraCita;
     private javax.swing.JFormattedTextField txtIdCita;
     private javax.swing.JFormattedTextField txtIdInfo;
+    private javax.swing.JTextField txtNom;
     private javax.swing.JFormattedTextField txtNumero;
     private javax.swing.JTextArea txtTicket;
     // End of variables declaration//GEN-END:variables
-    
+
 }
