@@ -172,7 +172,27 @@ public class Login extends javax.swing.JFrame {
                         }
                     }
                 } else {
-                    // new FrameEmpleado().setVisible(true);
+                    for (Local local : ds.getLocales()) {
+                        if (!local.getAreas().isEmpty()) {
+                            for (Area area : local.getAreas()) {
+                                if (!area.getEmpleados().isEmpty()) {
+                                    for (Empleado emp : area.getEmpleados()) {
+                                        if (emp.getId() == usuario.getId()) {
+                                            ingreso = true;
+                                            new FrameEmpleado().ingresar(emp, area);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!ds.getEmpleados().isEmpty()) {
+                        if (ds.getEmpleados().contains(usuario)) {
+                            JOptionPane.showMessageDialog(this, "No cuenta con acceso de empleado porque aún"
+                                    + " no ha sido asignado a ningún área.", "Acceso denegado", 2);
+                        }
+                    }
                 }
                 if (ingreso) {
                     this.setVisible(false);

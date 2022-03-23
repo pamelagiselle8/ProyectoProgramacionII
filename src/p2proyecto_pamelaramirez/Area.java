@@ -1,15 +1,14 @@
-
 package p2proyecto_pamelaramirez;
 
 import java.util.*;
 
-
 public class Area {
+
     private int id;
     private String nombre;
-    private ArrayList <Transaccion> transacciones = new ArrayList();
-    private ArrayList <Empleado> empleados = new ArrayList();
-    private ArrayList <Cita> citas = new ArrayList();
+    private ArrayList<Transaccion> transacciones = new ArrayList();
+    private ArrayList<Empleado> empleados = new ArrayList();
+    private ArrayList<Cita> citas = new ArrayList();
     private ArrayList<CNormal> normal = new ArrayList();
     private ArrayList<CPreferencial> preferencial = new ArrayList();
 
@@ -17,12 +16,49 @@ public class Area {
         this.id = id;
         this.nombre = nombre;
     }
-    
-    public Area(String nombre, ArrayList <Empleado> empleados) {
+
+    public Area(String nombre, ArrayList<Empleado> empleados) {
         this.nombre = nombre;
         this.empleados = empleados;
     }
+
+    public void ordenarColas() {
+        ordenarColaNormal();
+        ordenarColaPreferencial();
+    }
     
+    public void ordenarColaNormal() {
+        if (!normal.isEmpty() && normal.size() != 1) {
+            Object[] norm = normal.toArray();
+            for (int i = 0; i < norm.length; i++) {
+                for (int j = 0; j < i - 1; j++) {
+                    if (((CPreferencial) norm[j]).getPos()
+                            > ((CPreferencial) norm[j + 1]).getPos()) {
+                        CPreferencial temp = (CPreferencial) norm[j];
+                        norm[j] = norm[j + 1];
+                        norm[j + 1] = temp;
+                    }
+                }
+            }
+        }
+    }
+    
+    public void ordenarColaPreferencial() {
+        if (!preferencial.isEmpty() && preferencial.size() != 1) {
+            Object[] pref = preferencial.toArray();
+            for (int i = 0; i < pref.length; i++) {
+                for (int j = 0; j < i - 1; j++) {
+                    if (((CPreferencial) pref[j]).getPos()
+                            > ((CPreferencial) pref[j + 1]).getPos()) {
+                        CPreferencial temp = (CPreferencial) pref[j];
+                        pref[j] = pref[j + 1];
+                        pref[j + 1] = temp;
+                    }
+                }
+            }
+        }
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -83,5 +119,5 @@ public class Area {
     public String toString() {
         return nombre;
     }
-    
+
 }

@@ -9,6 +9,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class DatosSistema {
 
@@ -26,6 +28,28 @@ public class DatosSistema {
     }
 
     // Validaciones y otros metodos de administracion
+    public ArrayList<Object> getClientes() {
+        ArrayList<Object> clientes = new ArrayList();
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    area.ordenarColas();
+                    if (!area.getPreferencial().isEmpty()) {
+                        for (CPreferencial pref : area.getPreferencial()) {
+                            clientes.add(pref);
+                        }
+                    }
+                    if (!area.getNormal().isEmpty()) {
+                        for (CNormal norm : area.getNormal()) {
+                            clientes.add(norm);
+                        }
+                    }
+                }
+            }
+        }
+        return clientes;
+    }
+
     public boolean idValido(String id) {
         cargarDatos();
         boolean valido = true;
@@ -146,9 +170,11 @@ public class DatosSistema {
         }
         for (Local local : locales) {
             if (!local.getAreas().isEmpty()) {
-                if (local.getGerente().getNombreUsuario().equals(username)
-                        && local.getGerente().getPass().equals(pass)) {
-                    return local.getGerente();
+                if (local.getGerente() != null) {
+                    if (local.getGerente().getNombreUsuario().equals(username)
+                            && local.getGerente().getPass().equals(pass)) {
+                        return local.getGerente();
+                    }
                 }
                 for (Area area : local.getAreas()) {
                     if (!area.getEmpleados().isEmpty()) {
@@ -170,6 +196,54 @@ public class DatosSistema {
     }
 
     // Metodos para llenar componentes
+    public DefaultTreeModel llenarArbolColas() {
+        // Modelos
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Empresa");
+        DefaultTreeModel treeModelo = new DefaultTreeModel(raiz);
+        // Nodos
+        DefaultMutableTreeNode nodoLocal = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode nodoArea = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode nodoEmp = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode nodoCola = new DefaultMutableTreeNode("Cola");
+        DefaultMutableTreeNode nodoCitas = new DefaultMutableTreeNode("Citas");
+        DefaultMutableTreeNode nodoCita = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode nodoCliente = new DefaultMutableTreeNode();
+        if (!locales.isEmpty()) {
+            for (Local local : locales) {
+                nodoLocal = new DefaultMutableTreeNode(local);
+                if (!local.getAreas().isEmpty()) {
+                    for (Area area : local.getAreas()) {
+                        nodoArea = new DefaultMutableTreeNode(area);
+                        area.ordenarColas();
+                        if (!area.getPreferencial().isEmpty()) {
+                            for (CPreferencial pref : area.getPreferencial()) {
+                                nodoCliente = new DefaultMutableTreeNode(pref);
+                                nodoCola.add(nodoCliente);
+                            }
+                        }
+                        if (!area.getNormal().isEmpty()) {
+                            for (CNormal norm : area.getNormal()) {
+                                nodoCliente = new DefaultMutableTreeNode(norm);
+                                nodoCola.add(nodoCliente);
+                            }
+                        }
+                        if (!area.getCitas().isEmpty()) {
+                            for (Cita cita : area.getCitas()) {
+                                nodoCita = new DefaultMutableTreeNode(cita);
+                                nodoCitas.add(nodoCita);
+                            }
+                        }
+                        nodoArea.add(nodoCola);
+                        nodoLocal.add(nodoArea);
+                    }
+                }
+                raiz.add(nodoLocal);
+            }
+            treeModelo.reload();
+        }
+        return treeModelo;
+    }
+
     public DefaultComboBoxModel llenarCboUsuarios() {
         cargarDatos();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
@@ -743,6 +817,7 @@ public class DatosSistema {
                                             rs.getString(9), rs.getString(10), rs.getString(11), local, area));
                                 }
                             }
+                            area.ordenarColas();
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }

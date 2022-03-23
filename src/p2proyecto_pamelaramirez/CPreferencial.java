@@ -10,7 +10,7 @@ import java.util.Date;
 public class CPreferencial {
     private String nombre, correo, identidad, ticket, telefono,
             fechaRegistro;
-    private int id, edad;
+    private int id, edad, pos;
     private boolean notis;
     private ArrayList<Transaccion> transacciones = new ArrayList();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -18,6 +18,7 @@ public class CPreferencial {
     // BD Constructor basico 
     public CPreferencial(int id, int posicion, String identidad, String nombre,
             boolean notis, String fechaRegistro, Local local, Area area) {
+        this.pos = posicion;
         this.nombre = nombre;
         this.identidad = identidad;
         this.fechaRegistro = fechaRegistro;
@@ -31,6 +32,7 @@ public class CPreferencial {
     public CPreferencial(int id, int posicion, String identidad, String nombre,
             boolean notis, String correo, String telefono, String fechaRegistro,
             Local local, Area area) {
+        this.pos = posicion;
         this.nombre = nombre;
         this.correo = correo;
         this.identidad = identidad;
@@ -168,6 +170,14 @@ public class CPreferencial {
 
     public void setTransacciones(ArrayList<Transaccion> transacciones) {
         this.transacciones = transacciones;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
     }
 
     @Override

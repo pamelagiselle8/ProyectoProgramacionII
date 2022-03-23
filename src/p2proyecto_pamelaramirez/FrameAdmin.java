@@ -11,12 +11,15 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
+    HiloHora hora;
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Usuario user;
 
     public FrameAdmin() {
         initComponents();
         this.setTitle("Administrador");
+        this.hora = new HiloHora(lblHora);
+        this.hora.start();
         this.setLocationRelativeTo(null);
     }
     
@@ -89,7 +92,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 5: {
                 // Tab colas
-                
+                treeColas.setModel(ds.llenarArbolColas());
                 break;
             }
             case 6: {
@@ -262,10 +265,14 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
+        lblHora = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         treeColas = new javax.swing.JTree();
         jLabel8 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel41 = new javax.swing.JLabel();
@@ -1115,6 +1122,17 @@ public class FrameAdmin extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(125, 177, 229));
         jPanel11.setLayout(null);
 
+        lblHora.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        lblHora.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel11.add(lblHora);
+        lblHora.setBounds(870, 30, 100, 17);
+
+        jLabel22.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Hora:");
+        jPanel11.add(jLabel22);
+        jLabel22.setBounds(820, 30, 49, 17);
+
         jLabel38.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(255, 255, 255));
         jLabel38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2proyecto_pamelaramirez/Icons/users.png"))); // NOI18N
@@ -1136,6 +1154,14 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel8.setPreferredSize(new java.awt.Dimension(20, 20));
         jPanel11.add(jLabel8);
         jLabel8.setBounds(-7, -10, 1270, 130);
+
+        jLabel21.setText("jLabel21");
+        jPanel11.add(jLabel21);
+        jLabel21.setBounds(890, 30, 49, 17);
+
+        jLabel25.setText("Hora");
+        jPanel11.add(jLabel25);
+        jLabel25.setBounds(780, 30, 49, 17);
 
         jPanel19.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 680));
 
@@ -1487,7 +1513,13 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cboGuardarCitaActionPerformed
 
     private void btnCargarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCitaActionPerformed
-        
+        for (Object cliente : ds.getClientes()) {
+            if (cliente instanceof CNormal) {
+                if (((CNormal) cliente).getIdentidad().equals(txtIdCita.getText())) {
+                    
+                }
+            }
+        }
     }//GEN-LAST:event_btnCargarCitaActionPerformed
 
     private void btnElimEmpLocal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpLocal2ActionPerformed
@@ -1899,8 +1931,11 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -1967,6 +2002,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel lblCboUser;
+    private javax.swing.JLabel lblHora;
     private javax.swing.JList<String> listEmp;
     private javax.swing.JList<String> listEmpArea;
     private javax.swing.JList<String> listEmpAsigLocal2;
@@ -2026,28 +2062,4 @@ public class FrameAdmin extends javax.swing.JFrame {
             treeColas.setModel(treeModelo);
         }*/
     }
-
-    /*public Cliente buscarCliente() {
-        Cliente clienteSeleccionado = null;
-        if (!locales.isEmpty()) {
-            for (Local local : locales) {
-                if (!local.getAreas().isEmpty()) {
-                    for (Area area : local.getAreas()) {
-                        if (!area.getCola().isEmpty()) {
-                            for (Cliente cliente : area.getCola()) {
-                                if (cliente.identidad.equalsIgnoreCase(txtIdCita.getText())) {
-                                    this.local = local;
-                                    this.area = area;
-                                    clienteSeleccionado = cliente;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return clienteSeleccionado;
-    }*/
-    // Metodos de limpiar tabs aqui
 }
