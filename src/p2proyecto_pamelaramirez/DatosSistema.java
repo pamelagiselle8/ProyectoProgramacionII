@@ -2,6 +2,8 @@ package p2proyecto_pamelaramirez;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -16,12 +18,14 @@ public class DatosSistema {
     private ArrayList<Empleado> empleados = new ArrayList();
     private ArrayList<Gerente> gerentes = new ArrayList();
     private ArrayList<Transaccion> transacciones = new ArrayList();
+    private Date fecha = new Date();
+    private DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm a"); //dd/MMM/yyyy hh:mm: a
 
     public DatosSistema() {
         cargarDatos();
     }
 
-    // Validaciones
+    // Validaciones y otros metodos de administracion
     public boolean idValido(String id) {
         cargarDatos();
         boolean valido = true;
@@ -74,6 +78,10 @@ public class DatosSistema {
             }
         }
         return valido;
+    }
+
+    public void buscarCliente() {
+
     }
 
     // Metodos para llenar componentes
@@ -146,16 +154,8 @@ public class DatosSistema {
     public DefaultComboBoxModel llenarCboTransacciones() {
         cargarDatos();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        for (Local local : locales) {
-            if (!local.getAreas().isEmpty()) {
-                for (Area area : local.getAreas()) {
-                    if (!area.getTransacciones().isEmpty()) {
-                        for (Transaccion tran : area.getTransacciones()) {
-                            modelo.addElement(tran);
-                        }
-                    }
-                }
-            }
+        for (Transaccion tran : transacciones) {
+            modelo.addElement(tran);
         }
         return modelo;
     }
@@ -235,20 +235,107 @@ public class DatosSistema {
         return modelo;
     }
 
-    public void listarUsuarios(JTable tabla, int instancia, int atributos) {
-
+    // Metodos para listar
+    public void listarUsuarios(JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] encabezado = new String[5];
+        modelo.setColumnCount(5);
+        encabezado[0] = "Nombre";
+        encabezado[1] = "Identidad";
+        encabezado[2] = "Nombre de usuario";
+        encabezado[3] = "Contraseña";
+        encabezado[4] = "Acceso";
+        ArrayList<Usuario> usuarios = new ArrayList();
+        for (Usuario user : this.usuarios) {
+            usuarios.add(user);
+        }
+        for (Local local : locales) {
+            if (local.getGerente() != null) {
+                usuarios.add(local.getGerente());
+            }
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    if (!area.getEmpleados().isEmpty()) {
+                        for (Empleado emp : area.getEmpleados()) {
+                            usuarios.add(emp);
+                        }
+                    }
+                }
+            }
+        }
+        for (Usuario user : usuarios) {
+            Object[] row = new Object[5];
+            row[0] = user.getIdentidad();
+            row[1] = user.getNombre();
+            row[2] = user.getNombreUsuario();
+            row[3] = user.getPass();
+            if (user instanceof Administrador) {
+                row[4] = "Administrador";
+            } else if (user instanceof Gerente) {
+                row[4] = "Gerente";
+            } else {
+                row[4] = "Empleado";
+            }
+            modelo.addRow(row);
+        }
+        modelo.setColumnIdentifiers(encabezado);
+        tabla.setModel(modelo);
     }
 
-// Metodos para cargar datos
-    public void cargarDatos() {
-        cargarAdmins();
-        // Cargar gerentes sin local
-        cargarGerSinLocal();
-        // Cargar empleados sin area
-        cargarEmpSinArea();
-        // Cargar transacciones
-        cargarTranSinArea();
-        cargarLocales();
+    public void listarLocales(JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] encabezado = new String[3];
+        modelo.setColumnCount(3);
+        encabezado[0] = "Nombre del local";
+        encabezado[1] = "Latitud";
+        encabezado[2] = "Longitud";
+        for (Local local : locales) {
+            Object[] row = new Object[3];
+            row[0] = local.getNombre();
+            row[1] = local.getLatitud();
+            row[2] = local.getLongitud();
+            modelo.addRow(row);
+        }
+        modelo.setColumnIdentifiers(encabezado);
+        tabla.setModel(modelo);
+    }
+
+    public void listarAreas(JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] encabezado = new String[2];
+        modelo.setColumnCount(2);
+        encabezado[0] = "Nombre del área";
+        encabezado[1] = "Local al que pertenece";
+        for (Local local : locales) {
+            if (!local.getAreas().isEmpty()) {
+                for (Area area : local.getAreas()) {
+                    Object[] row = new Object[2];
+                    row[0] = area;
+                    row[1] = local;
+                    modelo.addRow(row);
+                }
+            }
+        }
+        modelo.setColumnIdentifiers(encabezado);
+        tabla.setModel(modelo);
+    }
+
+    public void listarTransacciones(JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] encabezado = new String[2];
+        modelo.setColumnCount(2);
+        encabezado[0] = "Tipo";
+        encabezado[1] = "Tiempo estimado";
+        if (!transacciones.isEmpty()) {
+            for (Transaccion tran : transacciones) {
+                Object[] row = new Object[2];
+                row[0] = tran.getTipo();
+                row[1] = tran.getTiempo() + "min.";
+                modelo.addRow(row);
+            }
+        }
+        modelo.setColumnIdentifiers(encabezado);
+        tabla.setModel(modelo);
     }
 
     public void cargarBitacora(JTable tabla) {
@@ -258,14 +345,35 @@ public class DatosSistema {
         encabezado[0] = "Usuario";
         encabezado[1] = "Fecha";
         encabezado[2] = "Actividad";
-//        Object[] row = new Object[4];
-//        row[0] = user.getIdentidad();
-//        row[1] = user.getNombre();
-//        row[2] = user.getNombreUsuario();
-//        row[3] = user.getPass();
-//        modelo.addRow(row);
+        ds.conectar();
+        try {
+            ds.query.execute("select * from Bitacora");
+            ResultSet rs = ds.query.getResultSet();
+            while (rs.next()) {
+                Object[] row = new Object[4];
+                row[0] = rs.getString(2);
+                row[1] = rs.getString(3);
+                row[2] = rs.getString(4);
+                modelo.addRow(row);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
         modelo.setColumnIdentifiers(encabezado);
         tabla.setModel(modelo);
+    }
+
+    // Metodos para cargar datos
+    public void cargarDatos() {
+        cargarAdmins();
+        // Cargar gerentes sin local
+        cargarGerSinLocal();
+        // Cargar empleados sin area
+        cargarEmpSinArea();
+        // Cargar transacciones
+        cargarTranSinArea();
+        cargarLocales();
     }
 
     public void cargarAdmins() {
@@ -758,8 +866,19 @@ public class DatosSistema {
         cargarDatos();
     }
 
-    public void addBitacora() {
-        // cargarBitacora();
+    public void addBitacora(Usuario user, String actividad) {
+        ds.conectar();
+        try {
+            ds.query.execute("insert into Bitacora "
+                    + "(Fecha, Actividad, Usuario) "
+                    + "Values ('" + actividad + "', '" + formato.format(LocalDateTime.now()) + "', '" + user.getNombre() + "')");
+            ds.commit();
+            cargarDatosAreas();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
     }
 
     // Metodos para modificar
@@ -803,6 +922,21 @@ public class DatosSistema {
             ds.query.execute("update Areas "
                     + " set Nombre = '" + nom
                     + "', IdLocal = '" + local.getId()
+                    + "' where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void modTran(int id, String nom, int tiem) {
+        ds.conectar();
+        try {
+            ds.query.execute("update TranSinArea "
+                    + " set Tipo = '" + nom
+                    + "', Tiempo = '" + tiem
                     + "' where Id = " + id);
             ds.commit();
         } catch (SQLException ex) {

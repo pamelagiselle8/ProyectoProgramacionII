@@ -25,6 +25,38 @@ public class FrameCitas extends javax.swing.JFrame {
         ds.cargarDatos();
     }
     
+    public CNormal buscarCliente() {
+        CNormal clienteSeleccionado = null;
+        /*pnlMostrarTicket.setVisible(true);
+        if (!login.locales.isEmpty()) {
+            for (Local local : login.locales) {
+                if (!local.getAreas().isEmpty()) {
+                    for (Area area : local.getAreas()) {
+                        if (!area.getCola().isEmpty()) {
+                            for (Cliente cliente : area.getCola()) {
+                                if (cliente.identidad.equalsIgnoreCase(txtIdInfo.getText())) {
+                                    this.local = local;
+                                    this.area = area;
+                                    clienteSeleccionado = cliente;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+        return clienteSeleccionado;
+    }
+    
+    public void limpiarTab1() {
+        cboLocalCita.setSelectedIndex(0);
+        txtIdCita.setText(null);
+        dcFechaCita.setDate(null);
+        txtHoraCita.setText(null);
+        listTranAsigCita.setModel(new DefaultListModel());
+    }
+    
     public void ocultarPanelesTab1() {
         pnlMostrarTicket.setVisible(false);
         pnlTicket.setVisible(false);
@@ -1016,36 +1048,4 @@ public class FrameCitas extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTicket;
     // End of variables declaration//GEN-END:variables
     
-    
-    public CNormal buscarCliente() {
-        CNormal clienteSeleccionado = null;
-        /*pnlMostrarTicket.setVisible(true);
-        if (!login.locales.isEmpty()) {
-            for (Local local : login.locales) {
-                if (!local.getAreas().isEmpty()) {
-                    for (Area area : local.getAreas()) {
-                        if (!area.getCola().isEmpty()) {
-                            for (Cliente cliente : area.getCola()) {
-                                if (cliente.identidad.equalsIgnoreCase(txtIdInfo.getText())) {
-                                    this.local = local;
-                                    this.area = area;
-                                    clienteSeleccionado = cliente;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-        return clienteSeleccionado;
-    }
-    
-    public void limpiarTab1() {
-        cboLocalCita.setSelectedIndex(0);
-        txtIdCita.setText(null);
-        dcFechaCita.setDate(null);
-        txtHoraCita.setText(null);
-        listTranAsigCita.setModel(new DefaultListModel());
-    }
 }

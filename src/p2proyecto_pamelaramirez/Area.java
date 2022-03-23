@@ -22,7 +22,7 @@ public class Area {
         this.nombre = nombre;
         this.empleados = empleados;
     }
-
+    
     public String getNombre() {
         return nombre;
     }

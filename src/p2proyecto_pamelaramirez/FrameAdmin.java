@@ -12,11 +12,17 @@ public class FrameAdmin extends javax.swing.JFrame {
     DatosSistema ds = new DatosSistema();
     Date fecha = new Date();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    Usuario user;
 
     public FrameAdmin() {
         initComponents();
         this.setTitle("Administrador");
         this.setLocationRelativeTo(null);
+    }
+    
+    public void ingresar(Usuario user) {
+        this.setVisible(true);
+        this.user = user;
     }
 
     public void limpiarTab1() {
@@ -34,7 +40,6 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     public void limpiarTab3() {
         txtNomArea.setText(null);
-
     }
 
     public void limpiarTab4() {
@@ -89,7 +94,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 6: {
                 // Tab bitacora
-
+                ds.cargarBitacora(tabla);
                 break;
             }
             case 7: {
@@ -266,7 +271,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel41 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jPanel21 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -495,6 +500,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnListarLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnListarLocal.setText("Listar locales registrados");
+        btnListarLocal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarLocalActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnListarLocal);
         btnListarLocal.setBounds(520, 340, 310, 35);
 
@@ -656,6 +666,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnListarArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarArea.setForeground(new java.awt.Color(255, 255, 255));
         btnListarArea.setText("Listar áreas registradas");
+        btnListarArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarAreaActionPerformed(evt);
+            }
+        });
         jPanel13.add(btnListarArea);
         btnListarArea.setBounds(520, 340, 310, 35);
 
@@ -854,6 +869,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnListarTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarTran.setForeground(new java.awt.Color(255, 255, 255));
         btnListarTran.setText("Listar transacciones");
+        btnListarTran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarTranActionPerformed(evt);
+            }
+        });
         jPanel9.add(btnListarTran);
         btnListarTran.setBounds(520, 340, 220, 35);
 
@@ -994,7 +1014,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnCargarCita.setBackground(new java.awt.Color(34, 131, 229));
         btnCargarCita.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnCargarCita.setForeground(new java.awt.Color(255, 255, 255));
-        btnCargarCita.setText("Cargar datos de la cita");
+        btnCargarCita.setText("Cargar datos del cliente");
         btnCargarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCargarCitaActionPerformed(evt);
@@ -1141,7 +1161,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jPanel6.add(jLabel9);
         jLabel9.setBounds(-7, -10, 1270, 130);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1152,7 +1172,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tabla);
 
         jPanel6.add(jScrollPane2);
         jScrollPane2.setBounds(150, 170, 690, 420);
@@ -1249,7 +1269,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         if (txtNomUser.getText().isEmpty() || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
         } else {
-            if (btnGuardarUser.getText().equals("Guardar")) {
+            if (btnEditUser.getText().equals("Modificar usuario")) {
                 if (ds.idValido(txtIdUser.getText())) {
                     if (ds.userValido(txtNomDeUsuario.getText())) {
                         // Agregar nuevo usuario
@@ -1373,6 +1393,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnEditLocal.doClick();
                 JOptionPane.showMessageDialog(this, "Local modificado exitosamente.", "", 1);
             }
+            actualizarTodo();
         }
     }//GEN-LAST:event_btnGuardarLocalActionPerformed
 
@@ -1405,9 +1426,10 @@ public class FrameAdmin extends javax.swing.JFrame {
                     limpiarTab3();
                     btnEditArea.doClick();
                     cboArea.setModel(ds.llenarCboAreas());
-                    JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
+                    JOptionPane.showMessageDialog(this, "Área modificada exitosamente.", "", 1);
                 }
             }
+            actualizarTodo();
         }
     }//GEN-LAST:event_btnGuardarAreaActionPerformed
 
@@ -1447,7 +1469,14 @@ public class FrameAdmin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
             } else {
                 // MODIFICAR AQUI
+                Transaccion tran = (Transaccion)cboTran.getSelectedItem();
+                ds.modTran(tran.getId(), txtTipoTran.getText(),
+                        (Integer) spTiemTran.getValue());
+                btnEditTran.doClick();
+                cboTran.setEnabled(true);
+                JOptionPane.showMessageDialog(this, "Transacción modificada exitosamente.", "", 1);
             }
+            actualizarTodo();
         }
     }//GEN-LAST:event_btnGuardarTranActionPerformed
 
@@ -1456,7 +1485,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cboGuardarCitaActionPerformed
 
     private void btnCargarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCitaActionPerformed
-
+        
     }//GEN-LAST:event_btnCargarCitaActionPerformed
 
     private void btnElimEmpLocal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimEmpLocal2ActionPerformed
@@ -1492,7 +1521,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_cboUsuariosActionPerformed
 
     private void btnListarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarUserActionPerformed
-
+        new FrameListar().listarUsuarios();
     }//GEN-LAST:event_btnListarUserActionPerformed
 
     private void btnReenviarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReenviarTicketActionPerformed
@@ -1534,11 +1563,13 @@ public class FrameAdmin extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.setVisible(false);
+        ds.addBitacora(user, "Cierre de sesión");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.setVisible(false);
         new Login().setVisible(true);
+        ds.addBitacora(user, "Cierre de sesión");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
@@ -1608,14 +1639,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 listTranArea.setModel(ds.llenarListTranArea(area));
                 listTran.setModel(ds.llenarListTran(area));
                 DefaultComboBoxModel mod = (DefaultComboBoxModel) cboLocalArea.getModel();
-                for (Local local : ds.getLocales()) {
-                    if (!local.getAreas().isEmpty()) {
-                        if (local.getAreas().contains(area)) {
-                            cboLocalArea.setSelectedItem(local);
-                            // cboLocalArea.setSelectedIndex(ds.getLocales().indexOf(local));
-                        }
-                    }
-                }
+                // Seleccionar en cboLocalArea el local al que pertenece
             } else {
                 cboArea.setEnabled(true);
                 listEmp.setModel(ds.llenarListEmpleados());
@@ -1625,6 +1649,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 btnGuardarArea.setText("Guardar");
                 btnEditArea.setText("Modificar área");
                 limpiarTab3();
+                actualizarTodo();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un área.", "", 2);
@@ -1632,17 +1657,20 @@ public class FrameAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditAreaActionPerformed
 
     private void btnEditTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTranActionPerformed
-        if (cboArea.getSelectedIndex() >= 0) {
-            if (btnEditArea.getText().equals("Modificar transacción")) {
-                btnGuardarArea.setText("Guardar cambios");
-                btnEditArea.setText("Cancelar");
+        if (cboTran.getSelectedIndex() >= 0) {
+            if (btnEditTran.getText().equals("Modificar transacción")) {
+                cboTran.setEnabled(false);
+                btnGuardarTran.setText("Guardar cambios");
+                btnEditTran.setText("Cancelar");
                 Transaccion tran = (Transaccion) cboTran.getSelectedItem();
                 txtTipoTran.setText(tran.getTipo());
                 spTiemTran.setValue(tran.getTiempo());
             } else {
-                btnGuardarArea.setText("Guardar");
-                btnEditArea.setText("Modificar transacción");
+                cboTran.setEnabled(true);
+                btnGuardarTran.setText("Guardar");
+                btnEditTran.setText("Modificar transacción");
                 limpiarTab4();
+                actualizarTodo();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
@@ -1765,6 +1793,18 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnElimTranActionPerformed
+
+    private void btnListarLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLocalActionPerformed
+        new FrameListar().listarLocales();
+    }//GEN-LAST:event_btnListarLocalActionPerformed
+
+    private void btnListarAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarAreaActionPerformed
+        new FrameListar().listarAreas();
+    }//GEN-LAST:event_btnListarAreaActionPerformed
+
+    private void btnListarTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarTranActionPerformed
+        new FrameListar().listarTransacciones();
+    }//GEN-LAST:event_btnListarTranActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1919,7 +1959,6 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCboUser;
     private javax.swing.JList<String> listEmp;
     private javax.swing.JList<String> listEmpArea;
@@ -1934,6 +1973,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JSpinner spLongitud;
     private javax.swing.JSpinner spTiemTran;
     private p2proyecto_pamelaramirez.UIAdmin tabbedPane;
+    private javax.swing.JTable tabla;
     private javax.swing.JTree treeColas;
     private javax.swing.JFormattedTextField txtIdCita;
     private javax.swing.JFormattedTextField txtIdUser;

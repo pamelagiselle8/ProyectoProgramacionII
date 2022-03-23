@@ -10,8 +10,23 @@ public class FrameListar extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
-    public void listarUsuarios(int instancia, int atributos) {
-        ds.listarUsuarios(tabla, instancia, atributos);
+    public void listarUsuarios() {
+        ds.listarUsuarios(tabla);
+        this.setVisible(true);
+    }
+    
+    public void listarLocales() {
+        ds.listarLocales(tabla);
+        this.setVisible(true);
+    }
+    
+    public void listarAreas() {
+        ds.listarAreas(tabla);
+        this.setVisible(true);
+    }
+    
+    public void listarTransacciones() {
+        ds.listarTransacciones(tabla);
         this.setVisible(true);
     }
     

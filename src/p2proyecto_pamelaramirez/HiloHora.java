@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 
 public class HiloHora extends Thread {
     private JLabel lblHora;
-    private DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // El formato es HH:mm:ss
+    private DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss a"); // El formato es HH:mm:ss
     private String hora = formato.format(LocalDateTime.now());
 
     public HiloHora(JLabel lblHora) {

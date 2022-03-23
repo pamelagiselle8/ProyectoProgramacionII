@@ -155,12 +155,14 @@ public class Login extends javax.swing.JFrame {
                     ImageIcon icono = new ImageIcon(Login.class.getResource("cinnamoroll.gif").getFile());
                     JOptionPane.showMessageDialog(this, "Bienvenido(a) de nuevo.","Sesion iniciada", 1, icono);
                     if (usuario instanceof Administrador) {
+                        
                         new FrameAdmin().setVisible(true);
                     } else if (usuario instanceof Gerente) {
                         new FrameGerente().setVisible(true);
                     } else {
                         // new FrameEmpleado().setVisible(true);
                     }
+                    ds.addBitacora(usuario, "Inicio de sesión");
                     txtNombreUsuario.setText(null);
                     txtPassword.setText(null);
                     this.setVisible(false);
@@ -172,7 +174,6 @@ public class Login extends javax.swing.JFrame {
                         "Por favor verifique el nombre de usuario y contraseña ingresados.",
                         "Credenciales inválidas", 2);
             }
-            // Bitacora aqui !!!  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
