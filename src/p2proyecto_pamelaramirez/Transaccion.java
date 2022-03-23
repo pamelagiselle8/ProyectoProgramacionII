@@ -3,7 +3,7 @@ package p2proyecto_pamelaramirez;
 public class Transaccion {
 
     private String tipo;
-    private int id, tiempo;
+    private int id, tiempo, idTran;
 
     public Transaccion(int id, String tipo, int tiempo) {
         this.id = id;
@@ -33,6 +33,14 @@ public class Transaccion {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdTran() {
+        return idTran;
+    }
+
+    public void setIdTran(int idTran) {
+        this.idTran = idTran;
     }
 
     @Override

@@ -54,22 +54,26 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 1: {
                 // Tab locales
+                limpiarTab2();
                 cboLocal.setModel(ds.llenarCboLocales());
                 listGer.setModel(ds.llenarListGerentes());
-                listGer.setModel(new DefaultListModel());
+                listGerLocal.setModel(new DefaultListModel());
                 break;
             }
             case 2: {
                 // Tab areas
+                limpiarTab3();
+                cboArea.setModel(ds.llenarCboAreas());
+                cboLocalArea.setModel(ds.llenarCboLocales());
                 listEmp.setModel(ds.llenarListEmpleados());
                 listEmpArea.setModel(new DefaultListModel());
                 listTran.setModel(ds.llenarListTran());
-                cboLocalArea.setModel(ds.llenarCboLocales());
-                cboArea.setModel(ds.llenarCboAreas());
+                listTranArea.setModel(new DefaultListModel());
                 break;
             }
             case 3: {
                 // Tab transacciones
+                limpiarTab4();
                 cboTran.setModel(ds.llenarCboTransacciones());
                 break;
             }
@@ -80,7 +84,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
             case 5: {
                 // Tab colas
-                
+
                 break;
             }
             case 6: {
@@ -92,6 +96,39 @@ public class FrameAdmin extends javax.swing.JFrame {
                 // Tab analisis de datos
                 cboLocalesMapa.setModel(ds.llenarCboLocales());
                 break;
+            }
+        }
+    }
+
+    public void actualizarEmpTran(Area area) {
+        DefaultListModel modeloEmpArea = (DefaultListModel) listEmpArea.getModel();
+        DefaultListModel modeloEmp = (DefaultListModel) listEmp.getModel();
+        DefaultListModel modeloTranArea = (DefaultListModel) listTranArea.getModel();
+        DefaultListModel modeloTran = (DefaultListModel) listTran.getModel();
+        // Reiniciar la tabla de EmpSinArea
+        ds.elimEmpSinArea();
+        // Eliminar los existentes para evitar duplicados
+        ds.elimEmpDeArea(area.getId());
+        if (modeloEmpArea.getSize() > 0) {
+            for (Object empleado : modeloEmpArea.toArray()) {
+                // Actualizar la tabla Empleados
+                Empleado emp = (Empleado) empleado;
+                ds.addEmpleado(emp.getIdentidad(), emp.getNombre(),
+                        emp.getNombreUsuario(), emp.getPass(), area);
+            }
+        }
+        if (modeloEmp.getSize() > 0) {
+            for (Object empleado : modeloEmp.toArray()) {
+                // Actualizar la tabla EmpSinArea
+                Empleado emp = (Empleado) empleado;
+                ds.addEmpSinArea(emp.getIdentidad(), emp.getNombre(),
+                        emp.getNombreUsuario(), emp.getPass());
+            }
+        }
+        if (modeloTranArea.getSize() > 0) {
+            for (Object transaccion : modeloTranArea.toArray()) {
+                Transaccion tran = (Transaccion) transaccion;
+                ds.addTransaccion(tran.getId(), area);
             }
         }
     }
@@ -152,8 +189,8 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         cboArea = new javax.swing.JComboBox<>();
-        btnElimLocal1 = new javax.swing.JButton();
-        btnListarLocal1 = new javax.swing.JButton();
+        btnElimArea = new javax.swing.JButton();
+        btnListarArea = new javax.swing.JButton();
         btnGuardarArea = new javax.swing.JButton();
         jLabel39 = new javax.swing.JLabel();
         txtNomArea = new javax.swing.JTextField();
@@ -366,6 +403,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnElimUser.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimUser.setForeground(new java.awt.Color(255, 255, 255));
         btnElimUser.setText("Eliminar usuario");
+        btnElimUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimUserActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnElimUser);
         btnElimUser.setBounds(520, 290, 220, 35);
 
@@ -428,27 +470,33 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Locales registrados");
         jPanel8.add(jLabel19);
-        jLabel19.setBounds(520, 160, 220, 17);
+        jLabel19.setBounds(520, 160, 310, 17);
 
         cboLocal.setBackground(new java.awt.Color(50, 152, 255));
         cboLocal.setForeground(new java.awt.Color(255, 255, 255));
         cboLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
+        cboLocal.setSize(new java.awt.Dimension(310, 23));
         jPanel8.add(cboLocal);
-        cboLocal.setBounds(520, 190, 220, 23);
+        cboLocal.setBounds(520, 190, 310, 23);
 
         btnElimLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnElimLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnElimLocal.setText("Eliminar local");
+        btnElimLocal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimLocalActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnElimLocal);
-        btnElimLocal.setBounds(520, 290, 220, 35);
+        btnElimLocal.setBounds(520, 290, 310, 35);
 
         btnListarLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnListarLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnListarLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnListarLocal.setText("Listar locales registrados");
         jPanel8.add(btnListarLocal);
-        btnListarLocal.setBounds(520, 340, 220, 35);
+        btnListarLocal.setBounds(520, 340, 310, 35);
 
         btnGuardarLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -461,7 +509,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel8.add(btnGuardarLocal);
-        btnGuardarLocal.setBounds(140, 570, 310, 35);
+        btnGuardarLocal.setBounds(140, 370, 220, 35);
 
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Nombre");
@@ -503,17 +551,17 @@ public class FrameAdmin extends javax.swing.JFrame {
         jScrollPane10.setViewportView(listGerLocal);
 
         jPanel8.add(jScrollPane10);
-        jScrollPane10.setBounds(320, 400, 130, 90);
+        jScrollPane10.setBounds(700, 420, 130, 90);
 
         jLabel42.setForeground(new java.awt.Color(255, 255, 255));
         jLabel42.setText("Gerentes");
         jPanel8.add(jLabel42);
-        jLabel42.setBounds(140, 370, 90, 17);
+        jLabel42.setBounds(520, 390, 90, 17);
 
         jLabel51.setForeground(new java.awt.Color(255, 255, 255));
         jLabel51.setText("Asignado");
         jPanel8.add(jLabel51);
-        jLabel51.setBounds(320, 370, 90, 17);
+        jLabel51.setBounds(700, 390, 90, 17);
 
         btnAddGer.setBackground(new java.awt.Color(34, 131, 229));
         btnAddGer.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -525,13 +573,13 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel8.add(btnAddGer);
-        btnAddGer.setBounds(140, 510, 130, 35);
+        btnAddGer.setBounds(520, 530, 130, 35);
 
         jLabel52.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel52.setForeground(new java.awt.Color(255, 255, 255));
         jLabel52.setText("->");
         jPanel8.add(jLabel52);
-        jLabel52.setBounds(290, 440, 16, 17);
+        jLabel52.setBounds(670, 460, 16, 17);
 
         btnElimGer.setBackground(new java.awt.Color(34, 131, 229));
         btnElimGer.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -543,7 +591,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel8.add(btnElimGer);
-        btnElimGer.setBounds(320, 510, 130, 35);
+        btnElimGer.setBounds(700, 530, 130, 35);
 
         listGer.setBackground(new java.awt.Color(204, 227, 255));
         listGer.setForeground(new java.awt.Color(51, 51, 51));
@@ -551,20 +599,19 @@ public class FrameAdmin extends javax.swing.JFrame {
         jScrollPane11.setViewportView(listGer);
 
         jPanel8.add(jScrollPane11);
-        jScrollPane11.setBounds(140, 400, 130, 90);
+        jScrollPane11.setBounds(520, 420, 130, 90);
 
         btnEditLocal.setBackground(new java.awt.Color(34, 131, 229));
         btnEditLocal.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnEditLocal.setForeground(new java.awt.Color(255, 255, 255));
         btnEditLocal.setText("Modificar local");
-        btnEditLocal.setSize(new java.awt.Dimension(220, 35));
         btnEditLocal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditLocalActionPerformed(evt);
             }
         });
         jPanel8.add(btnEditLocal);
-        btnEditLocal.setBounds(520, 240, 220, 35);
+        btnEditLocal.setBounds(520, 240, 310, 35);
 
         jPanel15.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 660));
 
@@ -585,27 +632,32 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel37.setForeground(new java.awt.Color(255, 255, 255));
         jLabel37.setText("Áreas registradas");
         jPanel13.add(jLabel37);
-        jLabel37.setBounds(520, 160, 220, 17);
+        jLabel37.setBounds(520, 160, 310, 17);
 
         cboArea.setBackground(new java.awt.Color(50, 152, 255));
         cboArea.setForeground(new java.awt.Color(255, 255, 255));
         cboArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         jPanel13.add(cboArea);
-        cboArea.setBounds(520, 190, 220, 23);
+        cboArea.setBounds(520, 190, 310, 23);
 
-        btnElimLocal1.setBackground(new java.awt.Color(34, 131, 229));
-        btnElimLocal1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnElimLocal1.setForeground(new java.awt.Color(255, 255, 255));
-        btnElimLocal1.setText("Eliminar área");
-        jPanel13.add(btnElimLocal1);
-        btnElimLocal1.setBounds(520, 290, 220, 35);
+        btnElimArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnElimArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnElimArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnElimArea.setText("Eliminar área");
+        btnElimArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimAreaActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnElimArea);
+        btnElimArea.setBounds(520, 290, 310, 35);
 
-        btnListarLocal1.setBackground(new java.awt.Color(34, 131, 229));
-        btnListarLocal1.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
-        btnListarLocal1.setForeground(new java.awt.Color(255, 255, 255));
-        btnListarLocal1.setText("Listar áreas registradas");
-        jPanel13.add(btnListarLocal1);
-        btnListarLocal1.setBounds(520, 340, 220, 35);
+        btnListarArea.setBackground(new java.awt.Color(34, 131, 229));
+        btnListarArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        btnListarArea.setForeground(new java.awt.Color(255, 255, 255));
+        btnListarArea.setText("Listar áreas registradas");
+        jPanel13.add(btnListarArea);
+        btnListarArea.setBounds(520, 340, 310, 35);
 
         btnGuardarArea.setBackground(new java.awt.Color(34, 131, 229));
         btnGuardarArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -618,7 +670,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel13.add(btnGuardarArea);
-        btnGuardarArea.setBounds(140, 530, 220, 35);
+        btnGuardarArea.setBounds(140, 530, 260, 35);
 
         jLabel39.setForeground(new java.awt.Color(255, 255, 255));
         jLabel39.setText("Nombre");
@@ -628,7 +680,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         txtNomArea.setBackground(new java.awt.Color(204, 227, 255));
         txtNomArea.setForeground(new java.awt.Color(51, 51, 51));
         jPanel13.add(txtNomArea);
-        txtNomArea.setBounds(140, 190, 220, 23);
+        txtNomArea.setBounds(140, 190, 260, 23);
 
         jLabel40.setForeground(new java.awt.Color(255, 255, 255));
         jLabel40.setText("Local");
@@ -639,7 +691,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         cboLocalArea.setForeground(new java.awt.Color(255, 255, 255));
         cboLocalArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Seleccionar -" }));
         jPanel13.add(cboLocalArea);
-        cboLocalArea.setBounds(140, 260, 220, 23);
+        cboLocalArea.setBounds(140, 260, 260, 23);
 
         listEmpArea.setBackground(new java.awt.Color(204, 227, 255));
         listEmpArea.setForeground(new java.awt.Color(51, 51, 51));
@@ -647,7 +699,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jScrollPane8.setViewportView(listEmpArea);
 
         jPanel13.add(jScrollPane8);
-        jScrollPane8.setBounds(270, 330, 90, 130);
+        jScrollPane8.setBounds(290, 330, 110, 130);
 
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Empleados");
@@ -657,7 +709,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel49.setForeground(new java.awt.Color(255, 255, 255));
         jLabel49.setText("Asignados");
         jPanel13.add(jLabel49);
-        jLabel49.setBounds(270, 300, 90, 17);
+        jLabel49.setBounds(290, 300, 90, 17);
 
         btnAddEmpArea.setBackground(new java.awt.Color(34, 131, 229));
         btnAddEmpArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -669,13 +721,14 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel13.add(btnAddEmpArea);
-        btnAddEmpArea.setBounds(140, 480, 90, 35);
+        btnAddEmpArea.setBounds(140, 480, 110, 35);
 
         jLabel50.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel50.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel50.setText("->");
         jPanel13.add(jLabel50);
-        jLabel50.setBounds(240, 390, 16, 17);
+        jLabel50.setBounds(260, 390, 20, 17);
 
         btnElimEmpArea.setBackground(new java.awt.Color(34, 131, 229));
         btnElimEmpArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -687,7 +740,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel13.add(btnElimEmpArea);
-        btnElimEmpArea.setBounds(270, 480, 90, 35);
+        btnElimEmpArea.setBounds(290, 480, 110, 35);
 
         listEmp.setBackground(new java.awt.Color(204, 227, 255));
         listEmp.setForeground(new java.awt.Color(51, 51, 51));
@@ -695,7 +748,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jScrollPane9.setViewportView(listEmp);
 
         jPanel13.add(jScrollPane9);
-        jScrollPane9.setBounds(140, 330, 90, 130);
+        jScrollPane9.setBounds(140, 330, 110, 130);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/degradados/Skyline.jpg"))); // NOI18N
         jLabel5.setText("jLabel3");
@@ -707,28 +760,27 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnEditArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnEditArea.setForeground(new java.awt.Color(255, 255, 255));
         btnEditArea.setText("Modificar área");
-        btnEditArea.setSize(new java.awt.Dimension(220, 35));
         btnEditArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditAreaActionPerformed(evt);
             }
         });
         jPanel13.add(btnEditArea);
-        btnEditArea.setBounds(520, 240, 220, 35);
+        btnEditArea.setBounds(520, 240, 310, 35);
 
         listTran.setBackground(new java.awt.Color(204, 227, 255));
         listTran.setForeground(new java.awt.Color(51, 51, 51));
         jScrollPane12.setViewportView(listTran);
 
         jPanel13.add(jScrollPane12);
-        jScrollPane12.setBounds(520, 420, 90, 90);
+        jScrollPane12.setBounds(520, 420, 130, 90);
 
         listTranArea.setBackground(new java.awt.Color(204, 227, 255));
         listTranArea.setForeground(new java.awt.Color(51, 51, 51));
         jScrollPane13.setViewportView(listTranArea);
 
         jPanel13.add(jScrollPane13);
-        jScrollPane13.setBounds(650, 420, 90, 90);
+        jScrollPane13.setBounds(700, 420, 130, 90);
 
         jLabel53.setForeground(new java.awt.Color(255, 255, 255));
         jLabel53.setText("Transacciones");
@@ -738,7 +790,7 @@ public class FrameAdmin extends javax.swing.JFrame {
         jLabel54.setForeground(new java.awt.Color(255, 255, 255));
         jLabel54.setText("Asignadas");
         jPanel13.add(jLabel54);
-        jLabel54.setBounds(650, 390, 100, 17);
+        jLabel54.setBounds(700, 390, 100, 17);
 
         btnAddTranArea.setBackground(new java.awt.Color(34, 131, 229));
         btnAddTranArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -750,13 +802,13 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel13.add(btnAddTranArea);
-        btnAddTranArea.setBounds(520, 530, 90, 35);
+        btnAddTranArea.setBounds(520, 530, 130, 35);
 
         jLabel55.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(255, 255, 255));
         jLabel55.setText("->");
         jPanel13.add(jLabel55);
-        jLabel55.setBounds(620, 470, 16, 17);
+        jLabel55.setBounds(670, 460, 16, 17);
 
         btnElimTranArea.setBackground(new java.awt.Color(34, 131, 229));
         btnElimTranArea.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -768,7 +820,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             }
         });
         jPanel13.add(btnElimTranArea);
-        btnElimTranArea.setBounds(650, 530, 90, 35);
+        btnElimTranArea.setBounds(700, 530, 130, 35);
 
         jPanel16.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 660));
 
@@ -790,6 +842,11 @@ public class FrameAdmin extends javax.swing.JFrame {
         btnElimTran.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         btnElimTran.setForeground(new java.awt.Color(255, 255, 255));
         btnElimTran.setText("Eliminar transacción");
+        btnElimTran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimTranActionPerformed(evt);
+            }
+        });
         jPanel9.add(btnElimTran);
         btnElimTran.setBounds(520, 290, 220, 35);
 
@@ -1192,9 +1249,9 @@ public class FrameAdmin extends javax.swing.JFrame {
         if (txtNomUser.getText().isEmpty() || txtNomDeUsuario.getText().isEmpty() || txtPassUser.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "Entrada inválida", 2);
         } else {
-            if (ds.idValido(txtIdUser.getText())) {
-                if (ds.userValido(txtNomDeUsuario.getText())) {
-                    if (btnGuardarUser.getText().equals("Guardar")) {
+            if (btnGuardarUser.getText().equals("Guardar")) {
+                if (ds.idValido(txtIdUser.getText())) {
+                    if (ds.userValido(txtNomDeUsuario.getText())) {
                         // Agregar nuevo usuario
                         switch (tipo) {
                             case 1: {
@@ -1222,17 +1279,41 @@ public class FrameAdmin extends javax.swing.JFrame {
                             }
                         }
                     } else {
-                        // MODIFICAR AQUI
+                        JOptionPane.showMessageDialog(this, "El nombre de usuario ingresado ya está ocupado.", "", 2);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "El nombre de usuario ingresado ya está ocupado.", "", 2);
+                    JOptionPane.showMessageDialog(this, "Ya existe un usuario con la identidad ingresada.", "", 2);
                 }
-
             } else {
-                JOptionPane.showMessageDialog(this, "Ya existe un usuario con la identidad ingresada.", "", 2);
+                // MODIFICAR AQUI
+                cboTipoUser.setEnabled(true);
+                Usuario user = (Usuario) cboUsuarios.getModel().getSelectedItem();
+                if (user instanceof Administrador) {
+                    ds.modUsuario(user.getId(), "Administradores", txtIdUser.getText(),
+                            txtNomUser.getText(), txtNomDeUsuario.getText(),
+                            txtPassUser.getText());
+                } else if (user instanceof Gerente) {
+                    ds.modUsuario(user.getId(), "Gerentes", txtIdUser.getText(),
+                            txtNomUser.getText(), txtNomDeUsuario.getText(),
+                            txtPassUser.getText());
+                    ds.modUsuario(user.getId(), "GerSinLocal", txtIdUser.getText(),
+                            txtNomUser.getText(), txtNomDeUsuario.getText(),
+                            txtPassUser.getText());
+                } else {
+                    ds.modUsuario(user.getId(), "Empleados", txtIdUser.getText(),
+                            txtNomUser.getText(), txtNomDeUsuario.getText(),
+                            txtPassUser.getText());
+                    ds.modUsuario(user.getId(), "EmpSinArea", txtIdUser.getText(),
+                            txtNomUser.getText(), txtNomDeUsuario.getText(),
+                            txtPassUser.getText());
+                }
+                btnEditUser.doClick();
+                limpiarTab1();
+                JOptionPane.showMessageDialog(this, "Usuario modificado exitosamente.", "", 1);
             }
         }
         if (agregado) {
+            limpiarTab1();
             cboUsuarios.setModel(ds.llenarCboUsuarios());
             JOptionPane.showMessageDialog(this, "Usuario agregado exitosamente.", "", 1);
         }
@@ -1243,7 +1324,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         } else {
             if (btnGuardarLocal.getText().equals("Guardar")) {
-                DefaultListModel modeloGer = (DefaultListModel) listEmp.getModel();
+                DefaultListModel modeloGer = (DefaultListModel) listGer.getModel();
                 DefaultListModel modeloGerLocal = (DefaultListModel) listGerLocal.getModel();
                 ds.addLocal(txtNomLocal.getText(),
                         String.valueOf(spLatitud.getValue()),
@@ -1256,10 +1337,41 @@ public class FrameAdmin extends javax.swing.JFrame {
                             ger.getNombreUsuario(), ger.getPass(), local);
                     ds.elimGerSinLocal(ger.getId());
                 }
+                limpiarTab2();
                 cboLocal.setModel(ds.llenarCboLocales());
                 JOptionPane.showMessageDialog(this, "Local agregado exitosamente.", "", 1);
             } else {
                 // MODIFICAR AQUI
+                DefaultListModel modeloGer = (DefaultListModel) listGer.getModel();
+                DefaultListModel modeloGerLocal = (DefaultListModel) listGerLocal.getModel();
+                Local local = (Local) cboLocal.getSelectedItem();
+                ds.modLocal(local.getId(), txtNomLocal.getText(),
+                        String.valueOf(spLatitud.getValue()),
+                        String.valueOf(spLongitud.getValue()));
+                // Reiniciar la tabla de GerSinLocal
+                ds.elimGerSinLocal();
+                if (modeloGerLocal.getSize() == 1) {
+                    // Asignar gerente al local
+                    Gerente ger = (Gerente) modeloGerLocal.getElementAt(0);
+                    ds.addGerente(ger.getIdentidad(), ger.getNombre(),
+                            ger.getNombreUsuario(), ger.getPass(), local);
+                } else {
+                    try {
+                        ds.elimGerente(local.getGerente().getId());
+                    } catch (Exception e) {
+                    }
+                }
+                if (modeloGer.getSize() > 0) {
+                    for (Object gerente : modeloGer.toArray()) {
+                        Gerente ger = (Gerente) gerente;
+                        // Actualizar la tabla GerSinLocal
+                        ds.addGerSinLocal(ger.getIdentidad(), ger.getNombre(),
+                                ger.getNombreUsuario(), ger.getPass());
+                    }
+                }
+                limpiarTab2();
+                btnEditLocal.doClick();
+                JOptionPane.showMessageDialog(this, "Local modificado exitosamente.", "", 1);
             }
         }
     }//GEN-LAST:event_btnGuardarLocalActionPerformed
@@ -1268,27 +1380,33 @@ public class FrameAdmin extends javax.swing.JFrame {
         if (txtNomArea.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos.", "", 2);
         } else {
+            DefaultListModel modeloEmpArea = (DefaultListModel) listEmpArea.getModel();
+            DefaultListModel modeloEmp = (DefaultListModel) listEmp.getModel();
+            DefaultListModel modeloTranArea = (DefaultListModel) listTranArea.getModel();
+            DefaultListModel modeloTran = (DefaultListModel) listTran.getModel();
             if (btnGuardarArea.getText().equals("Guardar")) {
-                DefaultListModel modeloEmp = (DefaultListModel) listEmp.getModel();
-                DefaultListModel modeloEmpArea = (DefaultListModel) listEmpArea.getModel();
                 if (cboLocalArea.getSelectedIndex() >= 0) {
                     Local local = (Local) cboLocalArea.getSelectedItem();
                     ds.addArea(txtNomArea.getText(), local);
                     Area area = local.getAreas().get(local.getAreas().size() - 1);
-                    if (modeloEmpArea.getSize() >= 1) {
-                        for (Object empleado : modeloEmpArea.toArray()) {
-                            // Agregando los nuevos empleados a la tabla
-                            Empleado emp = (Empleado) empleado;
-                            ds.addEmpleado(emp.getIdentidad(), emp.getNombre(),
-                                    emp.getNombreUsuario(), emp.getPass(), area);
-                            ds.elimEmpSinArea(((Empleado) emp).getId());
-                        }
-                    }
+                    actualizarEmpTran(area);
+                    limpiarTab3();
+                    btnEditArea.doClick();
                     cboArea.setModel(ds.llenarCboAreas());
                     JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
                 }
             } else {
                 // MODIFICAR AQUI
+                if (cboArea.getSelectedIndex() >= 0) {
+                    Local local = (Local) cboLocalArea.getSelectedItem();
+                    Area area = (Area) cboArea.getSelectedItem();
+                    ds.modArea(area.getId(), txtNomArea.getText(), local);
+                    actualizarEmpTran(area);
+                    limpiarTab3();
+                    btnEditArea.doClick();
+                    cboArea.setModel(ds.llenarCboAreas());
+                    JOptionPane.showMessageDialog(this, "Área agregada exitosamente.", "", 1);
+                }
             }
         }
     }//GEN-LAST:event_btnGuardarAreaActionPerformed
@@ -1324,6 +1442,7 @@ public class FrameAdmin extends javax.swing.JFrame {
             if (btnGuardarTran.getText().equals("Guardar")) {
                 ds.addTranSinArea(txtTipoTran.getText(),
                         (Integer) spTiemTran.getValue());
+                limpiarTab4();
                 cboTran.setModel(ds.llenarCboTransacciones());
                 JOptionPane.showMessageDialog(this, "Transacción agregada exitosamente.", "", 1);
             } else {
@@ -1425,6 +1544,8 @@ public class FrameAdmin extends javax.swing.JFrame {
     private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
         if (cboUsuarios.getSelectedIndex() >= 0) {
             if (btnEditUser.getText().equals("Modificar usuario")) {
+                cboTipoUser.setEnabled(false);
+                cboUsuarios.setEnabled(false);
                 btnGuardarUser.setText("Guardar cambios");
                 btnEditUser.setText("Cancelar");
                 Usuario user = (Usuario) cboUsuarios.getSelectedItem();
@@ -1440,6 +1561,8 @@ public class FrameAdmin extends javax.swing.JFrame {
                 txtNomDeUsuario.setText(user.getNombreUsuario());
                 txtPassUser.setText(user.getPass());
             } else {
+                cboTipoUser.setEnabled(true);
+                cboUsuarios.setEnabled(true);
                 btnGuardarUser.setText("Guardar");
                 btnEditUser.setText("Modificar usuario");
                 limpiarTab1();
@@ -1452,6 +1575,7 @@ public class FrameAdmin extends javax.swing.JFrame {
     private void btnEditLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditLocalActionPerformed
         if (cboLocal.getSelectedIndex() >= 0) {
             if (btnEditLocal.getText().equals("Modificar local")) {
+                cboLocal.setEnabled(false);
                 btnGuardarLocal.setText("Guardar cambios");
                 btnEditLocal.setText("Cancelar");
                 Local local = (Local) cboLocal.getSelectedItem();
@@ -1460,41 +1584,50 @@ public class FrameAdmin extends javax.swing.JFrame {
                 spLongitud.setValue(Double.parseDouble(local.getLongitud()));
                 listGerLocal.setModel(ds.llenarListGerente(local));
             } else {
+                cboLocal.setEnabled(true);
+                listGer.setModel(ds.llenarListGerentes());
                 listGerLocal.setModel(new DefaultListModel());
                 btnGuardarLocal.setText("Guardar");
                 btnEditLocal.setText("Modificar local");
                 limpiarTab2();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un local.", "", 2);
         }
     }//GEN-LAST:event_btnEditLocalActionPerformed
 
     private void btnEditAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditAreaActionPerformed
         if (cboArea.getSelectedIndex() >= 0) {
             if (btnEditArea.getText().equals("Modificar área")) {
+                cboArea.setEnabled(false);
                 btnGuardarArea.setText("Guardar cambios");
                 btnEditArea.setText("Cancelar");
                 Area area = (Area) cboArea.getSelectedItem();
                 txtNomArea.setText(area.getNombre());
                 listEmpArea.setModel(ds.llenarListEmpleados(area));
                 listTranArea.setModel(ds.llenarListTranArea(area));
-                for (int i = 0; i < ds.getLocales().size(); i++) {
-                    if (!ds.getLocales().get(i).getAreas().isEmpty()) {
-                        if (ds.getLocales().get(i).getAreas().contains(area)) {
-                            // cboLocalArea.setSelectedItem(ds.getLocales().get(i));
-                            cboLocalArea.setSelectedIndex(i);
+                listTran.setModel(ds.llenarListTran(area));
+                DefaultComboBoxModel mod = (DefaultComboBoxModel) cboLocalArea.getModel();
+                for (Local local : ds.getLocales()) {
+                    if (!local.getAreas().isEmpty()) {
+                        if (local.getAreas().contains(area)) {
+                            cboLocalArea.setSelectedItem(local);
+                            // cboLocalArea.setSelectedIndex(ds.getLocales().indexOf(local));
                         }
                     }
                 }
             } else {
+                cboArea.setEnabled(true);
+                listEmp.setModel(ds.llenarListEmpleados());
+                listTran.setModel(ds.llenarListTran());
                 listEmpArea.setModel(new DefaultListModel());
+                listTranArea.setModel(new DefaultListModel());
                 btnGuardarArea.setText("Guardar");
                 btnEditArea.setText("Modificar área");
                 limpiarTab3();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un área.", "", 2);
         }
     }//GEN-LAST:event_btnEditAreaActionPerformed
 
@@ -1512,7 +1645,7 @@ public class FrameAdmin extends javax.swing.JFrame {
                 limpiarTab4();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario.", "", 2);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
         }
     }//GEN-LAST:event_btnEditTranActionPerformed
 
@@ -1532,13 +1665,106 @@ public class FrameAdmin extends javax.swing.JFrame {
         if (listTran.getSelectedIndex() >= 0) {
             DefaultListModel listTranModel = (DefaultListModel) listTran.getModel();
             DefaultListModel listTranAreaModel = (DefaultListModel) listTranArea.getModel();
-            Transaccion tran = (Transaccion) listTranModel.elementAt(listTran.getSelectedIndex());
-            listTranAreaModel.addElement(tran);
-            listTranModel.removeElement(tran);
+            boolean valido = true;
+            if (listTranAreaModel.getSize() > 0) {
+                for (Object tran : listTranAreaModel.toArray()) {
+                    String tranSeleccionada = listTranModel.getElementAt(
+                            listTran.getSelectedIndex()).toString();
+                    String tranAgregada = tran.toString();
+                    if (tranSeleccionada.equals(tranAgregada)) {
+                        valido = false;
+                    }
+                }
+            }
+            if (valido) {
+                Transaccion tran = (Transaccion) listTranModel.elementAt(listTran.getSelectedIndex());
+                listTranAreaModel.addElement(tran);
+                listTranModel.removeElement(tran);
+            } else {
+                JOptionPane.showMessageDialog(this, "La transacción seleccionada ya ha sido agregada.", "", 2);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una transacción.", "", 2);
         }
     }//GEN-LAST:event_btnAddTranAreaActionPerformed
+
+    private void btnElimUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimUserActionPerformed
+        if (cboUsuarios.getSelectedIndex() >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar el usuario seleccionado?"
+                    + "\nEsta acción no se puede deshacer.", "Eliminar usuario",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirmar == JOptionPane.YES_OPTION) {
+                Usuario user = (Usuario) cboUsuarios.getSelectedItem();
+                if (user instanceof Administrador) {
+                    ds.elimAdmin(user.getId());
+                } else if (user instanceof Gerente) {
+                    ds.elimGerSinLocal(user.getId());
+                    ds.elimGerente(user.getId());
+                } else {
+                    ds.elimEmpSinArea(user.getId());
+                    ds.elimEmpleado(user.getId());
+                }
+                actualizarTodo();
+                JOptionPane.showMessageDialog(this, "Usuario eliminado exitosamente.", "", 1);
+            } else {
+                JOptionPane.showMessageDialog(this, "Acción cancelada.", "", 1);
+            }
+        }
+    }//GEN-LAST:event_btnElimUserActionPerformed
+
+    private void btnElimLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimLocalActionPerformed
+        if (cboLocal.getSelectedIndex() >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar el local seleccionado?"
+                    + "\nEsta acción no se puede deshacer.", "Eliminar local",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirmar == JOptionPane.YES_OPTION) {
+                Local local = (Local) cboLocal.getSelectedItem();
+                ds.elimLocal(local.getId());
+                actualizarTodo();
+                JOptionPane.showMessageDialog(this, "Usuario eliminado exitosamente.", "", 1);
+            } else {
+                JOptionPane.showMessageDialog(this, "Acción cancelada.", "", 1);
+            }
+        }
+    }//GEN-LAST:event_btnElimLocalActionPerformed
+
+    private void btnElimAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimAreaActionPerformed
+        if (cboArea.getSelectedIndex() >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar el área seleccionada?"
+                    + "\nEsta acción no se puede deshacer.", "Eliminar área",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirmar == JOptionPane.YES_OPTION) {
+                Area area = (Area) cboArea.getSelectedItem();
+                ds.elimArea(area.getId());
+                actualizarTodo();
+                JOptionPane.showMessageDialog(this, "Área eliminada exitosamente.", "", 1);
+            } else {
+                JOptionPane.showMessageDialog(this, "Acción cancelada.", "", 1);
+            }
+        }
+    }//GEN-LAST:event_btnElimAreaActionPerformed
+
+    private void btnElimTranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimTranActionPerformed
+        if (cboTran.getSelectedIndex() >= 0) {
+            int confirmar = JOptionPane.showConfirmDialog(this,
+                    "¿Está seguro que desea eliminar la transacción seleccionada?"
+                    + "\nSerá borrada también de todas las áreas a las que fue asignada."
+                    + "\nEsta acción no se puede deshacer.",
+                    "Eliminar transacción",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirmar == JOptionPane.YES_OPTION) {
+                Transaccion tran = (Transaccion) cboTran.getSelectedItem();
+                ds.elimTranSinArea(tran.getId());
+                actualizarTodo();
+                JOptionPane.showMessageDialog(this, "Transacción eliminada exitosamente.", "", 1);
+            } else {
+                JOptionPane.showMessageDialog(this, "Acción cancelada.", "", 1);
+            }
+        }
+    }//GEN-LAST:event_btnElimTranActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1583,11 +1809,11 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnEditLocal;
     private javax.swing.JToggleButton btnEditTran;
     private javax.swing.JToggleButton btnEditUser;
+    private javax.swing.JButton btnElimArea;
     private javax.swing.JButton btnElimEmpArea;
     private javax.swing.JButton btnElimEmpLocal2;
     private javax.swing.JButton btnElimGer;
     private javax.swing.JButton btnElimLocal;
-    private javax.swing.JButton btnElimLocal1;
     private javax.swing.JButton btnElimTran;
     private javax.swing.JButton btnElimTranArea;
     private javax.swing.JButton btnElimUser;
@@ -1595,8 +1821,8 @@ public class FrameAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarLocal;
     private javax.swing.JButton btnGuardarTran;
     private javax.swing.JButton btnGuardarUser;
+    private javax.swing.JButton btnListarArea;
     private javax.swing.JButton btnListarLocal;
-    private javax.swing.JButton btnListarLocal1;
     private javax.swing.JButton btnListarTran;
     private javax.swing.JButton btnListarUser;
     private javax.swing.JButton btnMapa;

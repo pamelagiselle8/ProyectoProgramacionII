@@ -208,7 +208,24 @@ public class DatosSistema {
         }
         return listTranModel;
     }
-    
+
+    public DefaultListModel llenarListTran(Area area) {
+        cargarDatos();
+        DefaultListModel modelo = new DefaultListModel();
+        if (!area.getTransacciones().isEmpty()) {
+            for (Transaccion tran : transacciones) {
+                if (!area.getTransacciones().contains(tran)) {
+                    modelo.addElement(tran);
+                }
+            }
+        } else {
+            for (Transaccion tran : transacciones) {
+                modelo.addElement(tran);
+            }
+        }
+        return modelo;
+    }
+
     public DefaultListModel llenarListTran() {
         cargarDatos();
         DefaultListModel modelo = new DefaultListModel();
@@ -217,7 +234,7 @@ public class DatosSistema {
         }
         return modelo;
     }
-    
+
     public void listarUsuarios(JTable tabla, int instancia, int atributos) {
 
     }
@@ -229,6 +246,8 @@ public class DatosSistema {
         cargarGerSinLocal();
         // Cargar empleados sin area
         cargarEmpSinArea();
+        // Cargar transacciones
+        cargarTranSinArea();
         cargarLocales();
     }
 
@@ -704,12 +723,17 @@ public class DatosSistema {
         cargarDatos();
     }
 
-    public void addTransaccion(String tipo, int tiempo, Area area) {
+    public void addTransaccion(int idTran, Area area) {
         ds.conectar();
         try {
-            ds.query.execute("insert into Transacciones "
-                    + "(Tipo, Tiempo, IdArea) "
-                    + "Values ('" + tipo + "', '" + tiempo + "', '" + area.getId() + "')");
+            ds.query.execute("select * from TranSinArea where Id = " + idTran);
+            ResultSet rs = ds.query.getResultSet();
+            while (rs.next()) {
+                ds.query.execute("insert into Transacciones "
+                        + "(Tipo, Tiempo, IdArea, IdTran) "
+                        + "Values ('" + rs.getString(2) + "', '" + rs.getInt(3) + "', '"
+                        + area.getId() + "', '" + idTran + "')");
+            }
             ds.commit();
             cargarDatosAreas();
         } catch (SQLException ex) {
@@ -739,7 +763,95 @@ public class DatosSistema {
     }
 
     // Metodos para modificar
+    public void modUsuario(int id, String tabla, String identidad,
+            String nom, String user, String pass) {
+        ds.conectar();
+        try {
+            ds.query.execute("update " + tabla + " "
+                    + "set Identidad = '" + identidad
+                    + "', Nombre = '" + nom
+                    + "', Usuario = '" + user
+                    + "', Contrasena = '" + pass
+                    + "' where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void modLocal(int id, String nom, String lat, String lon) {
+        ds.conectar();
+        try {
+            ds.query.execute("update Locales "
+                    + " set Nombre = '" + nom
+                    + "', Latitud = '" + lat
+                    + "', Longitud = '" + lon
+                    + "' where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void modArea(int id, String nom, Local local) {
+        ds.conectar();
+        try {
+            ds.query.execute("update Areas "
+                    + " set Nombre = '" + nom
+                    + "', IdLocal = '" + local.getId()
+                    + "' where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
     // Metodos para eliminar
+    public void elimLocal(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Locales "
+                    + "where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimArea(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Areas "
+                    + "where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimAdmin(int id) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Administradores"
+                    + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
     public void elimGerente(int id) {
         ds.conectar();
         try {
@@ -779,6 +891,19 @@ public class DatosSistema {
         cargarDatos();
     }
 
+    public void elimEmpDeArea(int idArea) {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from Empleados"
+                    + " where IdArea = " + idArea);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
     public void elimEmpSinArea(int id) {
         ds.conectar();
         try {
@@ -797,6 +922,30 @@ public class DatosSistema {
         try {
             ds.query.execute("delete from TranSinArea"
                     + " where Id = " + id);
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimGerSinLocal() {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from GerSinLocal");
+            ds.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        ds.desconectar();
+        cargarDatos();
+    }
+
+    public void elimEmpSinArea() {
+        ds.conectar();
+        try {
+            ds.query.execute("delete from EmpSinArea");
             ds.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
